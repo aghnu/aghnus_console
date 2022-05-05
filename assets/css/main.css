@@ -1,0 +1,93 @@
+/* fonts */
+@font-face {
+    font-family: "Classic Console Neue";
+    font-size: normal;
+    font-weight: 400;
+    src: url(../font/classic_console_neue.ttf) format("truetype");
+}
+
+/* base */
+html {
+    overflow: hidden;
+    background-color: black;
+    color: white;
+    font-family: "Classic Console Neue";
+}
+
+/* layout */
+.layer {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+}
+
+.clickthrough {
+    pointer-events: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;    
+}
+
+#top-layer {
+    z-index: 1000;
+
+}
+
+#second-layer {
+    z-index: 999;
+}
+
+#third-layer {
+    z-index: 998;
+}
+
+#terminal-container {
+    width: 80vw;
+    height: 80vh;
+    padding-top: 10vh;
+    margin: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#terminal-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+/* elements */
+
+#noise-screen {
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.75;
+}
+
+#terminal-container > p {
+    color: #78a88a;
+    font-size: 26px;
+    line-height: 28px;
+    margin: 0;
+}
+
+#terminal-container > p::-moz-selection {
+    color: black;
+    background: #78a88a;
+}
+  
+#terminal-container > p::selection {
+    color: black;
+    background: #78a88a;
+}
+
+#terminal-container #terminal-prompt {
+    color: #e5602c;
+    /* margin-top: 28px; */
+}
