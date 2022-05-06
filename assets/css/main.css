@@ -70,24 +70,38 @@ html {
     opacity: 0.75;
 }
 
-#terminal-container > p {
+#terminal-container > p,
+.terminal-link > p {
     color: #78a88a;
     font-size: 26px;
     line-height: 28px;
     margin: 0;
 }
 
-#terminal-container > p::-moz-selection {
+#terminal-container > p::-moz-selection,
+.terminal-link > p::-moz-selection {
     color: black;
     background: #78a88a;
 }
   
-#terminal-container > p::selection {
+#terminal-container > p::selection,
+.terminal-link > p::selection {
     color: black;
     background: #78a88a;
 }
 
 #terminal-container #terminal-prompt {
     color: #e5602c;
-    /* margin-top: 28px; */
 }
+
+.terminal-link {
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    font-style: italic;
+}
+
+.terminal-link .icon {
+    height: 28px;
+}
+
