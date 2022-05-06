@@ -1,4 +1,4 @@
-import { createHTMLElement } from "./utilities"
+import { createHTMLElement,setRandInterval } from "./utilities"
 
 class Display {
     #flashCursor;
@@ -29,11 +29,10 @@ class Display {
     #createflashCursor() {
         const prtStr = "guest@aghnu.me:/$: ";
         const cursorStr = "_";
-        let fl = false;
+        let fl = true;
         
         // setup cursor element and interval
-        this.#flashCursor = document.createElement('p');
-        this.#flashCursor.setAttribute('id', "terminal-prompt");
+        this.#flashCursor = createHTMLElement('p', prtStr, {'id': 'terminal-prompt'});
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
         this.#flashCursorInterval = setInterval(() => {
             this.#flashCursor.innerHTML = (fl) ? prtStr + cursorStr : prtStr;
@@ -50,15 +49,19 @@ class Display {
         this.#flashCursor.scrollIntoView(true);
     }
 
-    printJob(textList, interval=500) {
+    printJob(textList, min_interval=500, max_interval=null) {
         let printingIndex = 0;
-        const printing = setInterval(() => {
+
+        if (max_interval === null) {
+            max_interval = min_interval;
+        }
+        const printing = setRandInterval(() => {
             if (printingIndex >= textList.length) {
-                clearInterval(printing);
+                printing.clear();
             } else {
                 this.print(textList[printingIndex++]);
             }
-        }, interval);
+        }, min_interval, max_interval);
     }
 
     clear() {
@@ -77,21 +80,19 @@ function main() {
         const display = new Display(document.querySelector("#terminal-container"));
         const welcomePrintingJobTextList = [
             "Hello stranger...",
-            "Welcome... Welcome...","",
-            "[slowly clipping]","","","",
-            "name is Gengyuan Huang",
-            "a programmer...","","",
-            "<br><br>","","",
-            "I have recently graduated from the University with a CS degree...","","",
-            "I have rent to pay, and a mouth to feed (my mouth)...","","","",
-            "<br><br>","",
-            "if you wish to know more about me, my life or my cat...","",
-            "or my social insurance number","",
+            "Welcome... Welcome...",
+            "[slowly clipping]",
+            "name is Gengyuan Huang<br>a programmer...",
+            "<br><br>",
+            "I have recently graduated from the University with a CS degree...<br>I have rent to pay, and a mouth to feed (my mouth)...",
+            "<br><br>",
+            "if you wish to know more about me, my life or my cat...",
+            "or my social insurance number",
             "please type /help",
             "<br><br>",
         ]
 
-        display.printJob(welcomePrintingJobTextList, 600);
+        display.printJob(welcomePrintingJobTextList, 600, 1800);
     
     });
 

@@ -7,4 +7,24 @@ function createHTMLElement(tag, innerHTML="", attributes={}) {
     return el;
 }
 
-export { createHTMLElement };
+function setRandInterval (func, min, max) {
+    let currentTimeout;
+
+    const runTimeout = () => {
+        currentTimeout = setTimeout(() => {
+            func();
+            runTimeout();
+        }, Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+
+    runTimeout();
+
+    return {
+        clear: () => {
+            clearTimeout(currentTimeout);
+        }
+    }
+}
+
+
+export { createHTMLElement,setRandInterval };
