@@ -9,8 +9,8 @@ class Display {
     #flashCursor;
     #flashCursorInterval;
     #linkTypeIconSrc = {
-        "email": "/assets/img/icon_mail.svg",
-        "link": "/assets/img/icon_link.svg"
+        "email": "assets/img/icon_mail.svg",
+        "link": "assets/img/icon_link.svg"
     };
 
     constructor(container) {
