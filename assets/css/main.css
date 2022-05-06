@@ -71,6 +71,7 @@ html {
 }
 
 #terminal-container > p,
+#terminal-input > p,
 .terminal-link > p {
     color: #78a88a;
     font-size: 22px;
@@ -91,6 +92,14 @@ html {
 }
 
 #terminal-container #terminal-input {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+#terminal-container #terminal-input .prompt,
+#terminal-container #terminal-input .input,
+#terminal-container #terminal-input .pointer {
     color: #984511;
     overflow-wrap: anywhere;
 }

@@ -9,7 +9,6 @@ class PrintJob {
 
 class Display {
     #flashCursor;
-    #flashCursorInterval;
     #inputUpdateTaskList = [];
     #inputUpdate;
     #linkTypeIconSrc = {
@@ -43,16 +42,29 @@ class Display {
     }
 
     #createFlashCursor() {
-        const prtStr = "guest@aghnu.me:/$: ";
+        const prtStr = "guest@aghnu.me:/$:&nbsp";
         const cursorStr = "_";
-        let fl = true;
+        let fl = false;
         
         // setup cursor element and interval
-        this.#flashCursor = createHTMLElement('p', prtStr, {'id': 'terminal-input'});
+        this.#flashCursor = createHTMLElement('div', '', {'id': 'terminal-input'});
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
 
+        const prompt = createHTMLElement('p', prtStr, {'class': 'prompt'});
+        const input = createHTMLElement('p', '', {'class': 'input'});
+        const pointer = createHTMLElement('p', cursorStr, {'class': 'pointer'});
+
+        setInterval(() => {
+            pointer.innerHTML = (fl) ? ' ' : cursorStr;
+            fl = !fl;
+        }, 500);
+
+        this.#flashCursor.appendChild(prompt);
+        this.#flashCursor.appendChild(input);
+        this.#flashCursor.appendChild(pointer);
+
         this.#addFuncToTaskInput(() => {
-            this.#flashCursor.innerHTML = prtStr + this.inputTextArea.replaceAll(' ', '&nbsp');
+            input.innerHTML = this.inputTextArea.replaceAll(' ', '&nbsp');
             this.#flashCursor.scrollIntoView(true);
         });
 
