@@ -1,3 +1,5 @@
+import { KeyboardMonitor } from "./keyboardMonitor";
+
 class PrintJob {
     constructor(type, parameters={}) {
         this.type = type;
@@ -8,10 +10,13 @@ class PrintJob {
 class Display {
     #flashCursor;
     #flashCursorInterval;
+    #inputUpdateTaskList = [];
+    #inputUpdate;
     #linkTypeIconSrc = {
         "email": "assets/img/icon_mail.svg",
         "link": "assets/img/icon_link.svg"
     };
+    #keyboardMonitor;
 
     constructor(container) {
         if (Display._instance) {
@@ -25,7 +30,8 @@ class Display {
         this.displayHist = {};
 
         // init setup
-        this.#createflashCursor();
+        this.#createFlashCursor();
+        this.#setupKeyListeners();
     }
 
     static getInstance() {
@@ -36,21 +42,46 @@ class Display {
         throw "singleton was not initialized";;
     }
 
-    #createflashCursor() {
+    #createFlashCursor() {
         const prtStr = "guest@aghnu.me:/$: ";
         const cursorStr = "_";
         let fl = true;
         
         // setup cursor element and interval
-        this.#flashCursor = createHTMLElement('p', prtStr, {'id': 'terminal-prompt'});
+        this.#flashCursor = createHTMLElement('p', prtStr, {'id': 'terminal-input'});
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
-        this.#flashCursorInterval = setInterval(() => {
-            this.#flashCursor.innerHTML = (fl) ? prtStr + this.inputTextArea + cursorStr : prtStr + this.inputTextArea;
-            fl = !fl;
-        }, 500);
+
+        this.#addFuncToTaskInput(() => {
+            this.#flashCursor.innerHTML = prtStr + this.inputTextArea.replaceAll(' ', '&nbsp');
+            this.#flashCursor.scrollIntoView(true);
+        });
 
         // add cursor to display
         this.terminal_container.appendChild(this.#flashCursor);
+    }
+
+    #addFuncToTaskInput(func) {
+        this.#inputUpdateTaskList.push(func);
+    }
+
+    #setupKeyListeners() {
+        this.#keyboardMonitor = new KeyboardMonitor();
+        this.#inputUpdate = (char) => {
+            this.inputTextArea += char;
+
+            // call functions inside the update list
+            this.#inputUpdateTaskList.forEach((func) => func());
+        };
+
+        this.#keyboardMonitor.setUpdateFunc(this.#inputUpdate);
+
+        // set specials
+        this.#keyboardMonitor.addSpecialKey('Backspace', () => {
+            this.inputTextArea = this.inputTextArea.slice(0, -1);
+            this.#inputUpdateTaskList.forEach((func) => func());
+        });
+
+
     }
 
     printLink(param) {

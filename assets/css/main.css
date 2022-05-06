@@ -73,8 +73,8 @@ html {
 #terminal-container > p,
 .terminal-link > p {
     color: #78a88a;
-    font-size: 26px;
-    line-height: 28px;
+    font-size: 22px;
+    line-height: 24px;
     margin: 0;
 }
 
@@ -90,8 +90,9 @@ html {
     background: #78a88a;
 }
 
-#terminal-container #terminal-prompt {
-    color: #e5602c;
+#terminal-container #terminal-input {
+    color: #984511;
+    overflow-wrap: anywhere;
 }
 
 .terminal-link {
@@ -99,9 +100,10 @@ html {
     gap: 10px;
     text-decoration: none;
     font-style: italic;
+    width: fit-content;
 }
 
 .terminal-link .icon {
-    height: 28px;
+    height: 24px;
 }
 
