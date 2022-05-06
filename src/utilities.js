@@ -45,7 +45,7 @@ class Display {
         this.#flashCursor = createHTMLElement('p', prtStr, {'id': 'terminal-prompt'});
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
         this.#flashCursorInterval = setInterval(() => {
-            this.#flashCursor.innerHTML = (fl) ? prtStr + cursorStr : prtStr;
+            this.#flashCursor.innerHTML = (fl) ? prtStr + this.inputTextArea + cursorStr : prtStr + this.inputTextArea;
             fl = !fl;
         }, 500);
 
