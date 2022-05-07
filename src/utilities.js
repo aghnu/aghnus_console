@@ -12,10 +12,6 @@ class Display {
     #flashCursor;
     #inputUpdateTaskList = [];
     #inputUpdate;
-    #linkTypeIconSrc = {
-        "email": "assets/img/icon_mail.svg",
-        "link": "assets/img/icon_link.svg"
-    };
 
     constructor(container) {
         if (Display._instance) {
