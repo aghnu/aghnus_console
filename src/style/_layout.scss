@@ -1,3 +1,12 @@
+$footer-height:                     24px;
+$function-keys-height:              48px;
+
+$third-layer-padding-x:             5vw;
+$third-layer-padding-y:             5vh; 
+
+$third-layer-content-width:         90vw;
+$third-layer-content-width-max:     400px;
+
 .layer {
     position: fixed;
     height: 100vh;
@@ -26,4 +35,50 @@
     -o-user-select: none;
     user-select: none;    
 }
+
+#terminal-container {
+    position: fixed;
+    top: $third-layer-padding-y;
+    left: $third-layer-padding-x;
+
+
+    width: $third-layer-content-width;
+    max-width: $third-layer-content-width-max;
+    height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$third-layer-padding-y * 4});
+
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+#function-key-container {
+    position: fixed;
+    bottom: calc(#{$footer-height} + #{$third-layer-padding-y * 2});
+    height: $function-keys-height;
+    left: $third-layer-padding-x;
+    width: $third-layer-content-width;
+    max-width: $third-layer-content-width-max;
+}
+
+#footer {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: $third-layer-padding-y;
+    left: $third-layer-padding-x;
+
+    height: $footer-height;
+
+    width: $third-layer-content-width;
+    max-width: $third-layer-content-width-max;
+
+}
+
+
 

@@ -1,4 +1,5 @@
 import { KeyboardMonitor } from "./keyboardMonitor";
+import { icon } from "./svgfactory";
 
 class PrintJob {
     constructor(type, parameters={}) {
@@ -27,13 +28,12 @@ class Display {
         this.inputTextArea = "";
         this.displayHist = {};
        
-
         // init setup
         new KeyboardMonitor();
         this.#setupKeyListeners();
         this.#createFlashCursor();
-        
-        
+        this.#createFooter();
+        this.#createFunctionKeys();
     }
 
     static getInstance() {
@@ -42,6 +42,91 @@ class Display {
         }
 
         throw "singleton was not initialized";;
+    }
+
+    #createFunctionKeys() {
+        const col_l = document.querySelector("#function-key-container .left");
+        const col_m = document.querySelector("#function-key-container .middle");
+        const col_r = document.querySelector("#function-key-container .right");
+
+        const keys = [
+            {
+                'type': 'keyboard',
+                'text': 'keyboard',
+                'col': 'left',
+                'func': () => {},
+            },
+            {
+                'type': 'clean',
+                'text': 'clear',
+                'col': 'middle',
+                'func': () => {},
+            },
+            {
+                'type': 'help',
+                'text': 'help',
+                'col': 'right',
+                'func': () => {},
+            },
+            {
+                'type': 'contact',
+                'text': 'contact',
+                'col': 'left',
+                'func': () => {},
+            },
+            {
+                'type': 'about',
+                'text': 'about',
+                'col': 'middle',
+                'func': () => {},
+            },
+            {
+                'type': 'github',
+                'text': 'projects',
+                'col': 'right',
+                'func': () => {},
+            },
+        ];
+
+        keys.forEach((key) => {
+            const el = createHTMLElement('button', '', {'class': 'key', 'onclick': key.func});
+            const elIcon = createHTMLElement('div', icon[key.type]('#984511', '26px'), {'class': 'icon'});
+            const elText = createHTMLElement('text', key.text, {'class': 'text'});
+            const elTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
+            
+            elTextContainer.appendChild(elText);
+            el.appendChild(elIcon);
+            el.appendChild(elTextContainer);
+            
+            switch (key.col) {
+                case 'left':
+                    col_l.appendChild(el);
+                    break;
+                case 'middle':
+                    col_m.appendChild(el);
+                    break;
+                case 'right':
+                    col_r.appendChild(el);
+                    break;
+            }
+
+        });
+    }
+
+    #createFooter() {
+        const footer = document.querySelector('#footer');
+        const footerDateEl = createHTMLElement('p', '', {'id': 'footer-date-str'});
+        const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
+
+        const date = new Date();
+        footerDateEl.innerHTML = date.toLocaleDateString() + "&nbsp" + date.toLocaleTimeString();
+        setInterval(() => {
+            const date = new Date();
+            footerDateEl.innerHTML = date.toLocaleDateString() + "&nbsp" + date.toLocaleTimeString();
+        }, 1000);
+
+        footerTextContainer.appendChild(footerDateEl);
+        footer.appendChild(footerTextContainer);
     }
 
     #createFlashCursor() {
@@ -103,7 +188,7 @@ class Display {
 
     printLink(param) {
         const el = createHTMLElement('a', '', {'class': 'terminal-link', "href": param.link});
-        const link_icon = createHTMLElement('img', '', {'class': 'icon', 'src': this.#linkTypeIconSrc[param.type]});
+        const link_icon = createHTMLElement('div', icon[param.type]('#78a88a', '24px'), {'class': 'icon'});
         const link_text = createHTMLElement('p', param.text, {'class': 'text'});
 
         el.appendChild(link_icon);
