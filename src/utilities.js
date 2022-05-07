@@ -30,6 +30,7 @@ class Display {
         this.#createFlashCursor();
         this.#createFooter();
         this.#createFunctionKeys();
+        this.#createVirtualKeyboard();
     }
 
     static getInstance() {
@@ -38,6 +39,18 @@ class Display {
         }
 
         throw "singleton was not initialized";;
+    }
+
+    #createVirtualKeyboard() {
+        const keyboardMap = [
+            ['1','2','3','4','5','6','7','8','9','0','Backspace'],
+            ['q','w','e','r','t','y','u','i','o','p'],
+            ['a','s','d','f','g','h','j','k','l','Enter'],
+            ['z','x','c','v','b','n','m'],
+            [' '],
+        ]
+
+        
     }
 
     #createFunctionKeys() {
