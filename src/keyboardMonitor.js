@@ -1,3 +1,5 @@
+import { createHTMLElement } from "./utilities";
+
 class KeyboardMonitor {
     constructor() {
         if (KeyboardMonitor._instance) {
@@ -22,7 +24,7 @@ class KeyboardMonitor {
 
         this.specialKeyHandlers = {};
         this.updateFunc = () => {};
-        this.inputBox;
+        this.virtualKeyboard;
 
         // init
         this.#setupKeyListeners();
@@ -38,20 +40,16 @@ class KeyboardMonitor {
 
     #setupKeyListeners() {
         document.addEventListener('keydown', (e) => {
-            if (this.inputBox && (document.activeElement === this.inputBox)) {
-                console.log("has focus");
-            } else {
-                const key = e.key;
-                if (this.keyIsAllowedShow(key)) {
-                    this.updateFunc(key);
-                    e.preventDefault();
-                }
-
-                if (this.keyIsSpecial(key)) {
-                    this.specialKeyHandlers[key]();
-                    e.preventDefault();
-                }                
+            const key = e.key;
+            if (this.keyIsAllowedShow(key)) {
+                this.updateFunc(key);
+                e.preventDefault();
             }
+
+            if (this.keyIsSpecial(key)) {
+                this.specialKeyHandlers[key]();
+                e.preventDefault();
+            }   
 
         });
     }
@@ -72,12 +70,7 @@ class KeyboardMonitor {
         this.updateFunc = func;
     }
 
-    setInputBox(el) {
-        this.inputBox = el;
-        this.inputBox.addEventListener('input', () => {
-            
-        });
-    }
+    
 }
 
 export { KeyboardMonitor };

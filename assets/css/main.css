@@ -46,10 +46,13 @@ html {
 }
 
 #terminal-container {
-    width: 80vw;
-    height: 80vh;
-    padding-top: 10vh;
-    margin: auto;
+    position: fixed;
+    width: 90vh;
+    max-width: 400px;
+    max-height: 90vh;
+    padding: 5vh 5vw 5vh 5vw;
+    
+
     overflow-x: hidden;
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -113,6 +116,27 @@ html {
 }
 
 .terminal-link .icon {
+    height: 24px;
+}
+
+#keyboard-container {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    background: #984511;
+    /* border-top: solid;
+    border-bottom: solid;
+    border-width: 1px;
+    border-radius: 3px; */
+}
+
+#keyboard-button {
+    border: none;
+    background: transparent;
+    
+}
+
+#keyboard-button .icon {
     height: 24px;
 }
 

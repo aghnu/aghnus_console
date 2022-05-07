@@ -58,7 +58,7 @@ class Display {
         const pointer = createHTMLElement('p', cursorStr, {'class': 'pointer'});
 
         setInterval(() => {
-            pointer.innerHTML = (fl) ? ' ' : cursorStr;
+            pointer.innerHTML = (fl) ? '&nbsp' : cursorStr;
             fl = !fl;
         }, 500);
 
@@ -66,12 +66,11 @@ class Display {
         this.#flashCursor.appendChild(input);
         this.#flashCursor.appendChild(pointer);
 
-        KeyboardMonitor.getInstance().setInputBox(input);
-
         this.#addFuncToTaskInput(() => {
             input.innerHTML = this.inputTextArea.replaceAll(' ', '&nbsp');
             this.#flashCursor.scrollIntoView(true);
         });
+
 
         // add cursor to display
         this.terminal_container.appendChild(this.#flashCursor);
@@ -83,6 +82,7 @@ class Display {
 
     #setupKeyListeners() {
         const kmonitor = KeyboardMonitor.getInstance();
+
         this.#inputUpdate = (char) => {
             this.inputTextArea += char;
 
