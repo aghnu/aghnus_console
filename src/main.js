@@ -1,5 +1,6 @@
 import { Display } from "./utilities";
 import { welcomePrintingJobTextList } from "./textList";
+import "./style/style.scss";
 
 
 function main() {
