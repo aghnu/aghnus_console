@@ -15,7 +15,6 @@ class Display {
         "email": "assets/img/icon_mail.svg",
         "link": "assets/img/icon_link.svg"
     };
-    #keyboardMonitor;
 
     constructor(container) {
         if (Display._instance) {
@@ -27,15 +26,19 @@ class Display {
         this.terminal_container = container;
         this.inputTextArea = "";
         this.displayHist = {};
+       
 
         // init setup
-        this.#createFlashCursor();
+        new KeyboardMonitor();
         this.#setupKeyListeners();
+        this.#createFlashCursor();
+        
+        
     }
 
     static getInstance() {
-        if (ShowIDGenerator._instance) {
-            return ShowIDGenerator._instance;
+        if (Display._instance) {
+            return Display._instance;
         }
 
         throw "singleton was not initialized";;
@@ -51,7 +54,7 @@ class Display {
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
 
         const prompt = createHTMLElement('p', prtStr, {'class': 'prompt'});
-        const input = createHTMLElement('p', '', {'class': 'input'});
+        const input = createHTMLElement('input', '', {'class': 'input', type: 'text', readonly: true});
         const pointer = createHTMLElement('p', cursorStr, {'class': 'pointer'});
 
         setInterval(() => {
@@ -63,8 +66,11 @@ class Display {
         this.#flashCursor.appendChild(input);
         this.#flashCursor.appendChild(pointer);
 
+        KeyboardMonitor.getInstance().setInputBox(input);
+
         this.#addFuncToTaskInput(() => {
-            input.innerHTML = this.inputTextArea.replaceAll(' ', '&nbsp');
+            input.value = this.inputTextArea;
+            input.style.width = input.value.length + 'ch';
             this.#flashCursor.scrollIntoView(true);
         });
 
@@ -77,7 +83,7 @@ class Display {
     }
 
     #setupKeyListeners() {
-        this.#keyboardMonitor = new KeyboardMonitor();
+        const kmonitor = KeyboardMonitor.getInstance();
         this.#inputUpdate = (char) => {
             this.inputTextArea += char;
 
@@ -85,10 +91,10 @@ class Display {
             this.#inputUpdateTaskList.forEach((func) => func());
         };
 
-        this.#keyboardMonitor.setUpdateFunc(this.#inputUpdate);
+        kmonitor.setUpdateFunc(this.#inputUpdate);
 
         // set specials
-        this.#keyboardMonitor.addSpecialKey('Backspace', () => {
+        kmonitor.addSpecialKey('Backspace', () => {
             this.inputTextArea = this.inputTextArea.slice(0, -1);
             this.#inputUpdateTaskList.forEach((func) => func());
         });

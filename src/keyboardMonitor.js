@@ -1,5 +1,11 @@
 class KeyboardMonitor {
     constructor() {
+        if (KeyboardMonitor._instance) {
+            throw "singleton is already initialized";
+        }
+
+        KeyboardMonitor._instance = this;
+
         this.keyAllowedShowSet = new Set([
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
             "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", 
@@ -16,23 +22,37 @@ class KeyboardMonitor {
 
         this.specialKeyHandlers = {};
         this.updateFunc = () => {};
+        this.inputBox;
 
         // init
         this.#setupKeyListeners();
     }
 
+    static getInstance() {
+        if (KeyboardMonitor._instance) {
+            return KeyboardMonitor._instance;
+        }
+
+        throw "singletone was not initialized"
+    }
+
     #setupKeyListeners() {
         document.addEventListener('keydown', (e) => {
-            const key = e.key;
-            if (this.keyIsAllowedShow(key)) {
-                this.updateFunc(key);
-                e.preventDefault();
+            if (this.inputBox && (document.activeElement === this.inputBox)) {
+                console.log("has focus");
+            } else {
+                const key = e.key;
+                if (this.keyIsAllowedShow(key)) {
+                    this.updateFunc(key);
+                    e.preventDefault();
+                }
+
+                if (this.keyIsSpecial(key)) {
+                    this.specialKeyHandlers[key]();
+                    e.preventDefault();
+                }                
             }
 
-            if (this.keyIsSpecial(key)) {
-                this.specialKeyHandlers[key]();
-                e.preventDefault();
-            }
         });
     }
 
@@ -50,6 +70,13 @@ class KeyboardMonitor {
 
     setUpdateFunc(func) {
         this.updateFunc = func;
+    }
+
+    setInputBox(el) {
+        this.inputBox = el;
+        this.inputBox.addEventListener('input', () => {
+            
+        });
     }
 }
 
