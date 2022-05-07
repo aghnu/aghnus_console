@@ -42,15 +42,38 @@ class Display {
     }
 
     #createVirtualKeyboard() {
-        const keyboardMap = [
+        const vKeyboard = KeyboardMonitor.getInstance();
+
+        const keyboardKeyMap = [
             ['1','2','3','4','5','6','7','8','9','0','Backspace'],
             ['q','w','e','r','t','y','u','i','o','p'],
             ['a','s','d','f','g','h','j','k','l','Enter'],
-            ['z','x','c','v','b','n','m'],
+            ['z','x','c','v','b','n','m','/'],
             [' '],
         ]
 
-        
+        const keyboardTextMap = [
+            ['1','2','3','4','5','6','7','8','9','0','Backspace'],
+            ['q','w','e','r','t','y','u','i','o','p'],
+            ['a','s','d','f','g','h','j','k','l','Enter'],
+            ['z','x','c','v','b','n','m','/'],
+            ['Space'],
+        ]
+
+        const keyboard_container = document.querySelector('#virtual-keyboard');
+
+        for (let r = 0; r < keyboardTextMap.length; r++) {
+            const keyboard_key_row = createHTMLElement('div', '', {'class': 'row'});
+            for (let i = 0; i < keyboardTextMap[r].length; i++) {
+                const text = keyboardTextMap[r][i];
+                const key = keyboardKeyMap[r][i];
+
+                const keyboard_key = createHTMLElement('button', text, {'class': 'key'});
+                keyboard_key.onclick = () => vKeyboard.pressKey(key);
+                keyboard_key_row.appendChild(keyboard_key);
+            }
+            keyboard_container.append(keyboard_key_row);
+        }      
     }
 
     #createFunctionKeys() {

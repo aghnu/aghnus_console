@@ -41,16 +41,7 @@ class KeyboardMonitor {
     #setupKeyListeners() {
         document.addEventListener('keydown', (e) => {
             const key = e.key;
-            if (this.keyIsAllowedShow(key)) {
-                this.updateFunc(key);
-                e.preventDefault();
-            }
-
-            if (this.keyIsSpecial(key)) {
-                this.specialKeyHandlers[key]();
-                e.preventDefault();
-            }   
-
+            this.pressKey(key, e.preventDefault);
         });
     }
 
@@ -68,6 +59,23 @@ class KeyboardMonitor {
 
     setUpdateFunc(func) {
         this.updateFunc = func;
+    }
+
+    pressKey(key, callback=null) {
+        let isValid = false;
+        if (this.keyIsAllowedShow(key)) {
+            this.updateFunc(key);
+            isValid = true;
+        }
+
+        if (this.keyIsSpecial(key)) {
+            this.specialKeyHandlers[key]();
+            isValid = true;
+        }
+
+        if (isValid && callback !== null) {
+            callback();
+        }
     }
 
     

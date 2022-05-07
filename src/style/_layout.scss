@@ -1,5 +1,6 @@
 $footer-height:                     24px;
 $function-keys-height:              48px;
+$virtual-keyboard-height:           120px;
 
 $third-layer-padding-x:             5vw;
 $third-layer-padding-y:             5vh; 
@@ -36,6 +37,8 @@ $third-layer-content-width-max:     400px;
     user-select: none;    
 }
 
+
+
 #terminal-container {
     position: fixed;
     top: $third-layer-padding-y;
@@ -56,6 +59,25 @@ $third-layer-content-width-max:     400px;
         display: none;
     }
 }
+
+#virtual-keyboard {
+    display: none;
+    position: fixed;
+    width: $third-layer-content-width;
+    max-width: $third-layer-content-width-max;
+    left: $third-layer-padding-x;
+    bottom: calc(#{$footer-height} + #{$function-keys-height} + #{$third-layer-padding-y * 3});
+    height: $virtual-keyboard-height;
+    
+    &.on {
+        display: block;
+    }
+
+    & ~ #terminal-container {
+        height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$third-layer-padding-y * 5});
+    }
+}
+
 
 #function-key-container {
     position: fixed;
