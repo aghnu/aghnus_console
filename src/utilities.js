@@ -54,7 +54,7 @@ class Display {
         window.addEventListener('resize', () => {this.#flashCursor.scrollIntoView(true)});
 
         const prompt = createHTMLElement('p', prtStr, {'class': 'prompt'});
-        const input = createHTMLElement('input', '', {'class': 'input', type: 'text', readonly: true});
+        const input = createHTMLElement('p', '', {'class': 'input', type: 'text', readonly: true});
         const pointer = createHTMLElement('p', cursorStr, {'class': 'pointer'});
 
         setInterval(() => {
@@ -69,8 +69,7 @@ class Display {
         KeyboardMonitor.getInstance().setInputBox(input);
 
         this.#addFuncToTaskInput(() => {
-            input.value = this.inputTextArea;
-            input.style.width = input.value.length + 'ch';
+            input.innerHTML = this.inputTextArea.replaceAll(' ', '&nbsp');
             this.#flashCursor.scrollIntoView(true);
         });
 

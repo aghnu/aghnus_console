@@ -98,28 +98,11 @@ html {
 }
 
 #terminal-container #terminal-input .prompt,
+#terminal-container #terminal-input .input,
 #terminal-container #terminal-input .pointer {
     color: #984511;
     overflow-wrap: anywhere;
 }
-
-#terminal-container #terminal-input .input {
-    color: #984511;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: "Classic Console Neue";
-    font-size: 22px;
-    line-height: 24px;
-    height: 24px;
-    width: 1ch;
-    margin: 0;
-}
-
-#terminal-container #terminal-input .input:focus {
-    outline: none;
-}
-
 
 .terminal-link {
     display: flex;
