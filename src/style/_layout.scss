@@ -1,12 +1,12 @@
 $footer-height:                     24px;
 $function-keys-height:              48px;
-$virtual-keyboard-height:           120px;
+$virtual-keyboard-height:           180px;
 
 $third-layer-padding-x:             5vw;
-$third-layer-padding-y:             5vh; 
+$third-layer-padding-y:             2.5vh; 
 
 $third-layer-content-width:         90vw;
-$third-layer-content-width-max:     400px;
+$third-layer-content-width-max:     500px;
 
 .layer {
     position: fixed;
@@ -30,11 +30,14 @@ $third-layer-content-width-max:     400px;
 
 .clickthrough {
     pointer-events: none;
+}
+
+.noselect {
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
-    user-select: none;    
+    user-select: none;  
 }
 
 
@@ -70,10 +73,10 @@ $third-layer-content-width-max:     400px;
     height: $virtual-keyboard-height;
     
     &.on {
-        display: block;
+        display: flex;
     }
 
-    & ~ #terminal-container {
+    &.on ~ #terminal-container {
         height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$third-layer-padding-y * 5});
     }
 }

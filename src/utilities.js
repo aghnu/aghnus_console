@@ -45,19 +45,19 @@ class Display {
         const vKeyboard = KeyboardMonitor.getInstance();
 
         const keyboardKeyMap = [
-            ['1','2','3','4','5','6','7','8','9','0','Backspace'],
+            ['1','2','3','4','5','6','7','8','9','0',],
             ['q','w','e','r','t','y','u','i','o','p'],
-            ['a','s','d','f','g','h','j','k','l','Enter'],
+            ['a','s','d','f','g','h','j','k','l',],
             ['z','x','c','v','b','n','m','/'],
-            [' '],
+            [' ', 'Enter','Backspace'],
         ]
 
         const keyboardTextMap = [
-            ['1','2','3','4','5','6','7','8','9','0','Backspace'],
+            ['1','2','3','4','5','6','7','8','9','0',],
             ['q','w','e','r','t','y','u','i','o','p'],
-            ['a','s','d','f','g','h','j','k','l','Enter'],
+            ['a','s','d','f','g','h','j','k','l',],
             ['z','x','c','v','b','n','m','/'],
-            ['Space'],
+            ['Space', 'Enter', 'Back'],
         ]
 
         const keyboard_container = document.querySelector('#virtual-keyboard');
@@ -68,8 +68,89 @@ class Display {
                 const text = keyboardTextMap[r][i];
                 const key = keyboardKeyMap[r][i];
 
-                const keyboard_key = createHTMLElement('button', text, {'class': 'key'});
-                keyboard_key.onclick = () => vKeyboard.pressKey(key);
+                const keyboard_key = createHTMLElement('button', text, {'class': 'key noselect', 'id': "virtual-key-" + text});
+                
+                let keyPressed = false;
+                let continueTypingCheckingTimeout = null;
+                let continueTypingInterval = null;
+
+
+                const keyDownFunc = () => {
+                    if (continueTypingCheckingTimeout) {
+                        clearTimeout(continueTypingCheckingTimeout);
+                        continueTypingCheckingTimeout = null;
+                    }
+
+                    if (continueTypingInterval) {
+                        clearInterval(continueTypingInterval);
+                        continueTypingInterval = null;
+                    }
+                    
+
+                    keyboard_key.classList.add('hold');
+                    keyPressed = true;
+
+                    continueTypingCheckingTimeout = setTimeout(() => {
+                        if (keyPressed === true) {
+                            continueTypingInterval = setInterval(() => {
+                                vKeyboard.pressKey(key);
+                            }, 50);
+                        }
+                    }, 500);
+                }
+
+                const keyUpFunc = () => {  
+                    
+                    if (continueTypingCheckingTimeout) {
+                        clearTimeout(continueTypingCheckingTimeout);
+                        continueTypingCheckingTimeout = null;
+                    }
+
+                    if (continueTypingInterval) {
+                        clearInterval(continueTypingInterval);
+                        continueTypingInterval = null;
+                    } else {
+                        vKeyboard.pressKey(key)
+                    }
+    
+                    keyboard_key.classList.remove('hold');
+                    keyPressed = false;
+                    
+                }
+
+                // touch events
+                keyboard_key.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    keyDownFunc();
+                });
+
+                keyboard_key.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    keyUpFunc();
+                });
+
+                keyboard_key.addEventListener('touchcancel', (e) => {
+                    e.preventDefault();
+                    keyUpFunc();
+                });
+
+                keyboard_key.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    keyUpFunc();
+                });
+
+                // click events
+                keyboard_key.addEventListener('mousedown', (e) => {
+                    keyDownFunc();
+                });
+
+                keyboard_key.addEventListener('mouseup', (e) => {
+                    e.preventDefault();
+                    keyUpFunc();
+                });
+
+
+
                 keyboard_key_row.appendChild(keyboard_key);
             }
             keyboard_container.append(keyboard_key_row);
@@ -86,7 +167,13 @@ class Display {
                 'type': 'keyboard',
                 'text': 'keyboard',
                 'col': 'left',
-                'func': () => {},
+                'func': () => {
+                    const keyboard = document.querySelector('#virtual-keyboard');
+                    if (keyboard) {
+                        keyboard.classList.toggle('on');
+                        this.#flashCursor.scrollIntoView(true);
+                    }
+                },
             },
             {
                 'type': 'clean',
@@ -121,11 +208,13 @@ class Display {
         ];
 
         keys.forEach((key) => {
-            const el = createHTMLElement('button', '', {'class': 'key', 'onclick': key.func});
+            const el = createHTMLElement('button', '', {'class': 'key'});
             const elIcon = createHTMLElement('div', icon[key.type]('#984511', '26px'), {'class': 'icon'});
             const elText = createHTMLElement('text', key.text, {'class': 'text'});
             const elTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
             
+            el.onclick = key.func;
+
             elTextContainer.appendChild(elText);
             el.appendChild(elIcon);
             el.appendChild(elTextContainer);
