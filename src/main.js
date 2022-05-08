@@ -1,13 +1,44 @@
-import { Display } from "./utilities";
+import { Display,createHTMLElement } from "./utilities";
 import { welcomePrintingJobTextList } from "./textList";
 import "./style/style.scss";
 
 
+function createHTMLStructure() {
+    const top_layer = createHTMLElement('div','',{'id': 'top-layer', 'class':'layer clickthrough noselect'});
+    const second_layer = createHTMLElement('div','',{'id': 'second-layer', 'class':'layer clickthrough noselect'});
+    const third_layer = createHTMLElement('div','',{'id': 'third-layer', 'class':'layer'});
+
+    const third_layer_virtual_keyboard = createHTMLElement('div','',{'id': 'virtual-keyboard'});
+    const third_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
+    const third_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container', 'class': 'noselect'});
+    const third_layer_footer = createHTMLElement('div','',{'id': 'footer'});
+    
+    const function_key_container_left = createHTMLElement('div', '', {'class': 'container left'});
+    const function_key_container_middle = createHTMLElement('div', '', {'class': 'container middle'});
+    const function_key_container_right = createHTMLElement('div', '', {'class': 'container right'});
+
+    third_layer_function_key_container.appendChild(function_key_container_left);
+    third_layer_function_key_container.appendChild(function_key_container_middle);
+    third_layer_function_key_container.appendChild(function_key_container_right);
+
+    third_layer.appendChild(third_layer_virtual_keyboard);
+    third_layer.appendChild(third_layer_terminal_container);
+    third_layer.appendChild(third_layer_function_key_container);
+    third_layer.appendChild(third_layer_footer);
+
+
+    document.body.appendChild(top_layer);
+    document.body.appendChild(second_layer);
+    document.body.appendChild(third_layer);
+
+}   
+
 function main() {
-
-
     // when dom css assets loaded
     window.addEventListener('load', () => {
+        // setup html structure
+        createHTMLStructure();
+        
         // init display singleton
         const display = new Display(document.querySelector("#terminal-container"));
 
@@ -15,8 +46,6 @@ function main() {
         display.printList(welcomePrintingJobTextList, 600, 1800);
     
     });
-
-
 }
 
 main();

@@ -41,7 +41,7 @@ class KeyboardMonitor {
     #setupKeyListeners() {
         document.addEventListener('keydown', (e) => {
             const key = e.key;
-            this.pressKey(key, e.preventDefault);
+            this.pressKey(key, () => {e.preventDefault()});
         });
     }
 
@@ -77,8 +77,6 @@ class KeyboardMonitor {
             callback();
         }
     }
-
-    
 }
 
 export { KeyboardMonitor };
