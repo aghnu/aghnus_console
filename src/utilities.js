@@ -134,19 +134,32 @@ class Display {
                     keyUpFunc();
                 });
 
-                keyboard_key.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    // keyUpFunc();
-                });
-
                 // click events
                 keyboard_key.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
                     keyDownFunc();
                 });
 
                 keyboard_key.addEventListener('mouseup', (e) => {
                     e.preventDefault();
                     keyUpFunc();
+                });
+
+                //global up
+                document.addEventListener('mouseup', (e) => {
+
+                    if (continueTypingCheckingTimeout) {
+                        clearTimeout(continueTypingCheckingTimeout);
+                        continueTypingCheckingTimeout = null;
+                    }
+
+                    if (continueTypingInterval) {
+                        clearInterval(continueTypingInterval);
+                        continueTypingInterval = null;
+                    }
+                       
+                    keyboard_key.classList.remove('hold');
+                    keyPressed = false;
                 });
 
 
