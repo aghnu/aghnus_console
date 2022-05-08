@@ -110,7 +110,9 @@ class Display {
                         clearInterval(continueTypingInterval);
                         continueTypingInterval = null;
                     } else {
-                        vKeyboard.pressKey(key)
+                        if (keyPressed) {
+                            vKeyboard.pressKey(key)
+                        }
                     }
     
                     keyboard_key.classList.remove('hold');
@@ -147,19 +149,7 @@ class Display {
 
                 //global up
                 document.addEventListener('mouseup', (e) => {
-
-                    if (continueTypingCheckingTimeout) {
-                        clearTimeout(continueTypingCheckingTimeout);
-                        continueTypingCheckingTimeout = null;
-                    }
-
-                    if (continueTypingInterval) {
-                        clearInterval(continueTypingInterval);
-                        continueTypingInterval = null;
-                    }
-                       
-                    keyboard_key.classList.remove('hold');
-                    keyPressed = false;
+                    keyUpFunc();
                 });
 
 
