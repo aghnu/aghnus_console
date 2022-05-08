@@ -38,17 +38,10 @@ $terminal-text-color-secondary:     #de9835;
             height: $terminal-line-height;
         }
     }
-}
 
-#terminal-input {
-    display: flex;
-    flex-wrap: wrap;
-
-    .prompt,
-    .input,
-    .pointer {
+    #terminal-input {
         color: $terminal-text-color-focus;
-        overflow-wrap: anywhere;        
+        word-wrap: break-word;
     }
 }
 

@@ -1,6 +1,10 @@
-import { Display,createHTMLElement } from "./utilities";
-import { welcomePrintingJobTextList } from "./textList";
+import { DisplayController } from "./displayController";
+import { InputStream, OutputStreamScreen } from "./ioStream";
+import { createHTMLElement } from "./utilities";
+
+import { welcomeMsgs } from "./textList";
 import "./style/style.scss";
+import { KeyboardController } from "./keyboardController";
 
 
 function createHTMLStructure() {
@@ -39,11 +43,15 @@ function main() {
         // setup html structure
         createHTMLStructure();
         
-        // init display singleton
-        const display = new Display(document.querySelector("#terminal-container"));
+        // init iostream
+        const inStream = new InputStream();
+        const outStream = new OutputStreamScreen(document.querySelector("#terminal-container"));
 
-        // welcome message
-        display.printList(welcomePrintingJobTextList, 600, 1800);
+
+        const displayController = new DisplayController(inStream, outStream);
+        const keyboardController = new KeyboardController(inStream);
+        // // welcome message
+        displayController.print(welcomeMsgs);
     
     });
 }
