@@ -136,7 +136,7 @@ class Display {
 
                 keyboard_key.addEventListener('touchmove', (e) => {
                     e.preventDefault();
-                    keyUpFunc();
+                    // keyUpFunc();
                 });
 
                 // click events
