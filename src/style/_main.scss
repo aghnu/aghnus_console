@@ -29,19 +29,51 @@ $terminal-text-color-secondary:     #de9835;
 
     .terminal-link {
         display: flex;
-        gap: 10px;
-        text-decoration: none;
-        font-style: italic;
-        width: fit-content;
+        justify-content: space-between;
 
-        .icon {
-            height: $terminal-line-height;
+        .name {
+            display: flex;
+            width: 20%;
+            gap: 5px;
+            .name-text {
+                color: $terminal-text-color-secondary;
+            }
+            .icon {
+                height: $terminal-line-height;
+            }
         }
+
+
+        .container {
+            width: 65%;  
+            .link {
+                display: block;
+                text-decoration: none;
+                width: fit-content;
+            }    
+        }
+
     }
 
     #terminal-input {
         color: $terminal-text-color-focus;
         word-wrap: break-word;
+    }
+
+    #terminal-cmddesc {
+        display: flex;
+        justify-content: space-between;
+
+        .name {
+            width: 20%;
+            color: $terminal-text-color-secondary;
+            cursor: pointer;
+        }
+
+        .desc {
+            width: 65%;
+        }
+
     }
 }
 

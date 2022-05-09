@@ -1,4 +1,5 @@
 import { createHTMLElement,setRandInterval } from "./utilities";
+import { icon } from "./svgfactory";
 
 
 
@@ -54,9 +55,13 @@ export class OutputStreamScreen {
         return false;
     }
 
+    broadCast() {
+        this.listeners.forEach(func => func(this));
+    }
+
     append(el) {
         this.out.appendChild(el);
-        this.listeners.forEach(func => func(this));
+        this.broadCast();
     }
 
     insert(el, index) {
@@ -64,12 +69,12 @@ export class OutputStreamScreen {
         const i = (index < 0) ? children.length + index : index;
         
         this.out.insertBefore(el, children[i]);
-        this.listeners.forEach(func => func(this));
+        this.broadCast();
     }
 
     clear() {
         this.out.innerHTML = "";
-        this.listeners.forEach(func => func(this));
+        this.broadCast();
     }
 
     subscribe(func) {
@@ -77,19 +82,49 @@ export class OutputStreamScreen {
     }
 
     printLink(param) {
-        const el = createHTMLElement('a', '', {'class': 'terminal-link', "href": param.link});
-        const link_icon = createHTMLElement('div', icon[param.type]('#78a88a', '24px'), {'class': 'icon'});
+        const el = createHTMLElement('div', '', {'class': 'terminal-link', "href": param.link});
+
+        const link_name_container = createHTMLElement('div', '', {'class': 'name'})
+        const link_icon = createHTMLElement('div', icon[param.type]('#984511', '24px'), {'class': 'icon'});
+        const link_name = createHTMLElement('p', param.name, {'class': 'name-text'});
+        
+        const link_sep = createHTMLElement('p', '-', {'class': 'sep'});
+
+        const link_container = createHTMLElement('div', '', {'class': 'container'})
+        const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link});
         const link_text = createHTMLElement('p', param.text, {'class': 'text'});
+        
+        link_name_container.appendChild(link_icon);
+        link_name_container.appendChild(link_name);
 
-        el.appendChild(link_icon);
-        el.appendChild(link_text);
+        link_link.appendChild(link_text);
+        link_container.appendChild(link_link);
 
-        this.out.append(el);
+        el.appendChild(link_name_container);
+        el.appendChild(link_sep);
+        el.appendChild(link_container);
+
+        this.append(el);
+    }
+
+    printCMDDesc(param) {
+        const el = createHTMLElement('div', '', {'id': 'terminal-cmddesc'});
+        const cmd_name = createHTMLElement('p', param.name, {'class': 'name'});
+        const cmd_sep = createHTMLElement('p', '-', {'class': 'sep'});
+        const cmd_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
+
+        cmd_name.onclick = param.func;
+
+        el.appendChild(cmd_name);
+        el.appendChild(cmd_sep);
+        el.appendChild(cmd_desc);
+
+        this.append(el);
     }
 
     printText(param) {
         const el = createHTMLElement('p', param.text);
-        this.out.append(el);
+        this.append(el);
     }
 
     printLine(param) {
@@ -105,7 +140,7 @@ export class OutputStreamScreen {
             el.innerHTML = "<br>";
         }
 
-        this.out.append(el);
+        this.append(el);
     }
 
     printList(param) {
@@ -147,6 +182,8 @@ export class OutputStreamScreen {
             case "list":
                 this.printList(printJob.parameters);
                 break;
+            case "CMDDesc":
+                this.printCMDDesc(printJob.parameters);
         }
     }
 }

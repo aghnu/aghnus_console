@@ -1,7 +1,9 @@
+import { ProgramCore } from "./programExe";
 import { createHTMLElement } from "./utilities";
+import { OutputStreamJob } from "./ioStream";
 
 export class KeyboardController {
-    constructor(inputStream) {
+    constructor(inputStream, outputStream) {
         this.keyAllowedShowSet = new Set([
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
             "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", 
@@ -18,6 +20,7 @@ export class KeyboardController {
 
         this.specialKeyHandlers = {};
         this.inputStream = inputStream;
+        this.outputStream = outputStream;
 
         // init
         this.#setUpSpecialKey();
@@ -153,7 +156,21 @@ export class KeyboardController {
     #setUpSpecialKey() {
         this.addSpecialKey('Backspace', () => {
             this.inputStream.updateInput(this.inputStream.getInput().slice(0, -1));
-        })
+        });
+
+        this.addSpecialKey('Enter', () => {
+            const programCore = ProgramCore.getInstance();
+            const inputCMD = this.inputStream.getInput();
+            this.inputStream.updateInput("");
+            
+            if (inputCMD === "") {
+                this.outputStream.print(new OutputStreamJob('line', {'height': 1}));
+            } else {
+                programCore.execute(inputCMD , {outStream: this.outputStream});
+            }
+            
+            
+        });
     }
 
     keyIsAllowedShow(key) {

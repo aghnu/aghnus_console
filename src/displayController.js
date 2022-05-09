@@ -1,6 +1,6 @@
 import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
-import { keyboardExe,clearExe } from "./programExe";
+import { keyboardExe,clearExe,helpExe,contactExe,aboutExe,projectsExe } from "./programExe";
 
 export class DisplayController {
     #promptStr = "guest@aghnu.me:/$:&nbsp";
@@ -19,15 +19,22 @@ export class DisplayController {
         this.#createInputPrompt();
         this.#createFooter();
         this.#createFunctionKeys();
-        this.#connectOutputStream();
+        this.#connectOutputInputStream();
     }
 
     refresh() {
         this.#inputPromptEl.scrollIntoView(true);
     }
 
-    #connectOutputStream() {
-        this.out.subscribe(() => {this.refresh()});
+    #connectOutputInputStream() {
+        
+        this.out.subscribe(() => {
+            this.refresh();
+        });
+
+        this.in.subscribe(() => {
+            this.refresh();
+        })
     }
 
     #createFunctionKeys() {
@@ -41,8 +48,7 @@ export class DisplayController {
                 'text': 'keyboard',
                 'col': 'left',
                 'func': () => {
-                    keyboardExe();
-                    this.refresh();
+                    keyboardExe({'outStream': this.out});
                 },
             },
             {
@@ -57,25 +63,33 @@ export class DisplayController {
                 'type': 'help',
                 'text': 'help',
                 'col': 'right',
-                'func': () => {},
+                'func': () => {
+                    helpExe({'outStream': this.out});
+                },
             },
             {
                 'type': 'contact',
                 'text': 'contact',
                 'col': 'left',
-                'func': () => {},
+                'func': () => {
+                    contactExe({'outStream': this.out});
+                },
             },
             {
                 'type': 'about',
                 'text': 'about',
                 'col': 'middle',
-                'func': () => {},
+                'func': () => {
+                    aboutExe({'outStream': this.out});
+                },
             },
             {
-                'type': 'github',
+                'type': 'projects',
                 'text': 'projects',
                 'col': 'right',
-                'func': () => {},
+                'func': () => {
+                    projectsExe({'outStream': this.out});
+                },
             },
         ];
 
