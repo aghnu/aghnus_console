@@ -33,7 +33,7 @@ $terminal-text-color-secondary:     #de9835;
 
         .name {
             display: flex;
-            width: 20%;
+            width: 30%;
             gap: 5px;
             .name-text {
                 color: $terminal-text-color-secondary;
@@ -45,7 +45,7 @@ $terminal-text-color-secondary:     #de9835;
 
 
         .container {
-            width: 65%;  
+            width: 50%;  
             .link {
                 display: block;
                 text-decoration: none;
@@ -65,13 +65,13 @@ $terminal-text-color-secondary:     #de9835;
         justify-content: space-between;
 
         .name {
-            width: 20%;
+            width: 30%;
             color: $terminal-text-color-secondary;
             cursor: pointer;
         }
 
         .desc {
-            width: 65%;
+            width: 50%;
         }
 
     }
@@ -82,7 +82,7 @@ $terminal-text-color-secondary:     #de9835;
         justify-content: space-between;
 
         .container {
-            width: 20%;
+            width: 30%;
             
             cursor: pointer;
             .name {
@@ -97,7 +97,7 @@ $terminal-text-color-secondary:     #de9835;
         }
 
         .desc {
-            width: 65%;
+            width: 50%;
         }
 
     }
