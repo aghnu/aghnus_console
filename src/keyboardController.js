@@ -84,7 +84,7 @@ export class KeyboardController {
                         if (keyPressed === true) {
                             continueTypingInterval = setInterval(() => {
                                 this.pressKey(key);
-                            }, 50);
+                            }, 30);
                         }
                     }, 500);
                 }

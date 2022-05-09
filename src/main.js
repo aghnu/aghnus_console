@@ -2,9 +2,9 @@ import { DisplayController } from "./displayController";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-import { welcomeMsgs } from "./textList";
 import "./style/style.scss";
 import { KeyboardController } from "./keyboardController";
+import { ProgramCore } from "./programExe";
 
 
 function createHTMLStructure() {
@@ -16,10 +16,14 @@ function createHTMLStructure() {
     const third_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
     const third_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container', 'class': 'noselect'});
     const third_layer_footer = createHTMLElement('div','',{'id': 'footer'});
+
+    const terminal_container_output = createHTMLElement('div', '', {'id': 'terminal-output'});
     
     const function_key_container_left = createHTMLElement('div', '', {'class': 'container left'});
     const function_key_container_middle = createHTMLElement('div', '', {'class': 'container middle'});
     const function_key_container_right = createHTMLElement('div', '', {'class': 'container right'});
+
+    third_layer_terminal_container.appendChild(terminal_container_output);
 
     third_layer_function_key_container.appendChild(function_key_container_left);
     third_layer_function_key_container.appendChild(function_key_container_middle);
@@ -45,14 +49,13 @@ function main() {
         
         // init iostream
         const inStream = new InputStream();
-        const outStream = new OutputStreamScreen(document.querySelector("#terminal-container"));
+        const outStream = new OutputStreamScreen(document.querySelector("#terminal-container #terminal-output"));
 
-
+        const programCore = new ProgramCore();
         const displayController = new DisplayController(inStream, outStream);
         const keyboardController = new KeyboardController(inStream);
-        // // welcome message
-        displayController.print(welcomeMsgs);
     
+        programCore.execute('/welcome', {"outStream": outStream});
     });
 }
 
