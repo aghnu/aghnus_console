@@ -27,7 +27,7 @@ $terminal-text-color-secondary:     #de9835;
         }
     }
 
-    .terminal-link {
+    #terminal-link {
         display: flex;
         justify-content: space-between;
 
@@ -68,6 +68,32 @@ $terminal-text-color-secondary:     #de9835;
             width: 20%;
             color: $terminal-text-color-secondary;
             cursor: pointer;
+        }
+
+        .desc {
+            width: 65%;
+        }
+
+    }
+
+
+    #terminal-project {
+        display: flex;
+        justify-content: space-between;
+
+        .container {
+            width: 20%;
+            
+            cursor: pointer;
+            .name {
+                color: $terminal-text-color-secondary;
+            }
+
+            .link {
+                display: block;
+                text-decoration: none;
+                width: fit-content;
+            }
         }
 
         .desc {

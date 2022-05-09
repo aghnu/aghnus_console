@@ -82,7 +82,7 @@ export class OutputStreamScreen {
     }
 
     printLink(param) {
-        const el = createHTMLElement('div', '', {'class': 'terminal-link', "href": param.link});
+        const el = createHTMLElement('div', '', {'id': 'terminal-link'});
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
         const link_icon = createHTMLElement('div', icon[param.type]('#984511', '24px'), {'class': 'icon'});
@@ -118,6 +118,27 @@ export class OutputStreamScreen {
         el.appendChild(cmd_name);
         el.appendChild(cmd_sep);
         el.appendChild(cmd_desc);
+
+        this.append(el);
+    }
+
+    printProject(param) {
+        const el = createHTMLElement('div', '', {'id': 'terminal-project'});
+        
+        const pro_container = createHTMLElement('div', '', {'class': 'container'})
+        const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link});
+        const pro_name = createHTMLElement('p', param.name, {'class': 'name'});
+
+        const pro_sep = createHTMLElement('p', '-', {'class': 'sep'});
+
+        const pro_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
+        
+        pro_link.appendChild(pro_name);
+        pro_container.appendChild(pro_link);
+
+        el.appendChild(pro_container);
+        el.appendChild(pro_sep);
+        el.appendChild(pro_desc);
 
         this.append(el);
     }
@@ -184,6 +205,10 @@ export class OutputStreamScreen {
                 break;
             case "CMDDesc":
                 this.printCMDDesc(printJob.parameters);
+                break;
+            case "project":
+                this.printProject(printJob.parameters);
+                break;
         }
     }
 }
