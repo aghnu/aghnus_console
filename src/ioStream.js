@@ -91,7 +91,7 @@ export class OutputStreamScreen {
         const link_sep = createHTMLElement('p', '-', {'class': 'sep'});
 
         const link_container = createHTMLElement('div', '', {'class': 'container'})
-        const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link});
+        const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
         const link_text = createHTMLElement('p', param.text, {'class': 'text'});
         
         link_name_container.appendChild(link_icon);
@@ -126,7 +126,7 @@ export class OutputStreamScreen {
         const el = createHTMLElement('div', '', {'id': 'terminal-project'});
         
         const pro_container = createHTMLElement('div', '', {'class': 'container'})
-        const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link});
+        const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
         const pro_name = createHTMLElement('p', param.name, {'class': 'name'});
 
         const pro_sep = createHTMLElement('p', '-', {'class': 'sep'});

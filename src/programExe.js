@@ -150,7 +150,7 @@ export function projectsExe(param) {
             new Job("text", {text: "Current Projects:"}),
             new Job("line", {height: 1}),
             new Job("project", {name: "Jia's Lab", desc: "Dr. Huijue Jia's personal website.", link: "https://jiaslab-org.github.io/"}),
-            new Job("project", {name: "Stranding Air", desc: "A website for a group of passionate people who are interested in exploring the boundary of visual design, art, media, and technology.", link: "https://github.com/StrandingAir-Group/StrandingAir-Group.github.io"}),            
+            new Job("project", {name: "Stranding Air", desc: "A website for a group of passionate people who are interested in exploring the boundary of visual design, art, media, and technology.", link: "https://www.strandingair.com"}),            
             new Job("project", {name: "Aghnu's Console", desc: "A personal project that shows my frustration and my passion for Human-Computer Interaction. Oh... It also serves as my personal website.", link: "https://github.com/aghnu/aghnu.github.io"}),
             new Job("project", {name: "WNFA", desc: "WNFA (Words Never Fall Apart) is an interactive art project that uses grid method and machine learning to generate art from handwritten poems.", link: "https://github.com/aghnu/WNFA"}),
 
