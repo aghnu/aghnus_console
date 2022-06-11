@@ -51,10 +51,12 @@ function main() {
         const inStream = new InputStream();
         const outStream = new OutputStreamScreen(document.querySelector("#terminal-container #terminal-output"));
 
-        const programCore = new ProgramCore();
-        const displayController = new DisplayController(inStream, outStream);
-        const keyboardController = new KeyboardController(inStream, outStream);
+        // singletons
+        new ProgramCore();
+        new DisplayController(inStream, outStream);
+        new KeyboardController(inStream, outStream);
     
+        // default
         welcomeExe({"outStream": outStream});
     });
 }

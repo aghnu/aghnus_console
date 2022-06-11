@@ -21,7 +21,15 @@ $terminal-text-color-secondary:     #de9835;
         line-height: $terminal-line-height;
         margin: 0;
         word-wrap: break-word;
-        
+
+        .highlight {
+            color: $terminal-text-color-focus;
+        }
+
+        a {
+            color: $terminal-text-color-secondary;
+        }
+
         &::-moz-selection {
             color: $terminal-background-color;
             background: $terminal-text-color-primary;            

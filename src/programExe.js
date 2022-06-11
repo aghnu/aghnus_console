@@ -55,22 +55,24 @@ export function welcomeExe(param) {
     // print to out
     param.outStream.print(new Job("list", {
         list: [
-            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ :)<br>Name is Gengyuan Huang<br>A programmer..."}),
+            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ :)<br>My name is Gengyuan Huang, a programmer..."}),
             new Job("line", {height: 1}),
 
-            new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree...<br>I have rent to pay, and a mouth to feed (my mouth)... -> I am open to work!"}),
+            new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree...<br>I have rent to pay, and a mouth to feed (my mouth)... -> <span class='highlight'>I am open to work!</span>"}),
             new Job("line", {height: 1}),
 
-            new Job("text", {text: 'If you wish to know more about me, my life or my cat...<br>or my social insurance number<br>please type or click -> "help"'}),
+            new Job("text", {text: 'If you wish to know more about me, my life or my cat... or my social insurance number<br>please type or click -> "help"'}),
             new Job("line", {height: 1}),
 
-            new Job("text", {text: "This is my personal website. It is a fun project designed and programmed by me, using pure JavaScript"}),
-            new Job("text", {text: 'If you want to learn more about this project<br>please type or click -> "about"'}),
+            new Job("text", {text: 'If you want to learn more about my website<br>please type or click -> "about"'}),
             new Job("line", {height: 1}),
 
             new Job("text", {text: 'If you wish to contact me<br>please type or click -> "contact"'}),
             new Job("line", {height: 1}),
 
+            
+            new Job("text", {text: "Check out this client side ASCII Art Generator I wrote using opencv.js: <a target='_blank' href='https://www.aghnu.me/tools/ascii_art_generator/' >Aghnu's ASCII Art Generator</a>"}),
+            new Job("line", {height: 1}),
         ],
         min_interval: 0, max_interval: 150,
     }));
@@ -79,7 +81,10 @@ export function welcomeExe(param) {
 export function aboutExe(param) {
     param.outStream.print(new Job("list", {
         list: [
-            new Job("text", {text: "Under Construction :)"}),
+            new Job("text", {text: "To know more about this website: "}),
+            new Job("text", {text: "- <a target='_blank' href='https://github.com/aghnu/aghnu.github.io' >https://github.com/aghnu/aghnu.github.io</a>"}),
+            new Job("text", {text: "- <a target='_blank' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
+
             new Job("line", {height: 1}),
 
         ],
@@ -139,19 +144,30 @@ export function projectsExe(param) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "Past Projects:"}),
-            new Job("line", {height: 1}),
+            new Job("line", {height: 2}),
             new Job("project", {name: "Yonder", desc: "Yonder is a distributed social network using RESTful API. (UAlberta CMPUT404 class project)", link: "https://github.com/aghnu/yonder"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "MoodSwing", desc: "MoodSwing is a Java-based android app designed to record and archive user’s mood in relation to geo location and time. Users can follow each other on MoodSwing and view their friend's mood records. (UAlberta CMPUT301 class project)", link: "https://github.com/aghnu/MoodSwing"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "A python implementation of Hollow Heap", desc: "hollow_heap.py is a python implementation of Hollow Heap base on Thomas Dueholm Hansen, Haim Kaplan, Robert E. Tarjan, Uri Zwick 's paper https://arxiv.org/abs/1510.06535. (UAlberta CMPUT403 class project)", link: "https://github.com/aghnu/Hollow_Heap"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "XiaoHongShu Userscript", desc: "a tampermonkey userscript to export xiaohongshu.com search query result to speadsheet ", link: "https://github.com/aghnu/xiaohongshu_search_export_userscript"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "Interactive Moodle Plugin", desc: "This plugin is a Moodle Activity Module that is developed for Delphi technology as part of their future online learning platform for aviators. (UAlberta CMPUT401 class project)", link: "https://github.com/aghnu/Interactive-Moodle-Plugin-Showcase"}),
+            new Job("line", {height: 1}),
+            new Job("project", {name: "Jia's Lab", desc: "Dr. Huijue Jia's personal website.", link: "https://jiaslab-org.github.io/"}),
             new Job("line", {height: 1}),
 
             new Job("text", {text: "Current Projects:"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "Jia's Lab", desc: "Dr. Huijue Jia's personal website.", link: "https://jiaslab-org.github.io/"}),
+            new Job("line", {height: 2}),
             new Job("project", {name: "Stranding Air", desc: "A website for a group of passionate people who are interested in exploring the boundary of visual design, art, media, and technology.", link: "https://www.strandingair.com"}),            
+            new Job("line", {height: 1}),
+            new Job("project", {name: "GFE.js", desc: "GFE is a simplification of the project libgif-js. It provides a function to extract the frames of a gif.", link: "https://github.com/aghnu/gif_frames_extract_js"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "Aghnu's Console", desc: "A personal project that shows my frustration and my passion for Human-Computer Interaction. Oh... It also serves as my personal website.", link: "https://github.com/aghnu/aghnu.github.io"}),
+            new Job("line", {height: 1}),
+            new Job("project", {name: "Aghnu's ASCII Art Generator", desc: "An ASCII Art Toolkit Website written in JavaScript, using opencv.js. Code is running on client side. It supports gif and static images convertion. The output is displayed as HTML elements and animated by JavaScript.<span class='highlight'>(Website Link: <a target='_blank' href='https://www.aghnu.me/tools/ascii_art_generator/' >https://www.aghnu.me/tools/ascii_art_generator/</a>)</span>", link: "https://github.com/aghnu/aghnus_ascii_art_generator"}),
+            new Job("line", {height: 1}),
             new Job("project", {name: "WNFA", desc: "WNFA (Words Never Fall Apart) is an interactive art project that uses grid method and machine learning to generate art from handwritten poems.", link: "https://github.com/aghnu/WNFA"}),
 
             new Job("line", {height: 1}),
