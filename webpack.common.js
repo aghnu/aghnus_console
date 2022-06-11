@@ -1,19 +1,6 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/main.js',
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'site/assets/'),
-    },
-
-    plugins: [
-      new HtmlWebpackPlugin({
-        title: "Aghnu's Console | Gengyuan Huang's Website",
-        filename: '../index.html'
-      })
-    ],
 
     module: {
       rules: [
