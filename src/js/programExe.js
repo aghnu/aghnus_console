@@ -50,7 +50,6 @@ const PROGRAM_META = [
         name:'projects',
         func: projectsExe,
         desc: 'list all the projects that I worked on',
-        star: true,
 
     },
 
