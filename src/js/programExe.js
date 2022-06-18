@@ -21,7 +21,7 @@ const PROGRAM_META = [
         name: 'help',
         func: helpExe,
         desc: 'list all the commands that aghnu.me currently supports',
-
+        star: true,
     },
 
     {
@@ -35,6 +35,7 @@ const PROGRAM_META = [
         name: 'contact',
         func: contactExe,
         desc: 'list my contact information',
+        star: true,
 
     },
 
@@ -49,6 +50,7 @@ const PROGRAM_META = [
         name:'projects',
         func: projectsExe,
         desc: 'list all the projects that I worked on',
+        star: true,
 
     },
 
@@ -61,7 +63,8 @@ const PROGRAM_META = [
     {
         name: 'noscript',
         func: noscriptExe,
-        desc: 'display the simplified noscript version of aghnu.me, reduced functionilities but information is condensed',
+        desc: 'display the simplified text-based version of aghnu.me, reduced functionilities but information is condensed',
+        star: true,
     },
 ]
 
@@ -114,7 +117,7 @@ function genProcessID() {
 
 export function noscriptExe(param) {
     const pid = genProcessID();
-    lockSystem(pid, 'System is Currently Occupied');
+    lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
     const answer_yes = createHTMLElement('span', 'YES', {class: 'focus clickable'}); 
     const answer_no = createHTMLElement('span', 'NO', {class: 'focus clickable'});
@@ -172,83 +175,61 @@ export function noscriptExe(param) {
             answer_yes.onclick = null;
             answer_no.onclick = null;
         } else {
-            param.outStream.print(new Job("text", {text: '"noscript": Please type or click your options'}));
+            param.outStream.print(new Job("text", {text: '<span class="highlight">[Pick your options to continue]</span>'}));
         }
     });
 }
 
 export function welcomeExe(param) {
     // print to out
+    const pid = genProcessID();
+    lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
+
     param.outStream.print(new Job("list", {
         list: [
-            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ :)<br>My name is Gengyuan Huang, a programmer..."}),
-            new Job("line", {height: 1}),
-
-            new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree...<br>I have rent to pay, and a mouth to feed (my mouth)... -> <span class='highlight'>I am open to work!</span>"}),
-            new Job("line", {height: 1}),
-
             new Job("custom", {element: (()=>{
-                const container = createHTMLElement('p', 'If you need help navigating the site<br>please type or click -> ');
-                const clickEl = createHTMLElement('span', '"help"', {class: 'highlight clickable'});
-                container.appendChild(clickEl);
+                const container = createHTMLElement('div', '', {id: 'pid-' + pid});
+                const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
+                const text = createHTMLElement('p', '<span class="highlight">System Ver. 2022.06.18.01</span>')
 
-                clickEl.style.cursor = 'pointer';
-                clickEl.addEventListener('click', () => {
-                    ProgramCore.getInstance().execute('help', {'outStream': param.outStream});
-                });
+                container.appendChild(logo);
+                container.appendChild(text);
 
                 return container;
+
             })()}),
+            new Job("separator", {height: 1}),
+
+            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ ;] My name is Gengyuan Huang, a programmer..."}),
             new Job("line", {height: 1}),
 
-            new Job("custom", {element: (()=>{
-                const container = createHTMLElement('p', 'If you want to learn more about my website<br>please type or click ->');
-                const clickEl = createHTMLElement('span', '"about"', {class: 'highlight clickable'});
-                container.appendChild(clickEl);
+            new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree... I have rent to pay, and a mouth to feed (my mouth)... <span class='highlight'>I am open to work!</span>"}),
+            new Job("separator", {height: 1}),
 
-                clickEl.style.cursor = 'pointer';
-                clickEl.addEventListener('click', () => {
-                    ProgramCore.getInstance().execute('about', {'outStream': param.outStream});
-                });
-
-                return container;
-            })()}),
-            new Job("line", {height: 1}),
-
-            new Job("custom", {element: (()=>{
-                const container = createHTMLElement('p', 'If you wish to know more about me, my life or my cat... or my social insurance number<br>please type or click -> ');
-                const clickEl = createHTMLElement('span', '"contact"', {class: 'highlight clickable'});
-                container.appendChild(clickEl);
-
-                clickEl.style.cursor = 'pointer';
-                clickEl.addEventListener('click', () => {
-                    ProgramCore.getInstance().execute('contact', {'outStream': param.outStream});
-                });
-
-                return container;
-            })()}),
-            new Job("line", {height: 1}),
-
-            new Job("custom", {element: (()=>{
-                const container = createHTMLElement('p', 'If you wish to switch to the traditional website<br>please type or click -> ');
-                const clickEl = createHTMLElement('span', '"noscript"', {class: 'highlight clickable'});
-                container.appendChild(clickEl);
-
-                clickEl.style.cursor = 'pointer';
-                clickEl.addEventListener('click', () => {
-                    ProgramCore.getInstance().execute('noscript', {'outStream': param.outStream});
-                });
-
-                return container;
-            })()}),
-            new Job("line", {height: 1}),
+            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
+            ...(()=>{
+                const list = [];
+                PROGRAM_META.forEach(p => {
+                    if (p.star) {
+                        list.push(new Job("line", {height: 1}));
+                        list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+                            ProgramCore.getInstance().execute(p.name, {'outStream': param.outStream});
+                        }}));
+                        
+                    }
+                })
+                return list;              
+            })(),
+            new Job("separator", {height: 1}),
 
             new Job("text", {text: "Check out this client side ASCII Art Generator I wrote using opencv.js: <a target='_blank' href='https://www.aghnu.me/tools/ascii_art_generator/' >Aghnu's ASCII Art Generator</a>"}),
             new Job("line", {height: 1}),
-
-
+            new Job("lambda", {func: ()=>{
+                unlockSystem(pid);
+                
+            }})
         ],
-        min_interval: 0, max_interval: 150,
+        min_interval: 200, max_interval: 800,
     }));
 }
 
@@ -387,7 +368,7 @@ export class ProgramCore {
                 param.outStream.print(new OutputStreamJob('text', {'text': ">&nbsp" + cmd}));
                 
                 if (this.path[cmd] === undefined) {
-                    param.outStream.print(new OutputStreamJob('text', {'text': "Command Not Found"}));
+                    param.outStream.print(new OutputStreamJob('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
                     param.outStream.print(new OutputStreamJob('line', {'height': 1}));
                 } else {
                     this.path[cmd].exe(param);

@@ -1,5 +1,5 @@
-$terminal-font-size:                20px;
-$terminal-line-height:              24px;
+$terminal-font-size:                18px;
+$terminal-line-height:              20px;
 $function-key-font-size:            18px;
 $function-key-line-height:          26px;
 
@@ -16,7 +16,7 @@ $terminal-text-color-secondary:     #de9835;
     margin: auto;
     margin-top: 2em;
     margin-bottom: 2em;
-    font-size: 19px;
+    font-size: 18px;
     color: $terminal-text-color-primary;
 
     h1, h2, h3, p {
@@ -121,6 +121,10 @@ $terminal-text-color-secondary:     #de9835;
     }
 }
 
+.separator {
+    width: 100%;
+    text-align: left;
+}
 
 #site-app {
     display: none;
@@ -146,6 +150,11 @@ $terminal-text-color-secondary:     #de9835;
 
         .focus {
             color: $terminal-text-color-secondary;
+        }
+
+        .double-line {
+            line-height: calc(#{$terminal-line-height} * 2);
+            font-size: 2em;
         }
 
         .clickable {
@@ -200,13 +209,13 @@ $terminal-text-color-secondary:     #de9835;
         justify-content: space-between;
 
         .name {
-            width: 30%;
+            width: 20%;
             color: $terminal-text-color-secondary;
             cursor: pointer;
         }
 
         .desc {
-            width: 50%;
+            width: 60%;
         }
 
     }
@@ -217,7 +226,7 @@ $terminal-text-color-secondary:     #de9835;
         justify-content: space-between;
 
         .container {
-            width: 30%;
+            width: 20%;
             
             cursor: pointer;
             .name {
@@ -232,7 +241,7 @@ $terminal-text-color-secondary:     #de9835;
         }
 
         .desc {
-            width: 50%;
+            width: 60%;
         }
 
     }

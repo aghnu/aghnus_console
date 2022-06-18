@@ -194,6 +194,13 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
+    printSep(param) {
+        this.printLine(param);
+        const el = createHTMLElement('p', "* * *", {class: 'separator'});
+        this.append(el);
+        this.printLine(param);
+    }
+
     print(printJob) {
         switch (printJob.type) {
             case "text":
@@ -214,8 +221,14 @@ export class OutputStreamScreen {
             case "project":
                 this.printProject(printJob.parameters);
                 break;
+            case "separator":
+                this.printSep(printJob.parameters);
+                break;
             case "custom":
                 this.printCustom(printJob.parameters);
+                break;
+            case "lambda":
+                printJob.parameters.func();
                 break;
         }
     }
