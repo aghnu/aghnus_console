@@ -189,6 +189,11 @@ export class OutputStreamScreen {
         }, min_interval, max_interval);
     }
 
+    printCustom(param) {
+        const el = param.element;
+        this.append(el);
+    }
+
     print(printJob) {
         switch (printJob.type) {
             case "text":
@@ -208,6 +213,9 @@ export class OutputStreamScreen {
                 break;
             case "project":
                 this.printProject(printJob.parameters);
+                break;
+            case "custom":
+                this.printCustom(printJob.parameters);
                 break;
         }
     }

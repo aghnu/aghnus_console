@@ -163,11 +163,8 @@ export class KeyboardController {
             const inputCMD = this.inputStream.getInput();
             this.inputStream.updateInput("");
             
-            if (inputCMD === "") {
-                this.outputStream.print(new OutputStreamJob('line', {'height': 1}));
-            } else {
-                programCore.execute(inputCMD , {outStream: this.outputStream});
-            }
+
+            programCore.execute(inputCMD , {outStream: this.outputStream});
             
             
         });

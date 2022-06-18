@@ -2,13 +2,14 @@ import { DisplayController } from "./displayController";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-import "./style/style.scss";
+import "../style/style.scss";
 import { KeyboardController } from "./keyboardController";
 import { ProgramCore,welcomeExe } from "./programExe";
 
 
 function createHTMLStructure() {
-    const top_layer = createHTMLElement('div','',{'id': 'top-layer', 'class':'layer clickthrough noselect'});
+    const site_app = createHTMLElement('div', '', {id: 'site-app'});
+
     const second_layer = createHTMLElement('div','',{'id': 'second-layer', 'class':'layer clickthrough noselect'});
     const third_layer = createHTMLElement('div','',{'id': 'third-layer', 'class':'layer'});
 
@@ -34,31 +35,43 @@ function createHTMLStructure() {
     third_layer.appendChild(third_layer_function_key_container);
     third_layer.appendChild(third_layer_footer);
 
+    site_app.appendChild(second_layer);
+    site_app.appendChild(third_layer);
 
-    document.body.appendChild(top_layer);
-    document.body.appendChild(second_layer);
-    document.body.appendChild(third_layer);
+    document.body.appendChild(site_app);
 
+    return site_app;
 }   
 
 function main() {
-    // when dom css assets loaded
-    window.addEventListener('load', () => {
-        // setup html structure
-        createHTMLStructure();
-        
-        // init iostream
-        const inStream = new InputStream();
-        const outStream = new OutputStreamScreen(document.querySelector("#terminal-container #terminal-output"));
+    // init iostream
+    const inStream = new InputStream();
+    const outStream = new OutputStreamScreen(document.querySelector("#terminal-container #terminal-output"));
 
-        // singletons
-        new ProgramCore();
-        new DisplayController(inStream, outStream);
-        new KeyboardController(inStream, outStream);
-    
-        // default
-        welcomeExe({"outStream": outStream});
-    });
+    // singletons
+    new ProgramCore();
+    new DisplayController(inStream, outStream);
+    new KeyboardController(inStream, outStream);
+
+    // default
+    welcomeExe({"outStream": outStream});
+
 }
 
-main();
+window.addEventListener('load', () => {
+    // setup html structure
+    const site_app = createHTMLStructure();
+    const site_semantic = document.querySelector('#site-semantic');
+
+    // setup site app
+    main();
+
+    // switch between semantic and app by users choice
+    const url = new URL(window.location);
+    const isSimple = (url.searchParams.get('simple')) ? (url.searchParams.get('simple')) : 'false';    
+    if (isSimple === 'true') {
+        site_semantic.style.display = 'block';
+    } else {
+        site_app.style.display = 'block';
+    }
+});

@@ -1,6 +1,15 @@
 html {
-    overflow: hidden;
-    background-color: black;
+    // overflow: hidden;
+    background-color:black;
     color: white;
     font-family: "Classic Console Neue";
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    word-break: break-all;
 }

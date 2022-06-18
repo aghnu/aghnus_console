@@ -14,8 +14,8 @@ module.exports = merge(common, {
   
     plugins: [
         new HtmlWebpackPlugin({
-            title: "Aghnu's Console | Gengyuan Huang's Website",
-            filename: 'index.html'
+            filename: 'index.html',
+            template: './src/template/index.html'
         })
     ],
 

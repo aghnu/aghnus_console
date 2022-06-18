@@ -1,6 +1,6 @@
 import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
-import { keyboardExe,clearExe,helpExe,contactExe,aboutExe,projectsExe } from "./programExe";
+import { ProgramCore } from "./programExe";
 
 export class DisplayController {
     #promptStr = "guest@aghnu.me:/$:&nbsp";
@@ -48,7 +48,7 @@ export class DisplayController {
                 'text': 'keyboard',
                 'col': 'left',
                 'func': () => {
-                    keyboardExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('keyboard', {'outStream': this.out});
                 },
             },
             {
@@ -56,7 +56,7 @@ export class DisplayController {
                 'text': 'clear',
                 'col': 'middle',
                 'func': () => {
-                    clearExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('clear', {'outStream': this.out});
                 },
             },
             {
@@ -64,7 +64,7 @@ export class DisplayController {
                 'text': 'help',
                 'col': 'right',
                 'func': () => {
-                    helpExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('help', {'outStream': this.out});
                 },
             },
             {
@@ -72,7 +72,7 @@ export class DisplayController {
                 'text': 'contact',
                 'col': 'left',
                 'func': () => {
-                    contactExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('contact', {'outStream': this.out});
                 },
             },
             {
@@ -80,7 +80,7 @@ export class DisplayController {
                 'text': 'about',
                 'col': 'middle',
                 'func': () => {
-                    aboutExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('about', {'outStream': this.out});
                 },
             },
             {
@@ -88,7 +88,7 @@ export class DisplayController {
                 'text': 'projects',
                 'col': 'right',
                 'func': () => {
-                    projectsExe({'outStream': this.out});
+                    ProgramCore.getInstance().execute('projects', {'outStream': this.out});
                 },
             },
         ];
