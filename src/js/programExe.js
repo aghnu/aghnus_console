@@ -2,7 +2,7 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-const SYSTEM_VERSION = '2022.06.20.01';
+const SYSTEM_VERSION = '2022.06.20.03';
 
 const program_lock = {
     'pid': "",
@@ -251,14 +251,14 @@ function welcomeExe(param) {
             })(),
             new Job("separator", {height: 1}),
 
-            new Job("text", {text: "Check out this client side ASCII Art Generator I wrote using opencv.js: <a target='_blank' href='https://www.aghnu.me/tools/ascii_art_generator/' >Aghnu's ASCII Art Generator</a>"}),
+            new Job("text", {text: "Check out this client side ASCII Art Generator I wrote using opencv.js: <a target='_blank' class='focus clickable' href='https://www.aghnu.me/tools/ascii_art_generator/' >Aghnu's ASCII Art Generator</a>"}),
             new Job("line", {height: 1}),
             new Job("lambda", {func: ()=>{
                 unlockSystem(pid);
                 
             }})
         ],
-        min_interval: 100, max_interval: 300,
+        min_interval: 150, max_interval: 250,
     }));
 }
 
