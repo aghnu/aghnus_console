@@ -84,8 +84,12 @@ const PROGRAM_HIDDEN = [
         name: 'man',
         func: helpExe,
     },
+    {
+        name: 'unlock',
+        func: unlockExe,
+    },
 ]
-const PROGRAM_ASYNC = ['keyboard'];
+const PROGRAM_ASYNC = ['keyboard', 'unlock'];
 
 function lockSystem(pid, message="", input_func=null) {
     // no real mutex
@@ -132,6 +136,10 @@ function unlockSystem(pid) {
 let pidCounter = 0;
 function genProcessID() {
     return pidCounter++;
+}
+
+function unlockExe() {
+    unlockSystem(program_lock.pid);
 }
 
 function exitExe() {
@@ -254,12 +262,12 @@ function welcomeExe(param) {
     }));
 }
 
-export function aboutExe(param) {
+function aboutExe(param) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To know more about this website: "}),
-            new Job("text", {text: "- <a target='_blank' href='https://github.com/aghnu/aghnu.github.io' >https://github.com/aghnu/aghnu.github.io</a>"}),
-            new Job("text", {text: "- <a target='_blank' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.github.io' >https://github.com/aghnu/aghnu.github.io</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
 
             new Job("line", {height: 1}),
 
@@ -268,7 +276,7 @@ export function aboutExe(param) {
     }));
 }
 
-export function helpExe(param) {
+function helpExe(param) {
     param.outStream.print(new Job("list", {
         list: (()=>{
             const list = [];
@@ -288,11 +296,11 @@ export function helpExe(param) {
     }));
 }
 
-export function clearExe(param) {
+function clearExe(param) {
     param.outStream.clear();
 }
 
-export function contactExe(param) {
+function contactExe(param) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To contact me:"}),
@@ -306,7 +314,7 @@ export function contactExe(param) {
     }));
 }
 
-export function keyboardExe(param) {
+function keyboardExe(param) {
     const keyboard = document.querySelector('#virtual-keyboard');
     if (keyboard) {
         keyboard.classList.toggle('on');
@@ -315,8 +323,7 @@ export function keyboardExe(param) {
     param.outStream.broadCast();
 }
 
-
-export function projectsExe(param) {
+function projectsExe(param) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "Past Projects:"}),
@@ -340,7 +347,7 @@ export function projectsExe(param) {
             new Job("line", {height: 1}),
             new Job("project", {name: "Aghnu's Console", desc: "A personal project that shows my frustration and my passion for Human-Computer Interaction. Oh... It also serves as my personal website.", link: "https://github.com/aghnu/aghnu.github.io"}),
             new Job("line", {height: 1}),
-            new Job("project", {name: "Aghnu's ASCII Art Generator", desc: "An ASCII Art Toolkit Website written in JavaScript, using opencv.js. Code is running on client side. It supports gif and static images convertion. The output is displayed as HTML elements and animated by JavaScript.<span class='highlight'>(Website Link: <a target='_blank' href='https://www.aghnu.me/tools/ascii_art_generator/' >https://www.aghnu.me/tools/ascii_art_generator/</a>)</span>", link: "https://github.com/aghnu/aghnus_ascii_art_generator"}),
+            new Job("project", {name: "Aghnu's ASCII Art Generator", desc: "An ASCII Art Toolkit Website written in JavaScript, using opencv.js. Code is running on client side. It supports gif and static images convertion. The output is displayed as HTML elements and animated by JavaScript.<span class='highlight'>(Website Link: <a target='_blank' class='clickable focus' href='https://www.aghnu.me/tools/ascii_art_generator/' >https://www.aghnu.me/tools/ascii_art_generator/</a>)</span>", link: "https://github.com/aghnu/aghnus_ascii_art_generator"}),
             new Job("line", {height: 1}),
             new Job("project", {name: "WNFA", desc: "WNFA (Words Never Fall Apart) is an interactive art project that uses grid method and machine learning to generate art from handwritten poems.", link: "https://github.com/aghnu/WNFA"}),
 

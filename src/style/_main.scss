@@ -21,10 +21,15 @@ $terminal-text-color-secondary:     #de9835;
 }
 
 
-body {
-    
+body { 
     p {
         color: $terminal-text-color-primary;
+        font-size: $terminal-font-size;
+        line-height: $terminal-line-height;
+        margin: 0;
+        word-wrap: break-word;
+        @include override_select_color($terminal-background-color, $terminal-text-color-primary);
+
     }
 
     .highlight {
@@ -45,6 +50,13 @@ body {
 
     .clickable {
         text-decoration: underline;
+    }
+
+    a {
+        text-decoration: none;
+        all: unset;
+        word-break: break-all;
+        cursor: pointer;
     }
 
     .separator {
@@ -178,21 +190,8 @@ body {
 
 #site-app {
     display: none;
-    @include override_select_color($terminal-background-color, $terminal-text-color-primary);
 
     #terminal-container {
-        p {
-            font-size: $terminal-font-size;
-            line-height: $terminal-line-height;
-            margin: 0;
-            word-wrap: break-word;
-    
-            a {
-                color: $terminal-text-color-secondary;
-                @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
-
-            }
-        }
     
         #terminal-link {
             display: flex;
