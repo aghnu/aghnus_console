@@ -4,7 +4,7 @@ import { createHTMLElement } from "./utilities";
 
 import "../style/style.scss";
 import { KeyboardController } from "./keyboardController";
-import { ProgramCore,welcomeExe } from "./programExe";
+import { ProgramCore } from "./programExe";
 
 
 function createHTMLStructure() {
@@ -54,8 +54,7 @@ function main() {
     new KeyboardController(inStream, outStream);
 
     // default
-    welcomeExe({"outStream": outStream});
-
+    ProgramCore.getInstance().execute('welcome', {"outStream": outStream});
 }
 
 window.addEventListener('load', () => {

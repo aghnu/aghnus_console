@@ -2,6 +2,8 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
+const SYSTEM_VERSION = '2022.06.20.01';
+
 const program_lock = {
     'pid': "",
     'locked': false,
@@ -65,7 +67,24 @@ const PROGRAM_META = [
         star: true,
     },
 ]
-
+const PROGRAM_HIDDEN = [
+    {
+        name: 'exit',
+        func: exitExe,
+    },
+    {
+        name: 'close',
+        func: exitExe,
+    },
+    {
+        name: 'cmd',
+        func: helpExe,
+    },
+    {
+        name: 'man',
+        func: helpExe,
+    },
+]
 const PROGRAM_ASYNC = ['keyboard'];
 
 function lockSystem(pid, message="", input_func=null) {
@@ -115,7 +134,12 @@ function genProcessID() {
     return pidCounter++;
 }
 
-export function noscriptExe(param) {
+function exitExe() {
+    document.querySelector('#site-app').style.display = 'none';
+    document.querySelector('#site-semantic').style.display = 'block';
+}
+
+function noscriptExe(param) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -161,8 +185,7 @@ export function noscriptExe(param) {
         if (cmd === 'y' || cmd === 'Y') {
             unlockSystem(pid);
             param.outStream.print(new Job("line", {height: 1}));
-            document.querySelector('#site-app').style.display = 'none';
-            document.querySelector('#site-semantic').style.display = 'block';
+            exitExe();
 
             answer_yes.onclick = null;
             answer_no.onclick = null;
@@ -178,7 +201,7 @@ export function noscriptExe(param) {
     });
 }
 
-export function welcomeExe(param) {
+function welcomeExe(param) {
     // print to out
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
@@ -188,7 +211,7 @@ export function welcomeExe(param) {
             new Job("custom", {element: (()=>{
                 const container = createHTMLElement('div', '', {id: 'pid-' + pid});
                 const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
-                const text = createHTMLElement('p', '<span class="highlight">System Ver. 2022.06.18.01</span>')
+                const text = createHTMLElement('p', '<span class="highlight">System Ver. ' + SYSTEM_VERSION + '</span>')
 
                 container.appendChild(logo);
                 container.appendChild(text);
@@ -274,7 +297,6 @@ export function contactExe(param) {
         list: [
             new Job("text", {text: "To contact me:"}),
             new Job("link", {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}),
-            new Job("link", {link: "mailto:scotthuang007@outlook.com", name: "Email", text: "scotthuang007@outlook.com", type: "email"}),
             new Job("link", {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}),
             new Job("link", {link: "https://www.linkedin.com/in/gengyuan-huang", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),
             new Job("link", {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}),
@@ -355,6 +377,9 @@ export class ProgramCore {
         PROGRAM_META.forEach(exe => {
             this.path[exe.name] = {'exe': exe.func};
         });
+        PROGRAM_HIDDEN.forEach(exe => {
+            this.path[exe.name] = {'exe': exe.func};
+        })
     }
 
     execute(cmd, param) {
@@ -365,10 +390,8 @@ export class ProgramCore {
                 
                 if (this.path[cmd] === undefined) {
                     param.outStream.print(new OutputStreamJob('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
-                    param.outStream.print(new OutputStreamJob('line', {'height': 1}));
                 } else {
                     param.outStream.print(new OutputStreamJob('text', {'text': `<span class='highlight'>[${cmd}]</span>`}));
-                    param.outStream.print(new OutputStreamJob('line', {'height': 1}));
                     this.path[cmd].exe(param);
                 }                       
             }

@@ -86,13 +86,13 @@ export class OutputStreamScreen {
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
         const link_icon = createHTMLElement('div', icon[param.type]('#984511', '24px'), {'class': 'icon'});
-        const link_name = createHTMLElement('p', param.name, {'class': 'name-text'});
+        const link_name = createHTMLElement('p', param.name, {'class': 'name-text highlight'});
         
-        const link_sep = createHTMLElement('p', '-', {'class': 'sep'});
+        const link_sep = createHTMLElement('p', ':', {'class': 'sep'});
 
         const link_container = createHTMLElement('div', '', {'class': 'container'})
         const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const link_text = createHTMLElement('p', param.text, {'class': 'text'});
+        const link_text = createHTMLElement('p', param.text, {'class': 'text clickable focus'});
         
         link_name_container.appendChild(link_icon);
         link_name_container.appendChild(link_name);
@@ -109,8 +109,8 @@ export class OutputStreamScreen {
 
     printCMDDesc(param) {
         const el = createHTMLElement('div', '', {'id': 'terminal-cmddesc'});
-        const cmd_name = createHTMLElement('p', param.name, {'class': 'name'});
-        const cmd_sep = createHTMLElement('p', '-', {'class': 'sep'});
+        const cmd_name = createHTMLElement('p', param.name, {'class': 'name focus clickable'});
+        const cmd_sep = createHTMLElement('p', ':', {'class': 'sep'});
         const cmd_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
 
         cmd_name.onclick = param.func;
@@ -127,9 +127,9 @@ export class OutputStreamScreen {
         
         const pro_container = createHTMLElement('div', '', {'class': 'container'})
         const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const pro_name = createHTMLElement('p', param.name, {'class': 'name'});
+        const pro_name = createHTMLElement('p', param.name, {'class': 'name focus clickable'});
 
-        const pro_sep = createHTMLElement('p', '-', {'class': 'sep'});
+        const pro_sep = createHTMLElement('p', ':', {'class': 'sep'});
 
         const pro_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
         

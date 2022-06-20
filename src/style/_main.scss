@@ -20,16 +20,45 @@ $terminal-text-color-secondary:     #de9835;
     }
 }
 
-.separator {
-    width: 100%;
-    text-align: left;
+
+body {
+    
+    p {
+        color: $terminal-text-color-primary;
+    }
+
+    .highlight {
+        color: $terminal-text-color-focus;
+        @include override_select_color($terminal-background-color, $terminal-text-color-focus);
+
+    }
+
+    .focus {
+        color: $terminal-text-color-secondary;
+        @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+    }
+
+    .double-line {
+        line-height: calc(#{$terminal-line-height} * 2);
+        font-size: 2em;
+    }
+
+    .clickable {
+        text-decoration: underline;
+    }
+
+    .separator {
+        width: 100%;
+        text-align: left;
+    }
+    
+    #top-layer {
+        opacity: 0.65;
+        background-image: url("../img/noise_screen.png");
+        background-size: 25px;
+    }
 }
 
-#top-layer {
-    opacity: 0.65;
-    background-image: url("../img/noise_screen.png");
-    background-size: 25px;
-}
 
 #site-semantic {
     display: none;
@@ -153,32 +182,10 @@ $terminal-text-color-secondary:     #de9835;
 
     #terminal-container {
         p {
-            color: $terminal-text-color-primary;
             font-size: $terminal-font-size;
             line-height: $terminal-line-height;
             margin: 0;
             word-wrap: break-word;
-    
-            .highlight {
-                color: $terminal-text-color-focus;
-                @include override_select_color($terminal-background-color, $terminal-text-color-focus);
-
-            }
-    
-            .focus {
-                color: $terminal-text-color-secondary;
-                @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
-
-            }
-    
-            .double-line {
-                line-height: calc(#{$terminal-line-height} * 2);
-                font-size: 2em;
-            }
-    
-            .clickable {
-                text-decoration: underline;
-            }
     
             a {
                 color: $terminal-text-color-secondary;
@@ -195,9 +202,7 @@ $terminal-text-color-secondary:     #de9835;
                 display: flex;
                 width: 30%;
                 gap: 5px;
-                .name-text {
-                    color: $terminal-text-color-secondary;
-                }
+
                 .icon {
                     height: $terminal-line-height;
                 }
@@ -226,7 +231,6 @@ $terminal-text-color-secondary:     #de9835;
     
             .name {
                 width: 20%;
-                color: $terminal-text-color-secondary;
                 cursor: pointer;
             }
     
@@ -245,9 +249,6 @@ $terminal-text-color-secondary:     #de9835;
                 width: 20%;
                 
                 cursor: pointer;
-                .name {
-                    color: $terminal-text-color-secondary;
-                }
     
                 .link {
                     display: block;
