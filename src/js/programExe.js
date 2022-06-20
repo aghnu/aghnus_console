@@ -43,7 +43,6 @@ const PROGRAM_META = [
         name: 'keyboard',
         func: keyboardExe,
         desc: 'open/close the virtual keyboard',
-
     },
 
     {
@@ -66,6 +65,8 @@ const PROGRAM_META = [
         star: true,
     },
 ]
+
+const PROGRAM_ASYNC = ['keyboard'];
 
 function lockSystem(pid, message="", input_func=null) {
     // no real mutex
@@ -159,7 +160,6 @@ export function noscriptExe(param) {
     updateLock(pid, 'System is Currently Occupied', (cmd, param) => {
         if (cmd === 'y' || cmd === 'Y') {
             unlockSystem(pid);
-            param.outStream.print(new Job("text", {text: "> " + cmd}));
             param.outStream.print(new Job("line", {height: 1}));
             document.querySelector('#site-app').style.display = 'none';
             document.querySelector('#site-semantic').style.display = 'block';
@@ -169,7 +169,6 @@ export function noscriptExe(param) {
 
         } else if (cmd === 'n' || cmd === 'N' || cmd === ''){
             unlockSystem(pid);
-            param.outStream.print(new Job("text", {text: "> " + cmd}));
             param.outStream.print(new Job("line", {height: 1}));
             answer_yes.onclick = null;
             answer_no.onclick = null;
@@ -228,7 +227,7 @@ export function welcomeExe(param) {
                 
             }})
         ],
-        min_interval: 200, max_interval: 800,
+        min_interval: 100, max_interval: 300,
     }));
 }
 
@@ -359,17 +358,17 @@ export class ProgramCore {
     }
 
     execute(cmd, param) {
-        if (!program_lock.locked) {
-
+        if (PROGRAM_ASYNC.includes(cmd) || !program_lock.locked) {
             if (cmd === "") {
                 param.outStream.print(new OutputStreamJob('line', {'height': 1}));
             } else {
-                param.outStream.print(new OutputStreamJob('text', {'text': ">&nbsp" + cmd}));
                 
                 if (this.path[cmd] === undefined) {
                     param.outStream.print(new OutputStreamJob('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
                     param.outStream.print(new OutputStreamJob('line', {'height': 1}));
                 } else {
+                    param.outStream.print(new OutputStreamJob('text', {'text': `<span class='highlight'>[${cmd}]</span>`}));
+                    param.outStream.print(new OutputStreamJob('line', {'height': 1}));
                     this.path[cmd].exe(param);
                 }                       
             }
