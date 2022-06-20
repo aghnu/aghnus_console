@@ -8,6 +8,28 @@ $terminal-text-color-focus:         #984511;
 $terminal-background-color:         #000000;
 $terminal-text-color-secondary:     #de9835;
 
+@mixin override_select_color($color, $background) {
+    &::-moz-selection {
+        color: $color;
+        background: $background;            
+    }
+
+    ::selection {
+        color: $color;
+        background: $background;   
+    }
+}
+
+.separator {
+    width: 100%;
+    text-align: left;
+}
+
+#top-layer {
+    opacity: 0.65;
+    background-image: url("../img/noise_screen.png");
+    background-size: 25px;
+}
 
 #site-semantic {
     display: none;
@@ -18,6 +40,7 @@ $terminal-text-color-secondary:     #de9835;
     margin-bottom: 2em;
     font-size: 18px;
     color: $terminal-text-color-primary;
+    @include override_select_color($terminal-background-color, $terminal-text-color-primary);
 
     h1, h2, h3, p {
         margin: 0;
@@ -124,239 +147,231 @@ $terminal-text-color-secondary:     #de9835;
     }
 }
 
-.separator {
-    width: 100%;
-    text-align: left;
-}
-
 #site-app {
     display: none;
-}
+    @include override_select_color($terminal-background-color, $terminal-text-color-primary);
 
-#top-layer {
-    opacity: 0.65;
-    background-image: url("../img/noise_screen.png");
-    background-size: 25px;
-}
+    #terminal-container {
+        p {
+            color: $terminal-text-color-primary;
+            font-size: $terminal-font-size;
+            line-height: $terminal-line-height;
+            margin: 0;
+            word-wrap: break-word;
+    
+            .highlight {
+                color: $terminal-text-color-focus;
+                @include override_select_color($terminal-background-color, $terminal-text-color-focus);
 
-#terminal-container {
-    p {
-        color: $terminal-text-color-primary;
-        font-size: $terminal-font-size;
-        line-height: $terminal-line-height;
-        margin: 0;
-        word-wrap: break-word;
-
-        .highlight {
-            color: $terminal-text-color-focus;
-        }
-
-        .focus {
-            color: $terminal-text-color-secondary;
-        }
-
-        .double-line {
-            line-height: calc(#{$terminal-line-height} * 2);
-            font-size: 2em;
-        }
-
-        .clickable {
-            text-decoration: underline;
-        }
-
-        a {
-            color: $terminal-text-color-secondary;
-        }
-
-        &::-moz-selection {
-            color: $terminal-background-color;
-            background: $terminal-text-color-primary;            
-        }
-    }
-
-    #terminal-link {
-        display: flex;
-        justify-content: space-between;
-
-        .name {
-            display: flex;
-            width: 30%;
-            gap: 5px;
-            .name-text {
+            }
+    
+            .focus {
                 color: $terminal-text-color-secondary;
+                @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+
             }
-            .icon {
-                height: $terminal-line-height;
+    
+            .double-line {
+                line-height: calc(#{$terminal-line-height} * 2);
+                font-size: 2em;
+            }
+    
+            .clickable {
+                text-decoration: underline;
+            }
+    
+            a {
+                color: $terminal-text-color-secondary;
+                @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+
             }
         }
-
-
-        .container {
-            width: 50%;  
-            .link {
-                display: block;
-                text-decoration: none;
-                width: fit-content;
-            }    
-        }
-
-    }
-
-    #terminal-input {
-        color: $terminal-text-color-focus;
-        word-wrap: break-word;
-    }
-
-    #terminal-cmddesc {
-        display: flex;
-        justify-content: space-between;
-
-        .name {
-            width: 20%;
-            color: $terminal-text-color-secondary;
-            cursor: pointer;
-        }
-
-        .desc {
-            width: 60%;
-        }
-
-    }
-
-
-    #terminal-project {
-        display: flex;
-        justify-content: space-between;
-
-        .container {
-            width: 20%;
-            
-            cursor: pointer;
+    
+        #terminal-link {
+            display: flex;
+            justify-content: space-between;
+    
             .name {
-                color: $terminal-text-color-secondary;
-            }
-
-            .link {
-                display: block;
-                text-decoration: none;
-                width: fit-content;
-            }
-        }
-
-        .desc {
-            width: 60%;
-        }
-
-    }
-}
-
-#footer {
-    .text-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: $function-key-line-height;
-
-        #footer-date-str {
-            font-size: $function-key-font-size;
-            font-family: "Classic Console Neue";
-            color: $terminal-text-color-secondary;
-            margin: auto;
-        }
-    }
-}
-
-#function-key-container {
-    display: flex;
-    justify-content: space-between;
-
-    .container {
-        display: flex;
-        flex-direction: column;
-        .key {
-            display: flex;
-            gap: 5px;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            .icon {
-                height: $terminal-line-height;
-            }
-            .text-container {
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                height: $function-key-line-height;
-
-                .text {
-                    font-size: $function-key-font-size;
-                    font-family: "Classic Console Neue";
+                width: 30%;
+                gap: 5px;
+                .name-text {
                     color: $terminal-text-color-secondary;
                 }
+                .icon {
+                    height: $terminal-line-height;
+                }
+            }
+    
+    
+            .container {
+                width: 50%;  
+                .link {
+                    display: block;
+                    text-decoration: none;
+                    width: fit-content;
+                }    
+            }
+    
+        }
+    
+        #terminal-input {
+            color: $terminal-text-color-focus;
+            word-wrap: break-word;
+        }
+    
+        #terminal-cmddesc {
+            display: flex;
+            justify-content: space-between;
+    
+            .name {
+                width: 20%;
+                color: $terminal-text-color-secondary;
+                cursor: pointer;
+            }
+    
+            .desc {
+                width: 60%;
+            }
+    
+        }
+    
+    
+        #terminal-project {
+            display: flex;
+            justify-content: space-between;
+    
+            .container {
+                width: 20%;
+                
+                cursor: pointer;
+                .name {
+                    color: $terminal-text-color-secondary;
+                }
+    
+                .link {
+                    display: block;
+                    text-decoration: none;
+                    width: fit-content;
+                }
+            }
+    
+            .desc {
+                width: 60%;
+            }
+    
+        }
+    }
+    
+    #footer {
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: $function-key-line-height;
+    
+            #footer-date-str {
+                font-size: $function-key-font-size;
+                font-family: "Classic Console Neue";
+                color: $terminal-text-color-secondary;
+                margin: auto;
             }
         }
-
     }
-}
-
-#virtual-keyboard {
-    flex-direction: column;
-    gap: 5%;
-    .row {
+    
+    #function-key-container {
         display: flex;
-        flex-direction: row;
-        gap: 1.5%;
-        justify-content: center;
-        height: calc(80% / 5);
-        .key {
-            position: relative;
-            height: 100%;
-            min-width: fit-content;
-            width: calc(86.5% / 10);
-            border: solid;
-            border-radius: 6px;
-            border-width: 2px;
-            background: $terminal-background-color;
-            color: $terminal-text-color-secondary;
-            cursor: pointer;
-            font-size: $function-key-font-size;
-            box-shadow: 0px 2px 0px $terminal-text-color-focus;
-            font-family: "Classic Console Neue";
-
-            &.hold {
-                box-shadow: none;
-                height: 175%;
-                bottom: 75%;
-            }
-
-            &#virtual-key-Space {
-                min-width: fit-content;
-                width: calc(97% / 6 * 4);
-                height: 120%;
-                &.hold {
-                    height: 195%;
-                    bottom: 75%;
+        justify-content: space-between;
+    
+        .container {
+            display: flex;
+            flex-direction: column;
+            .key {
+                display: flex;
+                gap: 5px;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                .icon {
+                    height: $terminal-line-height;
+                }
+                .text-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: $function-key-line-height;
+    
+                    .text {
+                        font-size: $function-key-font-size;
+                        font-family: "Classic Console Neue";
+                        color: $terminal-text-color-secondary;
+                    }
                 }
             }
-            &#virtual-key-Enter {
+    
+        }
+    }
+    
+    #virtual-keyboard {
+        flex-direction: column;
+        gap: 5%;
+        .row {
+            display: flex;
+            flex-direction: row;
+            gap: 1.5%;
+            justify-content: center;
+            height: calc(80% / 5);
+            .key {
+                position: relative;
+                height: 100%;
                 min-width: fit-content;
-                width: calc(97% / 6);
-                height: 120%;
+                width: calc(86.5% / 10);
+                border: solid;
+                border-radius: 6px;
+                border-width: 2px;
+                background: $terminal-background-color;
+                color: $terminal-text-color-secondary;
+                cursor: pointer;
+                font-size: $function-key-font-size;
+                box-shadow: 0px 2px 0px $terminal-text-color-focus;
+                font-family: "Classic Console Neue";
+    
                 &.hold {
-                    height: 195%;
+                    box-shadow: none;
+                    height: 175%;
                     bottom: 75%;
                 }
-            }
-            &#virtual-key-Back {
-                min-width: fit-content;
-                width: calc(97% / 6);
-                height: 120%;
-                &.hold {
-                    height: 195%;
-                    bottom: 75%;
+    
+                &#virtual-key-Space {
+                    min-width: fit-content;
+                    width: calc(97% / 6 * 4);
+                    height: 120%;
+                    &.hold {
+                        height: 195%;
+                        bottom: 75%;
+                    }
                 }
+                &#virtual-key-Enter {
+                    min-width: fit-content;
+                    width: calc(97% / 6);
+                    height: 120%;
+                    &.hold {
+                        height: 195%;
+                        bottom: 75%;
+                    }
+                }
+                &#virtual-key-Back {
+                    min-width: fit-content;
+                    width: calc(97% / 6);
+                    height: 120%;
+                    &.hold {
+                        height: 195%;
+                        bottom: 75%;
+                    }
+                }
+    
             }
-
         }
     }
 }
+
