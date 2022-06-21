@@ -2,7 +2,7 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-const SYSTEM_VERSION = '2022.06.20.03';
+const SYSTEM_VERSION = '2022.06.20.04';
 
 const program_lock = {
     'pid': "",
@@ -61,9 +61,15 @@ const PROGRAM_META = [
     },
 
     {
-        name: 'noscript',
-        func: noscriptExe,
+        name: 'simplify',
+        func: simplifyExe,
         desc: 'display the simplified text-based version of aghnu.me, reduced functionilities but information is condensed',
+        star: true,
+    },
+    {
+        name: 'map',
+        func: mapExe,
+        desc: 'display site map',
         star: true,
     },
 ]
@@ -87,6 +93,14 @@ const PROGRAM_HIDDEN = [
     {
         name: 'unlock',
         func: unlockExe,
+    },
+    {
+        name: 'ls',
+        func: mapExe,
+    },
+    {
+        name: 'list',
+        func: mapExe,
     },
 ]
 const PROGRAM_ASYNC = ['keyboard', 'unlock'];
@@ -134,6 +148,8 @@ function unlockSystem(pid) {
 }
 
 let pidCounter = 0;
+
+
 function genProcessID() {
     return pidCounter++;
 }
@@ -147,7 +163,7 @@ function exitExe() {
     document.querySelector('#site-semantic').style.display = 'block';
 }
 
-function noscriptExe(param) {
+function simplifyExe(param) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -179,9 +195,7 @@ function noscriptExe(param) {
 
     param.outStream.print(new Job("list", {
         list: [
-            new Job("text", {text: "This program will display the noscript text-based version of aghnu.me with reduced functionility and condensed information. You can go back to the script version by refresh the web page."}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "You can also visit text-based version by append query parameter to url <a href='/?simple=true'>aghnu.me/?simple=true<a>"}),
+            new Job("text", {text: "Go to a text-based version of aghnu.me with reduced functionility and condensed information."}),
             new Job("line", {height: 1}),
             new Job("text", {text: "Do you wish to continue? Type (y/N)"}),
             new Job("custom", {element: custom_el_clickSelect()}),
@@ -198,6 +212,8 @@ function noscriptExe(param) {
             answer_yes.onclick = null;
             answer_no.onclick = null;
 
+            window.location = '?simple=true';
+
         } else if (cmd === 'n' || cmd === 'N' || cmd === ''){
             unlockSystem(pid);
             param.outStream.print(new Job("line", {height: 1}));
@@ -207,6 +223,21 @@ function noscriptExe(param) {
             param.outStream.print(new Job("text", {text: '<span class="highlight">[Pick your options to continue]</span>'}));
         }
     });
+}
+
+function mapExe(param) {
+    param.outStream.print(new Job("list", {
+        list: [
+            new Job("text", {text: "Sitemap of aghnu.me: "}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/' >aghnu.me</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/?simple=true' >aghnu.me/?simple=true</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/tools/' >aghnu.me/tools/</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/tools/ascii_art_generator/' >aghnu.me/tools/ascii_art_generator/</a>"}),
+            new Job("line", {height: 1}),
+
+        ],
+        min_interval: 0, max_interval: 0,
+    }));
 }
 
 function welcomeExe(param) {
