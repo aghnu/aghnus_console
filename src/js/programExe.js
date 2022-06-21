@@ -2,7 +2,7 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-const SYSTEM_VERSION = '2022.06.20.04';
+const SYSTEM_VERSION = '2022.06.20.05';
 
 const program_lock = {
     'pid': "",

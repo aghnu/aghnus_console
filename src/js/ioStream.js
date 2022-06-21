@@ -86,7 +86,7 @@ export class OutputStreamScreen {
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
         const link_icon = createHTMLElement('div', icon[param.type]('#984511', '24px'), {'class': 'icon'});
-        const link_name = createHTMLElement('p', param.name, {'class': 'name-text highlight'});
+        const link_name = createHTMLElement('p', param.name, {'class': 'name-text highlight text-label'});
         
         const link_sep = createHTMLElement('p', ':', {'class': 'sep'});
 
@@ -109,7 +109,7 @@ export class OutputStreamScreen {
 
     printCMDDesc(param) {
         const el = createHTMLElement('div', '', {'id': 'terminal-cmddesc'});
-        const cmd_name = createHTMLElement('p', param.name, {'class': 'name focus clickable'});
+        const cmd_name = createHTMLElement('p', param.name, {'class': 'name focus clickable text-label'});
         const cmd_sep = createHTMLElement('p', ':', {'class': 'sep'});
         const cmd_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
 
@@ -127,7 +127,7 @@ export class OutputStreamScreen {
         
         const pro_container = createHTMLElement('div', '', {'class': 'container'})
         const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const pro_name = createHTMLElement('p', param.name, {'class': 'name focus clickable'});
+        const pro_name = createHTMLElement('p', param.name, {'class': 'name focus clickable text-label'});
 
         const pro_sep = createHTMLElement('p', ':', {'class': 'sep'});
 

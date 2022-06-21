@@ -35,7 +35,11 @@ body {
     .highlight {
         color: $terminal-text-color-focus;
         @include override_select_color($terminal-background-color, $terminal-text-color-focus);
+    }
 
+    .text-label {
+        word-wrap: break-word;
+        word-break: normal;
     }
 
     .focus {
