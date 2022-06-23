@@ -76,11 +76,11 @@ export class DisplayController {
                 },
             },
             {
-                'type': 'about',
-                'text': 'about',
+                'type': 'info',
+                'text': 'sitemap',
                 'col': 'middle',
                 'func': () => {
-                    ProgramCore.getInstance().execute('about', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('map', {'outStream': this.out});
                 },
             },
             {
