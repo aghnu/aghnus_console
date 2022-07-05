@@ -195,7 +195,7 @@ export class OutputStreamScreen {
     }
 
     printSep(param) {
-        this.printLine(param);
+        // this.printLine(param);
         const el = createHTMLElement('p', "* * *", {class: 'separator'});
         this.append(el);
         this.printLine(param);

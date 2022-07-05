@@ -2,7 +2,7 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
-const SYSTEM_VERSION = '2022.07.02.01';
+const SYSTEM_VERSION = '2022.07.05.01';
 
 const program_lock = {
     'pid': "",
@@ -78,6 +78,11 @@ const PROGRAM_META = [
         desc: 'print the posts',
         star: true,
     },
+    {
+        name: 'system',
+        func: systemExe,
+        desc: 'display system and text version',
+    },
 ]
 const PROGRAM_HIDDEN = [
     {
@@ -108,6 +113,14 @@ const PROGRAM_HIDDEN = [
         name: 'list',
         func: mapExe,
     },
+    {
+        name: 'uname',
+        func: systemExe,
+    },
+    {
+        name: 'cl',
+        func: clearExe,
+    }
 ]
 const PROGRAM_ASYNC = ['keyboard', 'unlock'];
 
@@ -243,6 +256,25 @@ function postsExe(param) {
     }));
 }
 
+function systemExe(param) {
+    param.outStream.print(new Job('list', {
+        list: [
+            new Job("custom", {element: (()=>{
+                const container = createHTMLElement('div', '');
+                const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
+                const text = createHTMLElement('p', '<span class="highlight">System Ver. ' + SYSTEM_VERSION + '</span>')
+
+                container.appendChild(logo);
+                container.appendChild(text);
+
+                return container;
+
+            })()}),
+            new Job("line", {height: 1}),
+        ], min_interval: 0, max_interval: 0,
+    }));
+}
+
 function mapExe(param) {
     param.outStream.print(new Job("list", {
         list: [
@@ -267,23 +299,16 @@ function welcomeExe(param) {
 
     param.outStream.print(new Job("list", {
         list: [
-            new Job("custom", {element: (()=>{
-                const container = createHTMLElement('div', '', {id: 'pid-' + pid});
-                const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
-                const text = createHTMLElement('p', '<span class="highlight">System Ver. ' + SYSTEM_VERSION + '</span>')
-
-                container.appendChild(logo);
-                container.appendChild(text);
-
-                return container;
-
-            })()}),
+            new Job("lambda", {func: ()=>{
+                systemExe(param);
+            }}),
             new Job("separator", {height: 1}),
 
             new Job("text", {text: "Hello stranger! Welcome~ Welcome~ ;] My name is Gengyuan Huang, a programmer..."}),
             new Job("line", {height: 1}),
 
             new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree... I have rent to pay, and a mouth to feed (my mouth)... <span class='highlight'>I am open to work!</span>"}),
+            new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
 
             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
@@ -300,6 +325,7 @@ function welcomeExe(param) {
                 })
                 return list;              
             })(),
+            new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
             new Job("lambda", {func: ()=>{
                 postsExe(param);
