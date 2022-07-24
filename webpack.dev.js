@@ -18,7 +18,7 @@ module.exports = merge(common, {
             template: './src/template/index.liquid'
         }),
         new HtmlWebpackPlugin({
-            filename: '../404.html',
+            filename: '404.html',
             template: './src/template/404.liquid',
             inject: false
         })

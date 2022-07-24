@@ -56,7 +56,7 @@
 <body>
         <div id="site-map">
             {% for path in sitemap.paths %}
-                <p><a href="{{ path }}">{{ sitemap.origin | append: path }}</a></p>
+                <p><a href="{{ path.path }}">{{ sitemap.origin | append: path.path }}</a></p>
             {% endfor %}
         </div>        
         <div id="site-prompt">

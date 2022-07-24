@@ -1,10 +1,10 @@
 {
     "origin": "https://www.aghnu.me", 
     "paths": [
-        "/",
-        "/?simple=true",
-        "/WNFA/",
-        "tools/ascii_art_generator/",
-        "/gallery/WNFA"
+        {"path": "/", "lastmod": "2022-07-24", "priority": 1, "changefreq": "weekly"},
+        {"path": "/?simple=true", "lastmod": "2022-07-24", "priority": 1, "changefreq": "weekly"},
+        {"path": "/WNFA/", "lastmod": "2022-07-24", "priority": 0.8, "changefreq": "monthly"},
+        {"path": "/gallery/WNFA", "lastmod": "2022-07-24", "priority": 0.8, "changefreq": "monthly"},
+        {"path": "/tools/ascii_art_generator/", "lastmod": "2022-07-24", "priority": 0.5, "changefreq": "yearly"}
     ]
 }
