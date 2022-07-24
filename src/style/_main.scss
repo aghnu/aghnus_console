@@ -248,20 +248,19 @@ body {
             display: flex;
             justify-content: space-between;
     
-            .container {
+            .name {
                 width: 20%;
-                
-                cursor: pointer;
-    
-                .link {
-                    display: block;
-                    text-decoration: none;
-                    width: fit-content;
-                }
             }
     
-            .desc {
+            .container {
                 width: 60%;
+                display: flex;
+                flex-direction: column;
+                .link {
+                    display: block;
+                    font-size: $terminal-font-size;
+                    line-height: $terminal-line-height;
+                }
             }
     
         }

@@ -5,8 +5,8 @@
             "tags": "#Azure #Serverless #fullstack",
             "desc": "An rewrite of the WNFA project powered by Azure serverless products. I wrote this project to learn Azure, and serverless development. For the backend, I removed tencent cloud OCR, and replaced tencent tmt with Azure translator. Art assets are now stored seperately on Azure storage, and an wrapper function is implementated on top of the Azure storage python SDK to ensure the poster program's access to art assets at runtime. The user interface is redesigned to look consistent with the WNFA Virtual Gallery, and the user input method is changed from taking a photo of a handwritten poem to directly type the poem. The frontend of the website is hosted on Azure Static Web App.",
             "links": [
-                {"title": "Github Repository For Frontend Code", "link": "https://github.com/aghnu/WNFA_azure_frontend"},
-                {"title": "Github Repository For Backend Code", "link": "https://github.com/aghnu/WNFA_azure_posters_gen"},
+                {"title": "Github Repository (Frontend)", "link": "https://github.com/aghnu/WNFA_azure_frontend"},
+                {"title": "Github Repository (Azure Functions)", "link": "https://github.com/aghnu/WNFA_azure_posters_gen"},
                 {"title": "Website Link", "link": "https://www.aghnu.me/WNFA"}
             ]
         },

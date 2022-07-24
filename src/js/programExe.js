@@ -1,6 +1,9 @@
 
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
+import projectsData from "../template/data/projects.json";
+
+console.log(projectsData);
 
 const SYSTEM_VERSION = '2022.07.09.01';
 
@@ -408,43 +411,53 @@ function keyboardExe(param) {
 }
 
 function projectsExe(param) {
-    // reminder to make this program use index.html to grab project info
+    // get past projects
+    const pastProjects = (()=>{
+        const outList = [];
+        
+        for (let i = 0; i < projectsData.past.length; i++) {
+            const project = projectsData.past[i];
+            
+            outList.push(new Job("project", {
+                name: project.title,
+                tags: project.tags,
+                desc: project.desc,
+                links: project.links,
+            }));
+            outList.push(new Job("line", {height: 1}));
+
+        }
+
+        return outList.reverse();
+    })();
+
+    // get recent projects
+    const recentProjects = (()=>{
+        const outList = [];
+        
+        for (let i = 0; i < projectsData.recent.length; i++) {
+            const project = projectsData.recent[i];
+            
+            outList.push(new Job("project", {
+                name: project.title,
+                tags: project.tags,
+                desc: project.desc,
+                links: project.links,
+            }));
+            outList.push(new Job("line", {height: 1}));
+
+        }
+
+        return outList.reverse();
+    })();
+
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "Past Projects:"}),
-            new Job("project", {name: "Yonder", desc: "Yonder is a distributed social network using RESTful API. (UAlberta CMPUT404 class project)", link: "https://github.com/aghnu/yonder"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "MoodSwing", desc: "MoodSwing is a Java-based android app designed to record and archive user’s mood in relation to geo location and time. Users can follow each other on MoodSwing and view their friend's mood records. (UAlberta CMPUT301 class project)", link: "https://github.com/aghnu/MoodSwing"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "A python implementation of Hollow Heap", desc: "hollow_heap.py is a python implementation of Hollow Heap base on Thomas Dueholm Hansen, Haim Kaplan, Robert E. Tarjan, Uri Zwick 's paper https://arxiv.org/abs/1510.06535. (UAlberta CMPUT403 class project)", link: "https://github.com/aghnu/Hollow_Heap"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "XiaoHongShu Userscript", desc: "a tampermonkey userscript to export xiaohongshu.com search query result to speadsheet ", link: "https://github.com/aghnu/xiaohongshu_search_export_userscript"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "Interactive Moodle Plugin", desc: "This plugin is a Moodle Activity Module that is developed for Delphi technology as part of their future online learning platform for aviators. (UAlberta CMPUT401 class project)", link: "https://github.com/aghnu/Interactive-Moodle-Plugin-Showcase"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "Jia's Lab", desc: "Dr. Huijue Jia's personal website.", link: "https://jiaslab-org.github.io/"}),
-            new Job("line", {height: 1}),
+            ...pastProjects,
 
-            new Job("text", {text: "Current Projects:"}),
-            new Job("project", {name: "Stranding Air", desc: "A website for a group of passionate people who are interested in exploring the boundary of visual design, art, media, and technology.", link: "https://www.strandingair.com"}),            
-            new Job("line", {height: 1}),
-            new Job("project", {name: "GFE.js", desc: "GFE is a simplification of the project libgif-js. It provides a function to extract the frames of a gif.", link: "https://github.com/aghnu/gif_frames_extract_js"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "Aghnu's Console", desc: "A personal project that shows my frustration and my passion for Human-Computer Interaction. Oh... It also serves as my personal website.", link: "https://github.com/aghnu/aghnu.github.io"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "Aghnu's ASCII Art Generator", desc: "An ASCII Art Toolkit Website written in JavaScript, using opencv.js. Code is running on client side. It supports gif and static images convertion. The output is displayed as HTML elements and animated by JavaScript.<br>- <a target='_blank' class='clickable focus' href='https://www.aghnu.me/tools/ascii_art_generator/' >Website Link</a>", link: "https://github.com/aghnu/aghnus_ascii_art_generator"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "WNFA", desc: "WNFA (Words Never Fall Apart) is an interactive art project that uses grid method and machine learning to generate art from handwritten poems.", link: "https://github.com/aghnu/WNFA"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "WNFA 3D Virtual Gallery", desc: "A 3D Virtual Gallery display the poster results generated by WNFA at Zhejiang Exhibition Hall from 06.01.2022 to 06.12.2022. It is written in pure JavaScript. 3D is achieved by CSS 3D transform.<br>- <a target='_blank' class='clickable focus' href='https://www.aghnu.me/gallery/WNFA/' >Website Link</a>", link: "https://www.aghnu.me/gallery/WNFA"}),
-            new Job("line", {height: 1}),
-            new Job("project", {name: "WNFA Poster Generator", desc: 
-                    `An rewrite of the WNFA project powered by Azure serverless products (Azure Functions, Azure Storage, Azure Translator and Azure Static Web App). I wrote this project to learn Azure, and serverless development. This project contains frontend and backend parts. Both frontend and backend are changed to bring this project to internet. To learn more go to 
-                    <br>- <a target='_blank' class='clickable focus' href='https://www.aghnu.me/WNFA/' >Website Link</a>
-                    <br>- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/WNFA_azure_frontend' >Frontend Code</a>
-                    <br>- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/WNFA_azure_posters_gen' >Backend Code</a>
-                `, link: "https://www.aghnu.me/WNFA"}),
-            new Job("line", {height: 1}),
+            new Job("text", {text: "Recent Projects:"}),
+            ...recentProjects,
         ],
         min_interval: 0, max_interval: 0,
     }));

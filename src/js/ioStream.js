@@ -125,20 +125,28 @@ export class OutputStreamScreen {
     printProject(param) {
         const el = createHTMLElement('div', '', {'id': 'terminal-project'});
         
-        const pro_container = createHTMLElement('div', '', {'class': 'container'})
-        const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const pro_name = createHTMLElement('p', param.name, {'class': 'name focus clickable text-label'});
-
-        const pro_sep = createHTMLElement('p', ':', {'class': 'sep'});
-
-        const pro_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
         
-        pro_link.appendChild(pro_name);
-        pro_container.appendChild(pro_link);
+        // const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
+        const pro_name = createHTMLElement('p', param.name, {'class': 'name highlight text-label'});
+        const pro_sep = createHTMLElement('p', ':', {'class': 'sep'});
+        const pro_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
+        const pro_tags = createHTMLElement('p', param.tags, {'class': 'tags highlight'});
+        const pro_container = createHTMLElement('div', '', {'class': 'container'})
 
-        el.appendChild(pro_container);
+        // pro_link.appendChild(pro_name);
+        pro_container.appendChild(pro_tags);
+        pro_container.appendChild(pro_desc);
+
+        // append links
+        for (let i = 0; i < param.links.length; i++) {
+            const link = param.links[i];
+            pro_container.appendChild(createHTMLElement('a', link.title, {'class': 'link focus clickable', 'href': link.link}));
+        }
+
+        el.appendChild(pro_name);
         el.appendChild(pro_sep);
-        el.appendChild(pro_desc);
+        el.appendChild(pro_container);
+        
 
         this.append(el);
     }

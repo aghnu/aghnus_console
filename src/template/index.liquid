@@ -45,17 +45,17 @@
             <p class="content">Website: <a target='_blank' href='https://www.aghnu.me'>aghnu.me</a></p>
         </section>
 
-        <section>
+        <section id="site-semantic-projects">
             <h2>Projects</h2>
             <section>
                 <h3>Recent Projects</h3>
 
                 {% for project in projects.recent %}
-                    <details>
-                        <summary>{{ project.title }}</summary>
+                    <details class="project recent">
+                        <summary class="title">{{ project.title }}</summary>
                         <section>
                             <p class="content tag">{{ project.tags }}</p>
-                            <p class="content">{{ project.desc }}</p>
+                            <p class="content desc">{{ project.desc }}</p>
                             
                             {% for link in project.links %}
                                 <a target='_blank' class="content link" href='{{ link.link }}'>{{ link.title }}</a>
@@ -69,13 +69,12 @@
             <section>
                 <h3>Past Projects</h3>
 
-
                 {% for project in projects.past %}
-                    <details>
-                        <summary>{{ project.title }}</summary>
+                    <details class="project past">
+                        <summary class="title">{{ project.title }}</summary>
                         <section>
                             <p class="content tag">{{ project.tags }}</p>
-                            <p class="content">{{ project.desc }}</p>
+                            <p class="content desc">{{ project.desc }}</p>
                             
                             {% for link in project.links %}
                                 <a target='_blank' class="content link" href='{{ link.link }}'>{{ link.title }}</a>
