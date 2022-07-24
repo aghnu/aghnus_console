@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gengyuan Huang">
+    <meta name="keywords" content="programmer, coding, edmonton, alberta, canada, ualberta, alumni, gengyuan, project">
+    <meta name="author" content="Gengyuan Huang">
+    <meta name="og:title" property="og:title" content="Aghnu's Console | Gengyuan Huang">
+    <link rel="stylesheet" href="https://www.aghnu.me/static/font/classic_console_neue/font.css">
+    <title>Aghnu's Console | Gengyuan Huang</title>
+    <noscript>
+        <style>
+            #site-semantic {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+</head>
+
+<body>
+    <div id="top-layer" class="layer clickthrough noselect"></div>
+    <div id="site-semantic">
+        <header>
+            <h1>Aghnu's Console</h1>
+            <p class="content">Gengyuan Huang's personal website</p>
+        </header>
+
+        <section>
+            <h2>About</h2>
+            <p class="content">My name is Gengyuan Huang, a programmer. I have recently graduated from the University of
+                Alberta with a CS degree. This is the noscript simplified version of my website <a
+                    href="/">aghnu.me</a>. On this website, you can find my previous and current projects. I am
+                currently living in Edmonton, AB, and open to work.</p>
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <p class="content">Email: gengyuan@ualberta.ca</p>
+            <p class="content">Github: <a target='_blank' href='https://github.com/aghnu'>aghnu</a></p>
+            <p class="content">LinkedIn: <a target='_blank' href='https://www.linkedin.com/in/gengyuan-huang'>Gengyuan
+                    Huang</a></p>
+            <p class="content">Website: <a target='_blank' href='https://www.aghnu.me'>aghnu.me</a></p>
+        </section>
+
+        <section>
+            <h2>Projects</h2>
+            <section>
+                <h3>Recent Projects</h3>
+
+                {% for project in projects.recent %}
+                    <details>
+                        <summary>{{ project.title }}</summary>
+                        <section>
+                            <p class="content tag">{{ project.tags }}</p>
+                            <p class="content">{{ project.desc }}</p>
+                            
+                            {% for link in project.links %}
+                                <a target='_blank' class="content link" href='{{ link.link }}'>{{ link.title }}</a>
+                            {% endfor %}
+
+                        </section>
+                    </details>
+                {% endfor %}
+
+            </section>
+            <section>
+                <h3>Past Projects</h3>
+
+
+                {% for project in projects.past %}
+                    <details>
+                        <summary>{{ project.title }}</summary>
+                        <section>
+                            <p class="content tag">{{ project.tags }}</p>
+                            <p class="content">{{ project.desc }}</p>
+                            
+                            {% for link in project.links %}
+                                <a target='_blank' class="content link" href='{{ link.link }}'>{{ link.title }}</a>
+                            {% endfor %}
+
+                        </section>
+                    </details>
+                {% endfor %}
+
+            </section>
+        </section>
+
+        <footer>
+            <p>© 2022 Gengyuan Huang</p>
+        </footer>
+    </div>
+</body>
+
+</html>

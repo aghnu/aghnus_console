@@ -15,7 +15,7 @@ module.exports = merge(common, {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: './src/template/index.html'
+            template: './src/template/index.liquid'
         })
     ],
 
