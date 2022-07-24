@@ -6,7 +6,7 @@ import projectsData from "../template/data/projects.json";
 console.log(projectsData);
 
 const SYSTEM_VERSION = '2022.07.24.01';
-const TEXT_VERSION = '2022.07.24.01';
+const TEXT_VERSION = '2022.07.24.02';
 
 const program_lock = {
     'pid': "",
