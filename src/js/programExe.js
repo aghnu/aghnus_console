@@ -5,7 +5,8 @@ import projectsData from "../template/data/projects.json";
 
 console.log(projectsData);
 
-const SYSTEM_VERSION = '2022.07.09.01';
+const SYSTEM_VERSION = '2022.07.24.01';
+const TEXT_VERSION = '2022.07.24.01';
 
 const program_lock = {
     'pid': "",
@@ -267,7 +268,7 @@ function systemExe(param) {
             new Job("custom", {element: (()=>{
                 const container = createHTMLElement('div', '');
                 const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
-                const text = createHTMLElement('p', '<span class="highlight">System Ver. ' + SYSTEM_VERSION + '</span>')
+                const text = createHTMLElement('p', '<span class="highlight">System&nbspVer.&nbsp&nbsp' + SYSTEM_VERSION + '</span><br><span class="highlight">Text&nbspVer.&nbsp&nbsp&nbsp&nbsp' + TEXT_VERSION + '</span>')
 
                 container.appendChild(logo);
                 container.appendChild(text);
