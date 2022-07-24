@@ -1,0 +1,10 @@
+{
+    "origin": "https://www.aghnu.me", 
+    "paths": [
+        "/",
+        "/?simple=true",
+        "/WNFA/",
+        "tools/ascii_art_generator/",
+        "/gallery/WNFA"
+    ]
+}

@@ -4,7 +4,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const getTemplateData = (resourcePath) => {
   const data = {
     'news': require('./src/template/data/news.json'),
-    'projects': require('./src/template/data/projects.json')
+    'projects': require('./src/template/data/projects.json'),
+    'sitemap': require('./src/template/data/sitemap.json')
   }
 
   return data;

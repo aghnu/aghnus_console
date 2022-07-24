@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html {
+            background-color: white;
+            font-family: monospace;
+        }
+
+        body {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        p, h1 {
+            color: #555555;
+            margin: 8px;
+        }
+
+        a {
+            all: unset;
+            cursor: pointer;
+            text-decoration: underline;
+            color: #777777;
+            word-break: break-all;
+        }
+        
+        #site-prompt {
+            position: fixed;
+            bottom: 5%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 90%;
+            white-space: nowrap;
+            font-size: 0.75em;
+        }
+
+        #site-map {
+            text-align: center;
+            position: fixed;
+            bottom: 55%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            width: 90%;
+        }
+
+    </style>
+    <title>Page not found</title>
+</head>
+<body>
+        <div id="site-map">
+            {% for path in sitemap.paths %}
+                <p><a href="{{ path }}">{{ sitemap.origin | append: path }}</a></p>
+            {% endfor %}
+        </div>        
+        <div id="site-prompt">
+            <h1>404</h1>
+            <p>The requested URL was not found</p>            
+        </div>
+</body>
+</html>
