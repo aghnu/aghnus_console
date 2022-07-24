@@ -5,6 +5,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const sitemap = require('./src/template/data/sitemap.json');
 
+const sitemapPath = sitemap.paths.map((path) => {
+    
+    const pathReturn = path;
+    if (path.lastmod === 'today') {
+        const date = new Date();
+        pathReturn.lastmod = date.toString();
+    }
+
+    return pathReturn;
+});
+
 module.exports = merge(common, {
     mode: 'production',
 
@@ -25,7 +36,7 @@ module.exports = merge(common, {
         }),
         new SitemapPlugin({
             base: sitemap.origin,
-            paths: sitemap.paths,
+            paths: sitemapPath,
             options: {
                 filename: '../sitemap.xml'
             }
