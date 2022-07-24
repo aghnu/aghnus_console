@@ -2,10 +2,11 @@
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 import projectsData from "../template/data/projects.json";
+import sitemapData from "../template/data/sitemap.json";
 
 console.log(projectsData);
 
-const SYSTEM_VERSION = '2022.07.24.01';
+const SYSTEM_VERSION = '2022.07.24.03';
 const TEXT_VERSION = '2022.07.24.02';
 
 const program_lock = {
@@ -282,22 +283,26 @@ function systemExe(param) {
 }
 
 function mapExe(param) {
+
+    const sitemapPrintJobs = (()=>{
+        const list = [];
+        for (let i = 0; i < sitemapData.paths.length; i++) {
+            const path = sitemapData.paths[i];
+            list.push(new Job("text", {
+                text: `- <a target='_blank' class='clickable focus' href='${path.path}' >${sitemapData.origin + path.path}</a>`
+            }),);
+        }
+
+        return list;
+    })();
+
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "Sitemap of aghnu.me: "}),
             new Job("line", {height: 1}),
 
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/' >aghnu.me</a>"}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/?simple=true' >aghnu.me/?simple=true</a>"}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/WNFA/' >aghnu.me/WNFA/</a>"}),
-            new Job("line", {height: 1}),
-            
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/tools/' >aghnu.me/tools/</a>"}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/tools/ascii_art_generator/' >aghnu.me/tools/ascii_art_generator/</a>"}),
-            new Job("line", {height: 1}),
-            
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/gallery/' >aghnu.me/gallery/</a>"}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='/gallery/WNFA/' >aghnu.me/gallery/WNFA/</a>"}),
+            ...sitemapPrintJobs,
+
             new Job("line", {height: 1}),
 
         ],
@@ -459,6 +464,8 @@ function projectsExe(param) {
 
             new Job("text", {text: "Recent Projects:"}),
             ...recentProjects,
+
+            new Job("line", {height: 1})
         ],
         min_interval: 0, max_interval: 0,
     }));
