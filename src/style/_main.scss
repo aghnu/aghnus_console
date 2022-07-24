@@ -71,7 +71,7 @@ body {
     #top-layer {
         opacity: 0.65;
         background-image: url("../img/noise_screen.png");
-        background-size: 25px;
+        background-size: min(2.5vh, 2.5vw);
     }
 }
 
