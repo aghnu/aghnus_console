@@ -4,8 +4,6 @@ import { createHTMLElement } from "./utilities";
 import projectsData from "../template/data/projects.json";
 import sitemapData from "../template/data/sitemap.json";
 
-console.log(projectsData);
-
 const SYSTEM_VERSION = '2022.07.24.03';
 const TEXT_VERSION = '2022.07.24.02';
 
