@@ -140,7 +140,7 @@ export class OutputStreamScreen {
         // append links
         for (let i = 0; i < param.links.length; i++) {
             const link = param.links[i];
-            pro_container.appendChild(createHTMLElement('a', link.title, {'class': 'link focus clickable', 'href': link.link}));
+            pro_container.appendChild(createHTMLElement('a', link.title, {'class': 'link focus clickable', 'target': '_blank','href': link.link}));
         }
 
         el.appendChild(pro_name);
