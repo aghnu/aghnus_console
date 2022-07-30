@@ -9,132 +9,45 @@ const SYSTEM_VERSION = sysConfig.sys_ver;
 const TEXT_VERSION = sysConfig.txt_ver;
 
 const program_lock = {
-    'pid': "",
-    'locked': false,
-    'message': "",
-    'input_func': null,
+    'pid': "",      'locked': false,
+    'message': "",  'input_func': null
 };
 
 const PROGRAM_META = [
-    {
-        name: 'welcome',
-        func: welcomeExe,
-        desc: 'welcome message',
+    {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me',       star: true},
+    {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
+    {name: 'posts',     func: postsExe,         desc: 'print the posts',                                            star: true},
+    {name: 'help',      func: helpExe,          desc: 'list all the commands that aghnu.me currently supports',     star: true},
+    {name: 'contact',   func: contactExe,       desc: 'list my contact information',                                star: true},
 
-    },
-    {
-        name: 'help',
-        func: helpExe,
-        desc: 'list all the commands that aghnu.me currently supports',
-        star: true,
-    },
-
-    {
-        name: 'clear',
-        func: clearExe,
-        desc: 'clear the terminal screen',
-
-    },
-
-    {
-        name: 'contact',
-        func: contactExe,
-        desc: 'list my contact information',
-        star: true,
-
-    },
-
-    {
-        name: 'keyboard',
-        func: keyboardExe,
-        desc: 'open/close the virtual keyboard',
-    },
-
-    {
-        name:'projects',
-        func: projectsExe,
-        desc: 'list all the projects that I worked on',
-
-    },
-
-    {
-        name: 'about',
-        func: aboutExe,
-        desc: 'more about this website/project',
-    },
-
-    {
-        name: 'simplify',
-        func: simplifyExe,
-        desc: 'display the simplified text-based version of aghnu.me, reduced functionilities but information is condensed',
-        star: true,
-    },
-    {
-        name: 'map',
-        func: mapExe,
-        desc: 'display site map',
-        star: true,
-    },
-    {
-        name: 'posts',
-        func: postsExe,
-        desc: 'print the posts',
-        star: true,
-    },
-    {
-        name: 'system',
-        func: systemExe,
-        desc: 'display system and text version',
-    },
+    {name: 'welcome',   func: welcomeExe,       desc: 'welcome message'},
+    {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
+    {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
+    {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
+    {name: 'about',     func: aboutExe,         desc: 'more about this website/project'},
+    {name: 'system',    func: systemExe,        desc: 'display system and text version'},
 ]
+
 const PROGRAM_HIDDEN = [
-    {
-        name: 'exit',
-        func: exitExe,
-    },
-    {
-        name: 'close',
-        func: exitExe,
-    },
-    {
-        name: 'cmd',
-        func: helpExe,
-    },
-    {
-        name: 'man',
-        func: helpExe,
-    },
-    {
-        name: 'unlock',
-        func: unlockExe,
-    },
-    {
-        name: 'ls',
-        func: mapExe,
-    },
-    {
-        name: 'list',
-        func: mapExe,
-    },
-    {
-        name: 'uname',
-        func: systemExe,
-    },
-    {
-        name: 'cl',
-        func: clearExe,
-    }
+    {name: 'exit',      func: exitExe},
+    {name: 'close',     func: exitExe},
+    {name: 'cmd',       func: helpExe},
+    {name: 'man',       func: helpExe},
+    {name: 'unlock',    func: unlockExe},
+    {name: 'ls',        func: mapExe},
+    {name: 'list',      func: mapExe},
+    {name: 'uname',     func: systemExe},
+    {name: 'cl',        func: clearExe}
 ]
-const PROGRAM_ASYNC = ['keyboard', 'unlock'];
+
+const PROGRAM_ASYNC = [
+    'keyboard', 'unlock'
+];
 
 function lockSystem(pid, message="", input_func=null) {
-    // no real mutex
-    // just a simulation
-
-    // start
+    // just a simulation, since single thread it is safe
     if (program_lock.pid === "") {
         program_lock.pid = pid;
-    // end, these two instruction need to be atomic in real setting, but not nessary for this website
         program_lock.locked = true;
         program_lock.message = message;
         program_lock.input_func = input_func;
@@ -145,7 +58,6 @@ function lockSystem(pid, message="", input_func=null) {
 }
 
 function updateLock(pid, message="", input_func=null) {
-
     if (program_lock.pid === pid) {
         program_lock.message = message;
         program_lock.input_func = input_func;
@@ -219,7 +131,6 @@ function simplifyExe(param, callback=null) {
 
         return container;
     };
-
 
     param.outStream.print(new Job("list", {
         list: [
