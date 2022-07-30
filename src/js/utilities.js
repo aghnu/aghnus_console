@@ -12,8 +12,8 @@ export function setRandInterval (func, min, max) {
 
     const runTimeout = () => {
         currentTimeout = setTimeout(() => {
-            func();
             runTimeout();
+            func();
         }, Math.floor(Math.random() * (max - min + 1)) + min);
     }
 

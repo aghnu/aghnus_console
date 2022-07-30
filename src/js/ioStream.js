@@ -174,6 +174,8 @@ export class OutputStreamScreen {
 
     printList(param) {
         const printJobList = param.list;
+        const callback = param.callback;
+        const checkpause = param.checkpause;
         const min_interval = param.min_interval;
         const max_interval = param.max_interval;
         const default_interval = 500;
@@ -191,8 +193,18 @@ export class OutputStreamScreen {
         const printing = setRandInterval(() => {
             if (printingIndex >= printJobList.length) {
                 printing.clear();
+                // callback
+                if (callback) {
+                    callback();
+                }
             } else {
-                this.print(printJobList[printingIndex++]);
+                if (checkpause) {
+                    if (!checkpause()) {
+                        this.print(printJobList[printingIndex++]);
+                    }
+                } else {
+                    this.print(printJobList[printingIndex++]);
+                }
             }
         }, min_interval, max_interval);
     }
@@ -239,6 +251,7 @@ export class OutputStreamScreen {
                 printJob.parameters.func();
                 break;
         }
+
     }
 }
 

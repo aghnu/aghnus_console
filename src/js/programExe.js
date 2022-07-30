@@ -4,7 +4,7 @@ import { createHTMLElement } from "./utilities";
 import projectsData from "../template/data/projects.json";
 import sitemapData from "../template/data/sitemap.json";
 
-const SYSTEM_VERSION = '2022.07.24.03';
+const SYSTEM_VERSION = '2022.07.30.01';
 const TEXT_VERSION = '2022.07.24.02';
 
 const program_lock = {
@@ -176,16 +176,22 @@ function genProcessID() {
     return pidCounter++;
 }
 
-function unlockExe() {
+function unlockExe(callback=null) {
     unlockSystem(program_lock.pid);
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function exitExe() {
+function exitExe(callback=null) {
     document.querySelector('#site-app').style.display = 'none';
     document.querySelector('#site-semantic').style.display = 'block';
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function simplifyExe(param) {
+function simplifyExe(param, callback=null) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -245,9 +251,13 @@ function simplifyExe(param) {
             param.outStream.print(new Job("text", {text: '<span class="highlight">[Pick your options to continue]</span>'}));
         }
     });
+
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function postsExe(param) {
+function postsExe(param, callback=null) {
     param.outStream.print(new Job('list', {
         list: [
             new Job("text", {text: "Posts: "}),
@@ -258,11 +268,13 @@ function postsExe(param) {
             new Job("text", {text: "WNFA Poster Generator - The online version of the <span class='highlight'>WNFA</span> project powered by Azure serverless products. You can write a poem in most languages and use the website to generate a unique poster for that poem: <a target='_blank' class='focus clickable' href='https://www.aghnu.me/WNFA' >WNFA Poster Generator</a>"}),
             new Job("line", {height: 1}),
         ], min_interval: 0, max_interval: 0,
+        callback: callback
     }));
 }
 
-function systemExe(param) {
+function systemExe(param, callback=null) {
     param.outStream.print(new Job('list', {
+        callback: callback,
         list: [
             new Job("custom", {element: (()=>{
                 const container = createHTMLElement('div', '');
@@ -280,7 +292,7 @@ function systemExe(param) {
     }));
 }
 
-function mapExe(param) {
+function mapExe(param, callback=null) {
 
     const sitemapPrintJobs = (()=>{
         const list = [];
@@ -306,17 +318,24 @@ function mapExe(param) {
         ],
         min_interval: 0, max_interval: 0,
     }));
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function welcomeExe(param) {
+function welcomeExe(param, callback=null) {
     // print to out
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
 
+    let printPause = false;
+
     param.outStream.print(new Job("list", {
+        checkpause: () => printPause,
         list: [
             new Job("lambda", {func: ()=>{
-                systemExe(param);
+                printPause = true;
+                systemExe(param, () => {printPause = false});
             }}),
             new Job("separator", {height: 1}),
 
@@ -344,16 +363,20 @@ function welcomeExe(param) {
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
             new Job("lambda", {func: ()=>{
-                postsExe(param);
+                printPause = true;
+                postsExe(param, () => {printPause = false});
                 unlockSystem(pid);
                 
             }})
         ],
         min_interval: 0, max_interval: 100,
     }));
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function aboutExe(param) {
+function aboutExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To know more about this website: "}),
@@ -365,9 +388,12 @@ function aboutExe(param) {
         ],
         min_interval: 0, max_interval: 0,
     }));
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function helpExe(param) {
+function helpExe(param,callback=null) {
     param.outStream.print(new Job("list", {
         list: (()=>{
             const list = [];
@@ -385,13 +411,19 @@ function helpExe(param) {
         })(),
         min_interval: 0, max_interval: 0,
     }));
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function clearExe(param) {
+function clearExe(param, callback=null) {
     param.outStream.clear();
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function contactExe(param) {
+function contactExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To contact me:"}),
@@ -403,18 +435,24 @@ function contactExe(param) {
         ],
         min_interval: 0, max_interval: 0,
     }));
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function keyboardExe(param) {
+function keyboardExe(param,callback=null) {
     const keyboard = document.querySelector('#virtual-keyboard');
     if (keyboard) {
         keyboard.classList.toggle('on');
     }
 
     param.outStream.broadCast();
+    if (callback !== null) {
+        callback();
+    }
 }
 
-function projectsExe(param) {
+function projectsExe(param, callback=null) {
     // get past projects
     const pastProjects = (()=>{
         const outList = [];
@@ -467,6 +505,10 @@ function projectsExe(param) {
         ],
         min_interval: 0, max_interval: 0,
     }));
+
+    if (callback !== null) {
+        callback();
+    }
 }
 
 export class ProgramCore {
