@@ -3,9 +3,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // get liquid template data
 const getTemplateData = (resourcePath) => {
   const data = {
-    'news': require('./src/template/data/news.json'),
-    'projects': require('./src/template/data/projects.json'),
-    'sitemap': require('./src/template/data/sitemap.json')
+    'news': require('./src/data/news.json'),
+    'projects': require('./src/data/projects.json'),
+    'sitemap': require('./src/data/sitemap.json')
   }
 
   return data;

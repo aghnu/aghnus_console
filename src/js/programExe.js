@@ -1,11 +1,12 @@
 
 import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
 import { createHTMLElement } from "./utilities";
-import projectsData from "../template/data/projects.json";
-import sitemapData from "../template/data/sitemap.json";
+import projectsData from "../data/projects.json";
+import sitemapData from "../data/sitemap.json";
+import sysConfig from "../data/config.json";
 
-const SYSTEM_VERSION = '2022.07.30.01';
-const TEXT_VERSION = '2022.07.24.02';
+const SYSTEM_VERSION = sysConfig.sys_ver;
+const TEXT_VERSION = sysConfig.txt_ver;
 
 const program_lock = {
     'pid': "",
@@ -21,7 +22,6 @@ const PROGRAM_META = [
         desc: 'welcome message',
 
     },
-
     {
         name: 'help',
         func: helpExe,
