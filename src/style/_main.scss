@@ -54,6 +54,7 @@ body {
 
     .clickable {
         text-decoration: underline;
+        cursor: pointer;
     }
 
     a {
@@ -233,12 +234,12 @@ body {
             justify-content: space-between;
     
             .name {
-                width: 20%;
+                width: 30%;
                 cursor: pointer;
             }
     
             .desc {
-                width: 60%;
+                width: 50%;
             }
     
         }
@@ -249,11 +250,11 @@ body {
             justify-content: space-between;
     
             .name {
-                width: 20%;
+                width: 30%;
             }
     
             .container {
-                width: 60%;
+                width: 50%;
                 display: flex;
                 flex-direction: column;
                 .link {

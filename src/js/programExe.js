@@ -14,12 +14,12 @@ const program_lock = {
 };
 
 const PROGRAM_META = [
-    {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me',       star: true},
     {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
     {name: 'posts',     func: postsExe,         desc: 'print the posts',                                            star: true},
     {name: 'help',      func: helpExe,          desc: 'list all the commands that aghnu.me currently supports',     star: true},
     {name: 'contact',   func: contactExe,       desc: 'list my contact information',                                star: true},
-
+    
+    {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me'},
     {name: 'welcome',   func: welcomeExe,       desc: 'welcome message'},
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
     {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
@@ -254,6 +254,9 @@ function welcomeExe(param, callback=null) {
             new Job("line", {height: 1}),
 
             new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree... I have rent to pay, and a mouth to feed (my mouth)... <span class='highlight'>I am open to work!</span>"}),
+            new Job("line", {height: 1}),
+            new Job("link", {link: "/static/doc/resume.pdf", name: "resume", text: "resume_gengyuan.pdf", type: "link"}),
+
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
 
