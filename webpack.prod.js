@@ -3,7 +3,7 @@ const common = require('./webpack.common.js');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
-const sitemap = require('./src/template/data/sitemap.json');
+const sitemap = require('./src/data/sitemap.json');
 
 const sitemapPath = sitemap.paths.map((path) => {
     
