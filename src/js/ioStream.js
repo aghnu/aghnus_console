@@ -197,6 +197,7 @@ export class OutputStreamScreen {
                 if (callback) {
                     callback();
                 }
+                return false;
             } else {
                 if (checkpause) {
                     if (!checkpause()) {
@@ -205,6 +206,7 @@ export class OutputStreamScreen {
                 } else {
                     this.print(printJobList[printingIndex++]);
                 }
+                return true;
             }
         }, min_interval, max_interval);
     }
