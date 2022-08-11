@@ -26,6 +26,8 @@ const PROGRAM_META = [
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
     {name: 'about',     func: aboutExe,         desc: 'more about this website/project'},
     {name: 'system',    func: systemExe,        desc: 'display system and text version'},
+    {name: 'resume',   func: resumeExe,       desc: 'print the link to my current resume'},
+
 ]
 
 const PROGRAM_HIDDEN = [
@@ -234,6 +236,18 @@ function mapExe(param, callback=null) {
     }
 }
 
+function resumeExe(param, callback=null) {
+    param.outStream.print(new Job("list", {
+        list: [
+            new Job("text", {text: "Current Resume: "}),
+            new Job("line", {height: 1}),
+            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
+            new Job("line", {height: 1}),
+        ],
+        min_interval: 0, max_interval: 0,
+    }));
+}
+
 function welcomeExe(param, callback=null) {
     // print to out
     const pid = genProcessID();
@@ -255,7 +269,7 @@ function welcomeExe(param, callback=null) {
 
             new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree... I have rent to pay, and a mouth to feed (my mouth)... <span class='highlight'>I am open to work!</span>"}),
             new Job("line", {height: 1}),
-            new Job("link", {link: "/static/doc/resume.pdf", name: "resume", text: "resume_gengyuan.pdf", type: "link"}),
+            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
 
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
@@ -332,6 +346,27 @@ function helpExe(param,callback=null) {
 
 function clearExe(param, callback=null) {
     param.outStream.clear();
+    param.outStream.print(new Job("list", {
+        list: [
+            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
+            // ...(()=>{
+            //     const list = [];
+            //     PROGRAM_META.forEach(p => {
+            //         if (p.star) {
+            //             list.push(new Job("line", {height: 1}));
+            //             list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+            //                 ProgramCore.getInstance().execute(p.name, {'outStream': param.outStream});
+            //             }}));
+                        
+            //         }
+            //     })
+            //     return list;              
+            // })(),
+            new Job("line", {height: 1}),
+        ],
+        min_interval: 0, max_interval: 0,
+    }));
+
     if (callback !== null) {
         callback();
     }
