@@ -13,6 +13,10 @@ const program_lock = {
     'message': "",  'input_func': null
 };
 
+const program_state = {
+    cleaningFuncs: [],
+}
+
 const PROGRAM_META = [
     {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
     {name: 'posts',     func: postsExe,         desc: 'print the posts',                                            star: true},
@@ -45,6 +49,17 @@ const PROGRAM_HIDDEN = [
 const PROGRAM_ASYNC = [
     'keyboard', 'unlock'
 ];
+
+function addClearningFunc(func) {
+    program_state.cleaningFuncs.push(func);
+}
+
+function clearClearningFunc() {
+    for (let i = 0; i < program_state.cleaningFuncs.length; i++) {
+        program_state.cleaningFuncs[i]();
+    }
+    program_state.cleaningFuncs = [];
+}
 
 function lockSystem(pid, message="", input_func=null) {
     // just a simulation, since single thread it is safe
@@ -346,6 +361,7 @@ function helpExe(param,callback=null) {
 
 function clearExe(param, callback=null) {
     param.outStream.clear();
+    clearClearningFunc();
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
