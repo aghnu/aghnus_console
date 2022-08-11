@@ -209,6 +209,7 @@ body {
 
                 .icon {
                     height: $terminal-line-height;
+                    margin-top: -2px;
                 }
             }
     
@@ -298,6 +299,7 @@ body {
                 cursor: pointer;
                 .icon {
                     height: $terminal-line-height;
+                    margin-top: -2px;
                 }
                 .text-container {
                     display: flex;

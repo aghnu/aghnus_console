@@ -85,7 +85,7 @@ export class OutputStreamScreen {
         const el = createHTMLElement('div', '', {'id': 'terminal-link'});
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
-        const link_icon = createHTMLElement('div', icon[param.type]('#984511', '24px'), {'class': 'icon'});
+        const link_icon = createHTMLElement('div', icon[param.type]('#984511', '20px'), {'class': 'icon'});
         const link_name = createHTMLElement('p', param.name, {'class': 'name-text highlight text-label'});
         
         const link_sep = createHTMLElement('p', ':', {'class': 'sep'});
