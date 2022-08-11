@@ -294,7 +294,7 @@ function aboutExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To know more about this website: "}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.github.io' >https://github.com/aghnu/aghnu.github.io</a>"}),
+            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.me.azure' >https://github.com/aghnu/aghnu.me.azure</a>"}),
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
 
             new Job("line", {height: 1}),
