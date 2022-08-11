@@ -210,7 +210,7 @@ function systemExe(param, callback=null) {
                 const text = createHTMLElement('p', '<span class="highlight">System&nbspVer.&nbsp&nbsp' + SYSTEM_VERSION + '</span><br><span class="highlight">Text&nbspVer.&nbsp&nbsp&nbsp&nbsp' + TEXT_VERSION + '</span>')
 
                 container.appendChild(logo);
-                container.appendChild(text);
+                container.appendChild(text);                
 
                 return container;
 
@@ -235,6 +235,7 @@ function mapExe(param, callback=null) {
     })();
 
     param.outStream.print(new Job("list", {
+        callback: callback,
         list: [
             new Job("text", {text: "Sitemap of aghnu.me: "}),
             new Job("line", {height: 1}),
@@ -246,9 +247,6 @@ function mapExe(param, callback=null) {
         ],
         min_interval: 0, max_interval: 0,
     }));
-    if (callback !== null) {
-        callback();
-    }
 }
 
 function resumeExe(param, callback=null) {
@@ -320,12 +318,22 @@ function welcomeExe(param, callback=null) {
 }
 
 function aboutExe(param, callback=null) {
+
+    let printPause = false;
     param.outStream.print(new Job("list", {
+        checkpause: () => printPause,
         list: [
+            new Job("lambda", {func: ()=>{
+                printPause = true;
+                mapExe(param, () => {printPause = false});
+            }}),
+
             new Job("text", {text: "To know more about this website: "}),
+            new Job("line", {height: 1}),
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.me.azure' >https://github.com/aghnu/aghnu.me.azure</a>"}),
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
-
+            new Job("line", {height: 1}),
+            new Job("text", {text: "© 2022 Gengyuan Huang"}),
             new Job("line", {height: 1}),
 
         ],
@@ -392,6 +400,7 @@ function contactExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To contact me:"}),
+            new Job("line", {height: 1}),
             new Job("link", {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}),
             new Job("link", {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}),
             new Job("link", {link: "https://www.linkedin.com/in/gengyuan-huang", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),

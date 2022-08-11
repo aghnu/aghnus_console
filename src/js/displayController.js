@@ -1,6 +1,7 @@
 import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
 import { ProgramCore } from "./programExe";
+import sysConfig from "../data/config.json";
 
 export class DisplayController {
     #promptStr = "guest@aghnu.me:/$:&nbsp";
@@ -77,10 +78,10 @@ export class DisplayController {
             },
             {
                 'type': 'info',
-                'text': 'sitemap',
+                'text': 'about',
                 'col': 'middle',
                 'func': () => {
-                    ProgramCore.getInstance().execute('map', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('about', {'outStream': this.out});
                 },
             },
             {
@@ -123,16 +124,26 @@ export class DisplayController {
     #createFooter() {
         const footer = document.querySelector('#footer');
         const footerDateEl = createHTMLElement('p', '', {'id': 'footer-date-str'});
+        const footerCopyEl = createHTMLElement('p', '', {'id': 'footer-copy-str'});
+        const footerLocaEl = createHTMLElement('p', '', {'id': 'footer-loca-str'});
+
         const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
 
+
+
+
         const date = new Date();
-        footerDateEl.innerHTML = date.toLocaleDateString() + "&nbsp" + date.toLocaleTimeString();
+        footerCopyEl.innerHTML = '© 2022 Gengyuan Huang';
+        footerLocaEl.innerHTML = sysConfig.location;
+        footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
         setInterval(() => {
             const date = new Date();
-            footerDateEl.innerHTML = date.toLocaleDateString() + "&nbsp" + date.toLocaleTimeString();
+            footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
         }, 1000);
 
         footerTextContainer.appendChild(footerDateEl);
+        footerTextContainer.appendChild(footerLocaEl);
+        // footerTextContainer.appendChild(footerCopyEl);
         footer.appendChild(footerTextContainer);
     }
 

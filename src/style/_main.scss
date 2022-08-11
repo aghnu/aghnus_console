@@ -189,7 +189,9 @@ body {
         margin-bottom: 2em;
         width: 100%;
         text-align: center;
-        color: $terminal-text-color-secondary;
+        p {
+            color: $terminal-text-color-secondary;
+        }
     }
 }
 
@@ -197,7 +199,7 @@ body {
     display: none;
 
     #terminal-container {
-    
+
         #terminal-link {
             display: flex;
             justify-content: space-between;
@@ -273,13 +275,16 @@ body {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            height: $function-key-line-height;
+            // height: $function-key-line-height;
     
-            #footer-date-str {
+            #footer-date-str,
+            #footer-loca-str,
+            #footer-copy-str {
                 font-size: $function-key-font-size;
                 font-family: "Classic Console Neue";
-                color: $terminal-text-color-secondary;
+                color: $terminal-text-color-focus;
                 margin: auto;
+                text-align: center;
             }
         }
     }

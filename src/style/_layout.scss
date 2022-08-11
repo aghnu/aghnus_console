@@ -1,4 +1,4 @@
-$footer-height:                     24px;
+$footer-height:                     48px;
 $function-keys-height:              48px;
 $virtual-keyboard-height:           180px;
 
@@ -7,11 +7,13 @@ $third-layer-padding-y:             2.5vh;
 
 $third-layer-content-width:         90vw;
 $third-layer-content-width-max:     550px;
+$third-layer-content-width-min:     350px;
 
 .layer {
     position: fixed;
     height: 100vh;
     width: 100vw;
+    min-height: 200px;
     top: 0;
     left: 0;
 }
@@ -50,6 +52,7 @@ $third-layer-content-width-max:     550px;
 
     width: $third-layer-content-width;
     max-width: $third-layer-content-width-max;
+    min-width: $third-layer-content-width-min;
     height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$third-layer-padding-y * 4});
 
 
@@ -68,6 +71,7 @@ $third-layer-content-width-max:     550px;
     position: fixed;
     width: $third-layer-content-width;
     max-width: $third-layer-content-width-max;
+    min-width: $third-layer-content-width-min;
     left: $third-layer-padding-x;
     bottom: calc(#{$footer-height} + #{$function-keys-height} + #{$third-layer-padding-y * 3});
     height: $virtual-keyboard-height;
@@ -89,6 +93,7 @@ $third-layer-content-width-max:     550px;
     left: $third-layer-padding-x;
     width: $third-layer-content-width;
     max-width: $third-layer-content-width-max;
+    min-width: $third-layer-content-width-min;
 }
 
 #footer {
@@ -102,6 +107,7 @@ $third-layer-content-width-max:     550px;
 
     width: $third-layer-content-width;
     max-width: $third-layer-content-width-max;
+    min-width: $third-layer-content-width-min;
 
 }
 
