@@ -3,7 +3,7 @@
         {
             "title": "WNFA (interactive installation art)",
             "tags": "#design #art #computer-vision #fullstack #neural-network #tencent-cloud-SDK",
-            "desc": "WNFA (Words Never Fall Apart) is an interactive art project that uses grid method and machine learning to generate art from handwritten poems.",
+            "desc": "WNFA (Words Never Fall Apart) is an interactive art project that generates posters from handwritten poems.",
             "links": [
                 {"title": "Github Repository", "link": "https://github.com/aghnu/WNFA"}
             ]
