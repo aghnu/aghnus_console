@@ -1,3 +1,13 @@
+$terminal-font-size:                18px;
+$terminal-line-height:              20px;
+$function-key-font-size:            18px;
+$function-key-line-height:          26px;
+
+$terminal-text-color-primary:       #78a88a;
+$terminal-text-color-focus:         #984511;
+$terminal-background-color:         #000000;
+$terminal-text-color-secondary:     #de9835;
+
 @import
     'base',
     'layout',

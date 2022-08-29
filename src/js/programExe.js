@@ -277,11 +277,11 @@ function welcomeExe(param, callback=null) {
             }}),
             new Job("separator", {height: 1}),
 
-            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ ;] My name is Gengyuan Huang, a programmer..."}),
+            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ My name is <span class='highlight'>Gengyuan Huang</span>, a software developer..."}),
             new Job("line", {height: 1}),
 
-            new Job("text", {text: "I have recently graduated from the University of Alberta with a CS degree... I have rent to pay, and a mouth to feed (my mouth)... <span class='highlight'>I am open to work!</span>"}),
-            new Job("line", {height: 1}),
+            // new Job("text", {text: ""}),
+            // new Job("line", {height: 1}),
             new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
 
             new Job("line", {height: 1}),
