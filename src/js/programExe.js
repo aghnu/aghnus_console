@@ -403,7 +403,7 @@ function contactExe(param, callback=null) {
             new Job("line", {height: 1}),
             new Job("link", {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}),
             new Job("link", {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}),
-            new Job("link", {link: "https://www.linkedin.com/in/gengyuan-huang", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),
+            new Job("link", {link: "https://www.linkedin.com/in/gengyuanh", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),
             new Job("link", {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}),
             new Job("line", {height: 1}),
         ],
