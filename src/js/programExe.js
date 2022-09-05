@@ -5,8 +5,7 @@ import projectsData from "../data/projects.json";
 import sitemapData from "../data/sitemap.json";
 import sysConfig from "../data/config.json";
 
-const SYSTEM_VERSION = sysConfig.sys_ver;
-const TEXT_VERSION = sysConfig.txt_ver;
+const SYSTEM_VERSION = sysConfig.updated;
 
 const program_lock = {
     'pid': "",      'locked': false,
@@ -23,20 +22,19 @@ const PROGRAM_META = [
 
     {name: 'posts',     func: postsExe,         desc: 'print the posts'},
     {name: 'contact',   func: contactExe,       desc: 'list my contact information'},
-    {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me'},
+    {name: 'semantic',  func: semanticExe,      desc: 'display the semantic/no-script version of aghnu.me'},
     {name: 'home',      func: homeExe,          desc: 'display home page'},
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
     {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
     {name: 'about',     func: aboutExe,         desc: 'more about this website/project'},
-    {name: 'system',    func: systemExe,        desc: 'display system and text version'},
     {name: 'resume',    func: resumeExe,        desc: 'print the link to my current resume'},
 
 ]
 
 const PROGRAM_HIDDEN = [
-    {name: 'exit',      func: simplifyExe},
-    {name: 'close',     func: simplifyExe},
+    {name: 'exit',      func: semanticExe},
+    {name: 'close',     func: semanticExe},
     {name: 'cmd',       func: helpExe},
     {name: 'man',       func: helpExe},
     {name: 'unlock',    func: unlockExe},
@@ -113,7 +111,7 @@ function unlockExe(callback=null) {
     }
 }
 
-function simplifyExe(param, callback=null) {
+function semanticExe(param, callback=null) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -199,7 +197,7 @@ function systemExe(param, callback=null) {
             new Job("custom", {element: (()=>{
                 const container = createHTMLElement('div', '');
                 const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
-                const text = createHTMLElement('p', '<span class="highlight">System&nbspVer.&nbsp&nbsp' + SYSTEM_VERSION + '</span><br><span class="highlight">Text&nbspVer.&nbsp&nbsp&nbsp&nbsp' + TEXT_VERSION + '</span>')
+                const text = createHTMLElement('p', "<span class='highlight'>Gengyuan Huang's Homepage</span>")
 
                 container.appendChild(logo);
                 container.appendChild(text);                
@@ -326,6 +324,9 @@ function aboutExe(param, callback=null) {
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
             new Job("line", {height: 1}),
             new Job("text", {text: "© 2022 Gengyuan Huang"}),
+            new Job("line", {height: 1}),
+            new Job("separator", {height: 1}),
+            new Job("text", {text: '<span class="highlight">Website last updated on ' + SYSTEM_VERSION}),
             new Job("line", {height: 1}),
 
         ],
