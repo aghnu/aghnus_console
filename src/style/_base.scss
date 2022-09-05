@@ -3,6 +3,11 @@ html {
     background-color: $terminal-background-color;
     color: white;
     font-family: "Classic Console Neue";
+    font-size: $font-size;
+
+    @include mobile() {
+        font-size: $font-size-mobile;
+    }
 }
 
 body {

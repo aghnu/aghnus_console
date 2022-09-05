@@ -1,12 +1,13 @@
-$terminal-font-size:                18px;
-$terminal-line-height:              20px;
-$function-key-font-size:            18px;
-$function-key-line-height:          26px;
-
 $terminal-text-color-primary:       #78a88a;
 $terminal-text-color-focus:         #984511;
 $terminal-background-color:         #000000;
 $terminal-text-color-secondary:     #de9835;
+
+$font-size-mobile:                  16px;
+$font-size:                         18px;
+$terminal-line-height:              calc(1rem * 1.1);
+$function-key-font-size:            1rem;
+$function-key-line-height:          calc(1rem * 1.45);
 
 @mixin mobile() {
     @media only screen and (max-width: 750px) {
