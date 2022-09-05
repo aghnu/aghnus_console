@@ -19,10 +19,10 @@ const program_state = {
 
 const PROGRAM_META = [
     {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
-    {name: 'posts',     func: postsExe,         desc: 'print the posts',                                            star: true},
     {name: 'help',      func: helpExe,          desc: 'list all the commands that aghnu.me currently supports',     star: true},
-    {name: 'contact',   func: contactExe,       desc: 'list my contact information',                                star: true},
-    
+
+    {name: 'posts',     func: postsExe,         desc: 'print the posts'},
+    {name: 'contact',   func: contactExe,       desc: 'list my contact information'},
     {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me'},
     {name: 'welcome',   func: welcomeExe,       desc: 'welcome message'},
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
@@ -30,7 +30,7 @@ const PROGRAM_META = [
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
     {name: 'about',     func: aboutExe,         desc: 'more about this website/project'},
     {name: 'system',    func: systemExe,        desc: 'display system and text version'},
-    {name: 'resume',   func: resumeExe,       desc: 'print the link to my current resume'},
+    {name: 'resume',    func: resumeExe,        desc: 'print the link to my current resume'},
 
 ]
 

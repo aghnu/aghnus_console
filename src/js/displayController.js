@@ -21,6 +21,7 @@ export class DisplayController {
         this.#createFooter();
         this.#createFunctionKeys();
         this.#connectOutputInputStream();
+        this.#createSidebar();
     }
 
     refresh() {
@@ -36,6 +37,25 @@ export class DisplayController {
         this.in.subscribe(() => {
             this.refresh();
         })
+    }
+
+    #createSidebar() {
+        const side_bar_left = document.querySelector('#sidebar-left');
+        const items = [
+            {'type': 'github', 'link': 'https://github.com/aghnu'},
+            {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh'},
+            {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca'},
+        ]
+
+        items.forEach((i) => {
+            const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'target': '_blank', rel: 'noopener noreferrer'});
+            const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '32px'), {'class': 'icon'}); 
+
+            el.appendChild(elIcon);
+            side_bar_left.appendChild(el);           
+        });
+
+
     }
 
     #createFunctionKeys() {

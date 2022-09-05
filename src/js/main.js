@@ -10,13 +10,14 @@ import { ProgramCore } from "./programExe";
 function createHTMLStructure() {
     const site_app = createHTMLElement('div', '', {id: 'site-app'});
 
-    const second_layer = createHTMLElement('div','',{'id': 'second-layer', 'class':'layer clickthrough noselect'});
-    const third_layer = createHTMLElement('div','',{'id': 'third-layer', 'class':'layer'});
+    const overlay_layer = createHTMLElement('div','',{'id': 'overlay-layer', 'class':'layer'});
+    const terminal_layer = createHTMLElement('div','',{'id': 'terminal-layer', 'class':'layer'});
 
-    const third_layer_virtual_keyboard = createHTMLElement('div','',{'id': 'virtual-keyboard'});
-    const third_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
-    const third_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container', 'class': 'noselect'});
-    const third_layer_footer = createHTMLElement('div','',{'id': 'footer'});
+    // third layer
+    const terminal_layer_virtual_keyboard = createHTMLElement('div','',{'id': 'virtual-keyboard'});
+    const terminal_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
+    const terminal_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container', 'class': 'noselect'});
+    const terminal_layer_footer = createHTMLElement('div','',{'id': 'footer'});
 
     const terminal_container_output = createHTMLElement('div', '', {'id': 'terminal-output'});
     
@@ -24,19 +25,25 @@ function createHTMLStructure() {
     const function_key_container_middle = createHTMLElement('div', '', {'class': 'container middle'});
     const function_key_container_right = createHTMLElement('div', '', {'class': 'container right'});
 
-    third_layer_terminal_container.appendChild(terminal_container_output);
+    terminal_layer_terminal_container.appendChild(terminal_container_output);
 
-    third_layer_function_key_container.appendChild(function_key_container_left);
-    third_layer_function_key_container.appendChild(function_key_container_middle);
-    third_layer_function_key_container.appendChild(function_key_container_right);
+    terminal_layer_function_key_container.appendChild(function_key_container_left);
+    terminal_layer_function_key_container.appendChild(function_key_container_middle);
+    terminal_layer_function_key_container.appendChild(function_key_container_right);
 
-    third_layer.appendChild(third_layer_virtual_keyboard);
-    third_layer.appendChild(third_layer_terminal_container);
-    third_layer.appendChild(third_layer_function_key_container);
-    third_layer.appendChild(third_layer_footer);
+    terminal_layer.appendChild(terminal_layer_virtual_keyboard);
+    terminal_layer.appendChild(terminal_layer_terminal_container);
+    terminal_layer.appendChild(terminal_layer_function_key_container);
+    terminal_layer.appendChild(terminal_layer_footer);
 
-    site_app.appendChild(second_layer);
-    site_app.appendChild(third_layer);
+    // second layer
+    const side_bar_left = createHTMLElement('div', '', {'id': 'sidebar-left'});
+
+    overlay_layer.appendChild(side_bar_left);
+
+
+    site_app.appendChild(overlay_layer);
+    site_app.appendChild(terminal_layer);
 
     document.body.appendChild(site_app);
 
