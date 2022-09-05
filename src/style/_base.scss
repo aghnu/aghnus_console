@@ -4,6 +4,7 @@ html {
     color: white;
     font-family: "Classic Console Neue";
     font-size: $font-size;
+    transition: font-size 1s;
 
     @include mobile() {
         font-size: $font-size-mobile;
