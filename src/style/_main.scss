@@ -16,7 +16,6 @@
 body { 
     p {
         color: $terminal-text-color-primary;
-        font-size: 1rem;
         line-height: $terminal-line-height;
         margin: 0;
         word-wrap: break-word;
@@ -88,7 +87,6 @@ body {
     margin: auto;
     margin-top: 2em;
     margin-bottom: 2em;
-    font-size: 1rem;
     color: $terminal-text-color-primary;
     @include override_select_color($terminal-background-color, $terminal-text-color-primary);
 
@@ -265,7 +263,6 @@ body {
                 flex-direction: column;
                 .link {
                     display: block;
-                    font-size: 1rem;
                     line-height: $terminal-line-height;
                 }
             }
