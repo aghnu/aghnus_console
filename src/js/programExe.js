@@ -1,5 +1,5 @@
 
-import { OutputStreamJob as Job, OutputStreamJob } from "./ioStream";
+import { OutputStreamJob as Job, InputStream, OutputStreamScreen } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 import projectsData from "../data/projects.json";
 import sitemapData from "../data/sitemap.json";
@@ -139,11 +139,11 @@ function simplifyExe(param, callback=null) {
         answer_no.style.cursor = 'pointer';
 
         answer_yes.onclick =  ()=> {
-            ProgramCore.getInstance().execute('y', {'outStream': param.outStream});
+            ProgramCore.getInstance().execute('y');
         };
 
         answer_no.onclick = () => {
-            ProgramCore.getInstance().execute('n', {'outStream': param.outStream});                      
+            ProgramCore.getInstance().execute('n');                      
         };
 
         return container;
@@ -294,7 +294,7 @@ function homeExe(param, callback=null) {
                     if (p.star) {
                         list.push(new Job("line", {height: 1}));
                         list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-                            ProgramCore.getInstance().execute(p.name, {'outStream': param.outStream});
+                            ProgramCore.getInstance().execute(p.name);
                         }}));
                         
                     }
@@ -352,7 +352,7 @@ function helpExe(param,callback=null) {
 
             PROGRAM_META.forEach(p => {
                 list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-                    ProgramCore.getInstance().execute(p.name, {'outStream': param.outStream});
+                    ProgramCore.getInstance().execute(p.name);
                 }}));
                 list.push(new Job("line", {height: 1}));
             });
@@ -373,19 +373,6 @@ function clearExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         list: [
             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
-            // ...(()=>{
-            //     const list = [];
-            //     PROGRAM_META.forEach(p => {
-            //         if (p.star) {
-            //             list.push(new Job("line", {height: 1}));
-            //             list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-            //                 ProgramCore.getInstance().execute(p.name, {'outStream': param.outStream});
-            //             }}));
-                        
-            //         }
-            //     })
-            //     return list;              
-            // })(),
             new Job("line", {height: 1}),
         ],
         min_interval: 0, max_interval: 0,
@@ -497,6 +484,7 @@ export class ProgramCore {
 
         // init
         this.updatePath();
+        this.outStream = OutputStreamScreen.getInstance();
     }
 
     static getInstance() {
@@ -517,23 +505,25 @@ export class ProgramCore {
         })
     }
 
-    execute(cmd, param) {
+    execute(cmd, param={}) {
+        param.outStream = this.outStream;
+
         if (PROGRAM_ASYNC.includes(cmd) || !program_lock.locked) {
             if (cmd === "") {
-                param.outStream.print(new OutputStreamJob('line', {'height': 1}));
+                param.outStream.print(new Job('line', {'height': 1}));
             } else {
                 
                 if (this.path[cmd] === undefined) {
-                    param.outStream.print(new OutputStreamJob('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
+                    param.outStream.print(new Job('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
                 } else {
-                    param.outStream.print(new OutputStreamJob('text', {'text': `<span class='highlight'>[${cmd}]</span>`}));
+                    param.outStream.print(new Job('text', {'text': `<span class='highlight'>[${cmd}]</span>`}));
                     this.path[cmd].exe(param);
                 }                       
             }
      
         } else {
             if (program_lock.input_func === null) {
-                param.outStream.print(new OutputStreamJob('text', {'text': program_lock.message}));
+                param.outStream.print(new Job('text', {'text': program_lock.message}));
             } else {
                 program_lock.input_func(cmd, param);
             }

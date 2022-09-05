@@ -13,9 +13,23 @@ export class OutputStreamJob {
 
 export class InputStream {
     constructor() {
+        if (InputStream._instance) {
+            return InputStream._instance;
+        }
+        InputStream._instance = this;
+
+
         this.oldInput = "";
         this.input = "";
         this.listeners = [];
+    }
+
+    static getInstance() {
+        if (InputStream._instance) {
+            return InputStream._instance;
+        }
+
+        return new InputStream();
     }
 
     getInput() {
@@ -39,9 +53,23 @@ export class InputStream {
 }
 
 export class OutputStreamScreen {
-    constructor(div) {
-        this.out = div;
+    constructor() {
+        if (OutputStreamScreen._instance) {
+            return OutputStreamScreen._instance;
+        }
+        OutputStreamScreen._instance = this;
+
+
+        this.out = document.querySelector("#terminal-container #terminal-output");
         this.listeners = [];
+    }
+
+    static getInstance() {
+        if (OutputStreamScreen._instance) {
+            return OutputStreamScreen._instance;
+        }
+
+        return new OutputStreamScreen();
     }
 
     hasElement(el) {

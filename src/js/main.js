@@ -51,17 +51,15 @@ function createHTMLStructure() {
 }   
 
 function main() {
-    // init iostream
-    const inStream = new InputStream();
-    const outStream = new OutputStreamScreen(document.querySelector("#terminal-container #terminal-output"));
-
     // singletons
     new ProgramCore();
-    new DisplayController(inStream, outStream);
-    new KeyboardController(inStream, outStream);
+    new InputStream();
+    new OutputStreamScreen();
+    new DisplayController();
+    new KeyboardController();
 
     // default
-    ProgramCore.getInstance().execute('home', {"outStream": outStream});
+    ProgramCore.getInstance().execute('home');
 }
 
 window.addEventListener('load', () => {

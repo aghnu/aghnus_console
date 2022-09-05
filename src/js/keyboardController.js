@@ -1,6 +1,7 @@
 import { ProgramCore } from "./programExe";
 import { createHTMLElement } from "./utilities";
 import { OutputStreamJob } from "./ioStream";
+import { InputStream, OutputStreamScreen } from "./ioStream";
 
 export class KeyboardController {
     constructor(inputStream, outputStream) {
@@ -19,8 +20,8 @@ export class KeyboardController {
         ]);
 
         this.specialKeyHandlers = {};
-        this.inputStream = inputStream;
-        this.outputStream = outputStream;
+        this.inputStream = InputStream.getInstance();
+        this.outputStream = OutputStreamScreen.getInstance();
 
         // init
         this.#setUpSpecialKey();
@@ -168,7 +169,7 @@ export class KeyboardController {
                 this.outputStream.print(new OutputStreamJob('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD + "</span>"})); 
             }
             
-            programCore.execute(cmd[0] , {outStream: this.outputStream});
+            programCore.execute(cmd[0]);
         });
     }
 

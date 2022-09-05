@@ -2,6 +2,7 @@ import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
 import { ProgramCore } from "./programExe";
 import sysConfig from "../data/config.json";
+import { InputStream, OutputStreamScreen } from "./ioStream";
 
 export class DisplayController {
     #promptStr = "guest@aghnu.me:/$:&nbsp";
@@ -10,8 +11,8 @@ export class DisplayController {
 
     constructor(inputStream, outputStream) {
         // public fields
-        this.out = outputStream;
-        this.in = inputStream;
+        this.out = OutputStreamScreen.getInstance();
+        this.in = InputStream.getInstance();
        
         // when window resize
         window.addEventListener('resize', () => this.refresh);
@@ -69,7 +70,7 @@ export class DisplayController {
                 'text': 'keyboard',
                 'col': 'left',
                 'func': () => {
-                    ProgramCore.getInstance().execute('keyboard', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('keyboard');
                 },
             },
             {
@@ -77,7 +78,7 @@ export class DisplayController {
                 'text': 'clear',
                 'col': 'middle',
                 'func': () => {
-                    ProgramCore.getInstance().execute('clear', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('clear');
                 },
             },
             {
@@ -85,7 +86,7 @@ export class DisplayController {
                 'text': 'help',
                 'col': 'right',
                 'func': () => {
-                    ProgramCore.getInstance().execute('help', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('help');
                 },
             },
             {
@@ -93,7 +94,7 @@ export class DisplayController {
                 'text': 'home',
                 'col': 'left',
                 'func': () => {
-                    ProgramCore.getInstance().execute('home', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('home');
                 },
             },
             {
@@ -101,7 +102,7 @@ export class DisplayController {
                 'text': 'about',
                 'col': 'middle',
                 'func': () => {
-                    ProgramCore.getInstance().execute('about', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('about');
                 },
             },
             {
@@ -109,7 +110,7 @@ export class DisplayController {
                 'text': 'projects',
                 'col': 'right',
                 'func': () => {
-                    ProgramCore.getInstance().execute('projects', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('projects');
                 },
             },
         ];
