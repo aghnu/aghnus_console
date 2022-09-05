@@ -49,9 +49,10 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
 #sidebar-left {
     position: absolute;
     left: $terminal-layer-padding-x;
-    top: 30%;
+    top: 40%;
     transform: translate(-50%, -50%);
     width: $terminal-layer-content-width;
+    min-width: fit-content;
 
     .item {
         pointer-events: all;
@@ -133,6 +134,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     transform: translate(-50%, 0%);
 
     width: $terminal-layer-content-width;
+    min-width: fit-content;
 
     @include mobile() {
         width: $terminal-layer-mobile-content-width;
