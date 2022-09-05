@@ -35,8 +35,8 @@ const PROGRAM_META = [
 ]
 
 const PROGRAM_HIDDEN = [
-    {name: 'exit',      func: exitExe},
-    {name: 'close',     func: exitExe},
+    {name: 'exit',      func: simplifyExe},
+    {name: 'close',     func: simplifyExe},
     {name: 'cmd',       func: helpExe},
     {name: 'man',       func: helpExe},
     {name: 'unlock',    func: unlockExe},
@@ -113,14 +113,6 @@ function unlockExe(callback=null) {
     }
 }
 
-function exitExe(callback=null) {
-    document.querySelector('#site-app').style.display = 'none';
-    document.querySelector('#site-semantic').style.display = 'block';
-    if (callback !== null) {
-        callback();
-    }
-}
-
 function simplifyExe(param, callback=null) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
@@ -161,17 +153,16 @@ function simplifyExe(param, callback=null) {
     }));
 
     updateLock(pid, 'System is Currently Occupied', (cmd, param) => {
-        if (cmd === 'y' || cmd === 'Y') {
+        if (cmd === 'y' || cmd === 'Y' || cmd === 'yes') {
             unlockSystem(pid);
             param.outStream.print(new Job("line", {height: 1}));
-            exitExe();
 
             answer_yes.onclick = null;
             answer_no.onclick = null;
 
             window.location = '?simple=true';
 
-        } else if (cmd === 'n' || cmd === 'N' || cmd === ''){
+        } else if (cmd === 'n' || cmd === 'N' || cmd === 'no' || cmd === ''){
             unlockSystem(pid);
             param.outStream.print(new Job("line", {height: 1}));
             answer_yes.onclick = null;

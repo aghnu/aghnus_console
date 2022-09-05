@@ -67,15 +67,15 @@ window.addEventListener('load', () => {
     const site_app = createHTMLStructure();
     const site_semantic = document.querySelector('#site-semantic');
 
-    // setup site app
-    main();
-
     // switch between semantic and app by users choice
     const url = new URL(window.location);
     const isSimple = (url.searchParams.get('simple')) ? (url.searchParams.get('simple')) : 'false';    
     if (isSimple === 'true') {
+        site_app.parentNode.removeChild(site_app);
         site_semantic.style.display = 'block';
     } else {
-        site_app.style.display = 'block';
+        site_semantic.parentNode.removeChild(site_semantic);
+        main();
     }
+    
 });
