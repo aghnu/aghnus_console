@@ -24,7 +24,7 @@ const PROGRAM_META = [
     {name: 'posts',     func: postsExe,         desc: 'print the posts'},
     {name: 'contact',   func: contactExe,       desc: 'list my contact information'},
     {name: 'simplify',  func: simplifyExe,      desc: 'display the simplified no-script version of aghnu.me'},
-    {name: 'welcome',   func: welcomeExe,       desc: 'welcome message'},
+    {name: 'home',      func: homeExe,          desc: 'display home page'},
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
     {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
@@ -261,7 +261,7 @@ function resumeExe(param, callback=null) {
     }));
 }
 
-function welcomeExe(param, callback=null) {
+function homeExe(param, callback=null) {
     // print to out
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');

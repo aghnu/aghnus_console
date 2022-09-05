@@ -61,7 +61,7 @@ function main() {
     new KeyboardController(inStream, outStream);
 
     // default
-    ProgramCore.getInstance().execute('welcome', {"outStream": outStream});
+    ProgramCore.getInstance().execute('home', {"outStream": outStream});
 }
 
 window.addEventListener('load', () => {

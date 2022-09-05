@@ -89,11 +89,11 @@ export class DisplayController {
                 },
             },
             {
-                'type': 'contact',
-                'text': 'contact',
+                'type': 'home',
+                'text': 'home',
                 'col': 'left',
                 'func': () => {
-                    ProgramCore.getInstance().execute('contact', {'outStream': this.out});
+                    ProgramCore.getInstance().execute('home', {'outStream': this.out});
                 },
             },
             {
