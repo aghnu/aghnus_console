@@ -201,6 +201,7 @@ body {
 
 #site-app {
     #terminal-container {
+        scroll-behavior: smooth;
 
         #terminal-link {
             display: flex;

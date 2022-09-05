@@ -254,6 +254,7 @@ function resumeExe(param, callback=null) {
 function homeExe(param, callback=null) {
     // print to out
     const pid = genProcessID();
+    const anchor_start = createHTMLElement('div', '', {'class': 'anchor-start'});
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
 
     let printPause = false;
@@ -261,6 +262,7 @@ function homeExe(param, callback=null) {
     param.outStream.print(new Job("list", {
         checkpause: () => printPause,
         list: [
+            new Job("custom", {element: anchor_start}),
             new Job("lambda", {func: ()=>{
                 printPause = true;
                 systemExe(param, () => {printPause = false});
@@ -295,16 +297,17 @@ function homeExe(param, callback=null) {
             new Job("separator", {height: 1}),
             new Job("lambda", {func: ()=>{
                 printPause = true;
-                postsExe(param, () => {printPause = false});
-                unlockSystem(pid);
-                
+                postsExe(param, () => {
+                    printPause = false
+                    setTimeout(() => {
+                        anchor_start.scrollIntoView(true);
+                        unlockSystem(pid);                           
+                    }, 1000);
+                });         
             }})
         ],
-        min_interval: 0, max_interval: 100,
+        min_interval: 0, max_interval: 0,
     }));
-    if (callback !== null) {
-        callback();
-    }
 }
 
 function aboutExe(param, callback=null) {
