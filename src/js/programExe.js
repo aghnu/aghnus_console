@@ -43,7 +43,8 @@ const PROGRAM_HIDDEN = [
     {name: 'ls',        func: mapExe},
     {name: 'list',      func: mapExe},
     {name: 'uname',     func: systemExe},
-    {name: 'cl',        func: clearExe}
+    {name: 'cl',        func: clearExe},
+    {name: 'welcome',   func: homeExe}
 ]
 
 const PROGRAM_ASYNC = [
