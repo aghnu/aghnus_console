@@ -161,13 +161,14 @@ export class KeyboardController {
         this.addSpecialKey('Enter', () => {
             const programCore = ProgramCore.getInstance();
             const inputCMD = this.inputStream.getInput();
+            const cmd = inputCMD.split(' ').filter((c) => c !== '');
             this.inputStream.updateInput("");
             
             if (inputCMD !== "") {
                 this.outputStream.print(new OutputStreamJob('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD + "</span>"})); 
             }
             
-            programCore.execute(inputCMD , {outStream: this.outputStream});
+            programCore.execute(cmd[0] , {outStream: this.outputStream});
         });
     }
 
