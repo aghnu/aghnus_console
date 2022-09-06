@@ -392,6 +392,7 @@ body {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            height: 100%;
         }
 
 
@@ -400,52 +401,59 @@ body {
             flex-direction: row;
             gap: 1.5%;
             justify-content: center;
-            height: calc(80% / 5);
+            height: calc(95% / 5);
             .key {
                 position: relative;
-                height: 100%;
+                height: 80%;
                 min-width: fit-content;
-                width: calc(86.5% / 10);
+                width: calc((100% - 1.5% * 9) / 10);
+
                 border: solid;
                 border-radius: 0.33rem;
                 border-width: 0.11rem;
+                
                 background: $terminal-background-color;
-                color: $terminal-text-color-secondary;
+                border-color: $terminal-text-color-secondary;
                 cursor: pointer;
                 font-size: $function-key-font-size;
                 box-shadow: 0rem 0.11rem 0rem $terminal-text-color-focus;
                 font-family: "Classic Console Neue";
     
+                .label {
+                    color: $terminal-text-color-secondary;
+                    margin: 0.2rem 0.4rem 0.2rem 0.4rem;
+
+                }
+
                 &.hold {
-                    box-shadow: none;
                     height: 175%;
-                    bottom: 75%;
+                    bottom: 95%;
                 }
     
                 &#virtual-key-Space {
                     min-width: fit-content;
-                    width: calc(97% / 6 * 4);
-                    height: 120%;
+                    width: calc((100% - 1.5% * 3) / 10 * 6);
+                    height: 100%;
                     &.hold {
-                        height: 195%;
+                        height: 175%;
                         bottom: 75%;
                     }
                 }
                 &#virtual-key-Enter {
                     min-width: fit-content;
-                    width: calc(97% / 6);
-                    height: 120%;
+                    width: calc((100% - 1.5% * 3) / 10 * 2);
+                    height: 100%;
                     &.hold {
-                        height: 195%;
+                        height: 175%;
                         bottom: 75%;
                     }
                 }
                 &#virtual-key-Back {
                     min-width: fit-content;
-                    width: calc(97% / 6);
-                    height: 120%;
+                    width: calc((100% - 1.5% * 3) / 10 * 2);
+                    height: 100%;
                     &.hold {
-                        height: 195%;
+                        height: 175%;
                         bottom: 75%;
                     }
                 }

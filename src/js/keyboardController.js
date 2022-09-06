@@ -63,7 +63,7 @@ export class KeyboardController {
                 const text = keyboardTextMap[r][i];
                 const key = keyboardKeyMap[r][i];
 
-                const keyboard_key = createHTMLElement('button', text, {'class': 'key noselect', 'id': "virtual-key-" + text});
+                const keyboard_key = createHTMLElement('div', '<p class="label">' + text + '</p>', {'class': 'key noselect', 'id': "virtual-key-" + text});
                 
                 let keyPressed = false;
                 let continueTypingCheckingTimeout = null;
