@@ -50,7 +50,7 @@ export class DisplayController {
 
         items.forEach((i) => {
             const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'target': '_blank', rel: 'noopener noreferrer'});
-            const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77rem'), {'class': 'icon'}); 
+            const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77em'), {'class': 'icon'}); 
 
             el.appendChild(elIcon);
             side_bar_left.appendChild(el);           
@@ -117,7 +117,7 @@ export class DisplayController {
 
         keys.forEach((key) => {
             const el = createHTMLElement('button', '', {'class': 'key'});
-            const elIcon = createHTMLElement('div', icon[key.type]('#984511', '1.44rem'), {'class': 'icon'});
+            const elIcon = createHTMLElement('div', icon[key.type]('#984511', '1.44em'), {'class': 'icon'});
             const elText = createHTMLElement('text', key.text, {'class': 'text'});
             const elTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
             
