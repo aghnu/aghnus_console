@@ -5,6 +5,7 @@ import projectsData from "../data/projects.json";
 import sitemapData from "../data/sitemap.json";
 import sysConfig from "../data/config.json";
 import portfolioData from "../data/portfolio.json";
+import skillsData from "../data/skills.json";
 
 const SYSTEM_VERSION = sysConfig.updated;
 
@@ -21,6 +22,7 @@ const PROGRAM_META = [
     {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
     {name: 'help',      func: helpExe,          desc: 'list all the commands that aghnu.me currently supports',     star: true},
 
+    {name: 'skills',    func: skillsExe,        desc: 'list my technical skills'},
     {name: 'portfolio', func: portfolioExe,     desc: 'print the portfolios'},
     {name: 'contact',   func: contactExe,       desc: 'list my contact information'},
     {name: 'semantic',  func: semanticExe,      desc: 'display the semantic/no-script version of aghnu.me'},
@@ -28,13 +30,14 @@ const PROGRAM_META = [
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
     {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
-    {name: 'about',     func: aboutExe,         desc: 'more about this website/project'},
+    {name: 'about',     func: aboutExe,         desc: 'list info about this website/project'},
     {name: 'resume',    func: resumeExe,        desc: 'print the link to my current resume'},
 
 ]
 
 const PROGRAM_HIDDEN = [
     {name: 'exit',      func: semanticExe},
+    {name: 'skill',     func: skillsExe},
     {name: 'close',     func: semanticExe},
     {name: 'cmd',       func: helpExe},
     {name: 'man',       func: helpExe},
@@ -177,6 +180,24 @@ function semanticExe(param, callback=null) {
     }
 }
 
+function skillsExe(param, callback=null) {
+
+    const skillsPrintJobs = [];
+    for (let i= 0; i < skillsData.skills.length; i++) {
+        const d = skillsData.skills[i];
+        skillsPrintJobs.push(new Job("skills", {name: d.name, skills: d.skills}));
+        skillsPrintJobs.push(new Job("line", {height: 1}));
+    }
+
+
+    param.outStream.print(new Job('list', {
+        list: [
+            ...skillsPrintJobs
+        ], min_interval: 0, max_interval: 0,
+        callback: callback
+    }));
+}
+
 function portfolioExe(param, callback=null) {
 
     const portfolioProjectsPrintJobs = [];
@@ -187,8 +208,6 @@ function portfolioExe(param, callback=null) {
 
     param.outStream.print(new Job('list', {
         list: [
-            new Job("text", {text: "Selected Projects: "}),
-            new Job("line", {height: 1}),
             ...portfolioProjectsPrintJobs
         ], min_interval: 0, max_interval: 0,
         callback: callback
@@ -268,22 +287,56 @@ function homeExe(param, callback=null) {
         checkpause: () => printPause,
         list: [
             new Job("custom", {element: anchor_start}),
-            // new Job("lambda", {func: ()=>{
-            //     printPause = true;
-            //     systemExe(param, () => {printPause = false});
-            // }}),
-            // new Job("separator", {height: 1}),
+
             new Job("line", {height: 1}),
             new Job("title", {text: "About Me"}),
             new Job("line", {height: 1}),
             new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
             new Job("line", {height: 1}),
-
-            // new Job("text", {text: ""}),
-            // new Job("line", {height: 1}),
             new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
-
             new Job("line", {height: 1}),
+
+            new Job("separator", {height: 1}),
+            new Job("title", {text: "My Skills"}),
+            new Job("line", {height: 1}),
+
+            new Job("skills", {name: "Recently Worked With", skills: skillsData.recent}),
+            new Job("line", {height: 1}),
+            new Job("skills", {name: "Languages", skills: skillsData.skills[skillsData.index.lang].skills}),
+            new Job("line", {height: 1}),
+            new Job("custom", {element: (()=>{
+                const el = createHTMLElement('button', '> <span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
+                el.onclick = () => {
+                    ProgramCore.getInstance().execute('skills')
+                };
+                return el;
+            })()}),
+            new Job("line", {height: 1}),
+
+            new Job("separator", {height: 1}),
+            new Job("title", {text: "Some Cool Projects"}),
+            new Job("line", {height: 1}),
+            new Job("lambda", {func: ()=>{
+                printPause = true;
+                portfolioExe(param, () => printPause = false);         
+            }}),
+            new Job("custom", {element: (()=>{
+                const el = createHTMLElement('button', '> <span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
+                el.onclick = () => {
+                    ProgramCore.getInstance().execute('projects')
+                };
+                return el;
+            })()}),
+            new Job("line", {height: 1}),
+            
+            new Job("separator", {height: 1}),
+            new Job("title", {text: "Get In Touch"}),
+            new Job("line", {height: 1}),
+            new Job("lambda", {func: ()=>{
+                printPause = true;
+                contactExe(param, () => printPause = false);         
+            }}),
+
             new Job("separator", {height: 1}),
             new Job("title", {text: "Navigation"}),
             new Job("line", {height: 1}),
@@ -303,19 +356,13 @@ function homeExe(param, callback=null) {
             })(),
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
-            new Job("title", {text: "Portfolio"}),
-            new Job("line", {height: 1}),
-            new Job("lambda", {func: ()=>{
-                printPause = true;
-                portfolioExe(param, () => {
-                    printPause = false
-                    setTimeout(() => {
-                        anchor_start.scrollIntoView(true);
-                        unlockSystem(pid);                           
-                    }, 1000);
-                });         
-            }})
         ],
+        callback: () => {
+            setTimeout(() => {
+                anchor_start.scrollIntoView(true);
+                unlockSystem(pid);                           
+            }, 1000);
+        },
         min_interval: 0, max_interval: 0,
     }));
 }
@@ -335,6 +382,8 @@ function aboutExe(param, callback=null) {
             new Job("line", {height: 1}),
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.me' >https://github.com/aghnu/aghnu.me</a>"}),
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
+            new Job("line", {height: 1}),
+            new Job("text", {text: "Designed & Built by Gengyuan Huang"}),
             new Job("line", {height: 1}),
             new Job("text", {text: "© 2022 Gengyuan Huang"}),
             new Job("line", {height: 1}),
@@ -400,11 +449,13 @@ function contactExe(param, callback=null) {
             new Job("link", {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}),
             new Job("line", {height: 1}),
         ],
+        callback: () => {
+            if (callback !== null) {
+                callback();
+            }
+        },
         min_interval: 0, max_interval: 0,
     }));
-    if (callback !== null) {
-        callback();
-    }
 }
 
 function keyboardExe(param,callback=null) {
