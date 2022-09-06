@@ -387,8 +387,14 @@ body {
     }
     
     #virtual-keyboard {
-        flex-direction: column;
-        gap: 5%;
+
+        .keyboard-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+
         .row {
             display: flex;
             flex-direction: row;

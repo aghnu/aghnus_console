@@ -43,7 +43,7 @@ export class KeyboardController {
             ['q','w','e','r','t','y','u','i','o','p'],
             ['a','s','d','f','g','h','j','k','l',],
             ['z','x','c','v','b','n','m','/'],
-            [' ', 'Enter','Backspace'],
+            [' ', 'Backspace','Enter'],
         ]
 
         const keyboardTextMap = [
@@ -51,10 +51,11 @@ export class KeyboardController {
             ['q','w','e','r','t','y','u','i','o','p'],
             ['a','s','d','f','g','h','j','k','l',],
             ['z','x','c','v','b','n','m','/'],
-            ['Space', 'Enter', 'Back'],
+            ['Space', 'Back', 'Enter'],
         ]
 
-        const keyboard_container = document.querySelector('#virtual-keyboard');
+        const virtual_keyboard = document.querySelector('#virtual-keyboard');
+        const keyboard_container = createHTMLElement('div', '', {class: 'keyboard-container'})
 
         for (let r = 0; r < keyboardTextMap.length; r++) {
             const keyboard_key_row = createHTMLElement('div', '', {'class': 'row'});
@@ -151,7 +152,9 @@ export class KeyboardController {
                 keyboard_key_row.appendChild(keyboard_key);
             }
             keyboard_container.append(keyboard_key_row);
-        }      
+        }     
+        
+        virtual_keyboard.appendChild(keyboard_container);
     }
 
     #setUpSpecialKey() {
@@ -162,14 +165,13 @@ export class KeyboardController {
         this.addSpecialKey('Enter', () => {
             const programCore = ProgramCore.getInstance();
             const inputCMD = this.inputStream.getInput();
-            const cmd = inputCMD.split(' ').filter((c) => c !== '');
             this.inputStream.updateInput("");
-            
+
             if (inputCMD !== "") {
-                this.outputStream.print(new OutputStreamJob('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD + "</span>"})); 
+                this.outputStream.print(new OutputStreamJob('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
             }
-            
-            programCore.execute(cmd[0]);
+
+            programCore.execute(inputCMD);
         });
     }
 

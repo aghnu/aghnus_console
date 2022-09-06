@@ -110,11 +110,17 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     height: $virtual-keyboard-height;
     
     &.on {
-        display: flex;
+        display: block;
     }
 
     &.on ~ #terminal-container {
         height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 5});
+    }
+
+    .keyboard-container {
+        height: 100%;
+        width: 100%;
+
     }
 
     @include mobile() {

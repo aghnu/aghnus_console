@@ -562,7 +562,9 @@ export class ProgramCore {
         })
     }
 
-    execute(cmd, param={}) {
+    execute(inputCMD, param={}) {
+        const cmdList = inputCMD.split(' ').filter((c) => c !== '');
+        const cmd = (cmdList.length === 0) ? '' : cmdList[0];
         param.outStream = this.outStream;
 
         if (PROGRAM_ASYNC.includes(cmd) || !program_lock.locked) {
