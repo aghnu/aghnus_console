@@ -270,25 +270,35 @@ body {
     
         }
 
+        .terminal-title {
+            color: $terminal-text-color-secondary;
+            font-size: 1.65rem;
+        }
+
         .terminal-portfolio {
-            // margin-left: 20px;
-            .title-container {
+            display: flex;
+            justify-content: space-between;
+
+            .title-container,
+            .content-container {
                 display: flex;
-                justify-content: space-between;
-                width: 100%;
+                flex-direction: column;
                 gap: $terminal-line-height;
-                // margin-bottom: $terminal-line-height;
-                .title {
-                    font-size: 1.25rem;
-                }
+            }
 
-                .link-container {
-                    display: flex;
-                    gap: $terminal-line-height;
+            .title-container {
+                width: 40%;
+            }
 
-                    a {
-                        word-break: normal;
-                    }
+            .content-container {
+                width: 50%;
+            }
+            
+            .link-container {
+                display: flex;
+                gap: $terminal-line-height;
+                a {
+                    word-break: normal;
                 }
             }
         }

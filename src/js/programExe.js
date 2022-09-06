@@ -43,7 +43,8 @@ const PROGRAM_HIDDEN = [
     {name: 'list',      func: mapExe},
     {name: 'uname',     func: systemExe},
     {name: 'cl',        func: clearExe},
-    {name: 'welcome',   func: homeExe}
+    {name: 'welcome',   func: homeExe},
+    {name: 'project',   func: projectsExe}
 ]
 
 const PROGRAM_ASYNC = [
@@ -180,7 +181,6 @@ function portfolioExe(param, callback=null) {
 
     const portfolioProjectsPrintJobs = [];
     for (let i= 0; i < portfolioData.projects.length; i++) {
-        portfolioProjectsPrintJobs.push(new Job("line", {height: 1}));
         portfolioProjectsPrintJobs.push(new Job("portfolio", portfolioData.projects[i]));
         portfolioProjectsPrintJobs.push(new Job("line", {height: 1}));
     }
@@ -268,13 +268,15 @@ function homeExe(param, callback=null) {
         checkpause: () => printPause,
         list: [
             new Job("custom", {element: anchor_start}),
-            new Job("lambda", {func: ()=>{
-                printPause = true;
-                systemExe(param, () => {printPause = false});
-            }}),
-            new Job("separator", {height: 1}),
-
-            new Job("text", {text: "Hello stranger! Welcome~ Welcome~ My name is <span class='highlight'>Gengyuan Huang</span>, a software developer..."}),
+            // new Job("lambda", {func: ()=>{
+            //     printPause = true;
+            //     systemExe(param, () => {printPause = false});
+            // }}),
+            // new Job("separator", {height: 1}),
+            new Job("line", {height: 1}),
+            new Job("title", {text: "About Me"}),
+            new Job("line", {height: 1}),
+            new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
             new Job("line", {height: 1}),
 
             // new Job("text", {text: ""}),
@@ -283,7 +285,8 @@ function homeExe(param, callback=null) {
 
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
-
+            new Job("title", {text: "Navigation"}),
+            new Job("line", {height: 1}),
             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
             ...(()=>{
                 const list = [];
@@ -300,6 +303,8 @@ function homeExe(param, callback=null) {
             })(),
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
+            new Job("title", {text: "Portfolio"}),
+            new Job("line", {height: 1}),
             new Job("lambda", {func: ()=>{
                 printPause = true;
                 portfolioExe(param, () => {

@@ -184,14 +184,20 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
+    printTitle(param) {
+        const el = createHTMLElement('p', param.text, {class: 'terminal-title'});
+        this.append(el);
+    }
+
     printPortfolio(param) {
         const container = createHTMLElement('div', '', {class: 'terminal-portfolio'});
         const containerTitle = createHTMLElement('div', '', {class: 'title-container'});
+        const containerContent = createHTMLElement('div', '', {class: 'content-container'});
         const containerLink = createHTMLElement('div', '', {class: 'link-container'});
 
         const title = createHTMLElement('p', param.title, {class: 'focus title'});
-        const tags = createHTMLElement('p', param.tags, {class: 'highlight'});
-        const description = createHTMLElement('p', param.desc);
+        const tags = createHTMLElement('p', param.tags, {class: 'highlight tags'});
+        const description = createHTMLElement('p', param.desc, {class: "desc"});
 
         param.links.forEach((l)=>{
             const link = createHTMLElement('a', l.title, {class: 'focus clickable', target: '_blank', href: l.link})
@@ -199,11 +205,14 @@ export class OutputStreamScreen {
         })
 
         containerTitle.appendChild(title);
-        containerTitle.appendChild(containerLink);
+        containerTitle.appendChild(tags);
+
+        containerContent.appendChild(containerLink);
+        containerContent.appendChild(description);
+        
 
         container.appendChild(containerTitle);
-        container.appendChild(tags);
-        container.appendChild(description);
+        container.appendChild(containerContent);
 
         this.append(container);
     }
@@ -279,6 +288,9 @@ export class OutputStreamScreen {
         switch (printJob.type) {
             case "text":
                 this.printText(printJob.parameters);
+                break;
+            case "title":
+                this.printTitle(printJob.parameters);
                 break;
             case "line":
                 this.printLine(printJob.parameters);
