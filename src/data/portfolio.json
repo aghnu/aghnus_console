@@ -11,11 +11,20 @@
         },
         {
             "title": "WNFA Poster Generator",
-            "tags": "#azure #serverless #fullstack #javascript #sass #webpack #azure-functions #azure-storage",
+            "tags": "#azure #serverless #python #fullstack #javascript #sass #webpack #azure-functions #azure-storage",
             "desc": "A website that uses neural network, python computer vision libraries and art grid method to convert a poem into a visual poster, powered by Azure serverless computing products.",
             "links": [
                 {"title": "Source Code", "link": "https://github.com/aghnu/WNFA_azure_frontend"},
                 {"title": "Website", "link": "https://www.aghnu.me/WNFA"}
+            ]
+        },
+
+        {
+            "title": "Yonder",
+            "tags": " #fullstack #ReactJS #Redux #Axio #Django #RESTful #ui/ux-design #python #javascript",
+            "desc": "Yonder is a distributed social network using RESTful API. (UAlberta CMPUT404 class project)",
+            "links": [
+                {"title": "Source Code", "link": "https://github.com/aghnu/yonder"}
             ]
         },
         {

@@ -60,6 +60,14 @@
             "links": [
                 {"title": "Website Link", "link": "https://www.imogenyl.me"}
             ]
+        },
+        {
+            "title": "Xiaohongshu Userscript",
+            "tags": "#javascript #tampermonkey #userscript #sheetJS #open-source",
+            "desc": "A tampermonkey userscript created to collect and export query result from Xiaohongshu Dandelion",
+            "links": [
+                {"title": "Github Repository", "link": "https://github.com/aghnu/xiaohongshu_search_export_userscript"}
+            ]
         }
     ],
     "past": [
@@ -105,7 +113,7 @@
         },
         {
             "title": "Yonder",
-            "tags": "#ui/ux-design #fullstack #RESTful #ReactJS #Redux #Axio #Django ",
+            "tags": " #fullstack #ReactJS #Redux #Axio #Django #RESTful #ui/ux-design #python #javascript",
             "desc": "Yonder is a distributed social network using RESTful API. (UAlberta CMPUT404 class project)",
             "links": [
                 {"title": "Github Repository", "link": "https://github.com/aghnu/yonder"}
