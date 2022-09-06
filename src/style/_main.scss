@@ -49,8 +49,9 @@ body {
     }
 
     a {
-        text-decoration: none;
         all: unset;
+        text-decoration: none;
+        line-height: $terminal-line-height;
         word-break: break-all;
         cursor: pointer;
     }
@@ -201,7 +202,7 @@ body {
     #terminal-container {
         scroll-behavior: smooth;
 
-        #terminal-link {
+        .terminal-link {
             display: flex;
             justify-content: space-between;
     
@@ -233,7 +234,7 @@ body {
             word-wrap: break-word;
         }
     
-        #terminal-cmddesc {
+        .terminal-cmddesc {
             display: flex;
             justify-content: space-between;
     
@@ -249,7 +250,7 @@ body {
         }
     
     
-        #terminal-project {
+        .terminal-project {
             display: flex;
             justify-content: space-between;
     
@@ -267,6 +268,29 @@ body {
                 }
             }
     
+        }
+
+        .terminal-portfolio {
+            // margin-left: 20px;
+            .title-container {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                gap: $terminal-line-height;
+                // margin-bottom: $terminal-line-height;
+                .title {
+                    font-size: 1.25rem;
+                }
+
+                .link-container {
+                    display: flex;
+                    gap: $terminal-line-height;
+
+                    a {
+                        word-break: normal;
+                    }
+                }
+            }
         }
     }
     

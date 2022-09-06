@@ -110,7 +110,7 @@ export class OutputStreamScreen {
     }
 
     printLink(param) {
-        const el = createHTMLElement('div', '', {'id': 'terminal-link'});
+        const el = createHTMLElement('div', '', {'class': 'terminal-link'});
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
         const link_icon = createHTMLElement('div', icon[param.type]('#984511', '1.11em'), {'class': 'icon'});
@@ -136,7 +136,7 @@ export class OutputStreamScreen {
     }
 
     printCMDDesc(param) {
-        const el = createHTMLElement('div', '', {'id': 'terminal-cmddesc'});
+        const el = createHTMLElement('div', '', {'class': 'terminal-cmddesc'});
         const cmd_name = createHTMLElement('p', param.name, {'class': 'name focus clickable text-label'});
         const cmd_sep = createHTMLElement('p', ':', {'class': 'sep'});
         const cmd_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
@@ -151,7 +151,7 @@ export class OutputStreamScreen {
     }
 
     printProject(param) {
-        const el = createHTMLElement('div', '', {'id': 'terminal-project'});
+        const el = createHTMLElement('div', '', {'class': 'terminal-project'});
         
         
         // const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
@@ -182,6 +182,30 @@ export class OutputStreamScreen {
     printText(param) {
         const el = createHTMLElement('p', param.text);
         this.append(el);
+    }
+
+    printPortfolio(param) {
+        const container = createHTMLElement('div', '', {class: 'terminal-portfolio'});
+        const containerTitle = createHTMLElement('div', '', {class: 'title-container'});
+        const containerLink = createHTMLElement('div', '', {class: 'link-container'});
+
+        const title = createHTMLElement('p', param.title, {class: 'focus title'});
+        const tags = createHTMLElement('p', param.tags, {class: 'highlight'});
+        const description = createHTMLElement('p', param.desc);
+
+        param.links.forEach((l)=>{
+            const link = createHTMLElement('a', l.title, {class: 'focus clickable', target: '_blank', href: l.link})
+            containerLink.appendChild(link);
+        })
+
+        containerTitle.appendChild(title);
+        containerTitle.appendChild(containerLink);
+
+        container.appendChild(containerTitle);
+        container.appendChild(tags);
+        container.appendChild(description);
+
+        this.append(container);
     }
 
     printLine(param) {
@@ -270,6 +294,9 @@ export class OutputStreamScreen {
                 break;
             case "project":
                 this.printProject(printJob.parameters);
+                break;
+            case "portfolio":
+                this.printPortfolio(printJob.parameters);
                 break;
             case "separator":
                 this.printSep(printJob.parameters);
