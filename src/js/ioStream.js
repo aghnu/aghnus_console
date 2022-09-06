@@ -185,29 +185,14 @@ export class OutputStreamScreen {
     }
 
     printSkills(param) {
-        
-        // const nums = param.skills.length;
-        // const cols = 3;
-        // for (let i = 0; i < Math.ceil(nums/cols); i++) {
-        //     const 
 
-
-        //     for (let j = 0; j < cols; j++) {
-        //         const index = i * cols + j;
-        //         if (index < nums) {
-        //             // put
-        //         } else {
-        //             break;
-        //         }
-        //     }
-        // }
         const el = createHTMLElement('div', '', {class: 'terminal-skills'});
 
         const skillsName = createHTMLElement('p', param.name, {class: 'skills-name focus'});
         const skillsContainer = createHTMLElement('div', '', {class: 'skills-container'});
 
         for (let i = 0; i < param.skills.length; i++) {
-            const skillEl = createHTMLElement('p', param.skills[i], {class: "item highlight"});
+            const skillEl = createHTMLElement('p', param.skills[i], {class: "item"});
             skillsContainer.appendChild(skillEl);
         }
 
