@@ -289,7 +289,21 @@ body {
                 width: 55%;
                 display: flex;
                 flex-wrap: wrap;
-                column-gap: $terminal-line-height;
+                column-gap: 10%;
+
+                .item {
+                    min-width: 45%;
+                    width: fit-content;
+                    &::before {
+                        content: "○ ";
+                        color: $terminal-text-color-secondary;
+                    }
+
+                    // &::after {
+                    //     content: " <";
+                    //     color: $terminal-text-color-secondary
+                    // }
+                }
             }
         }
         .terminal-button {

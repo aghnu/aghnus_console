@@ -10,7 +10,7 @@
     "skills": [
         {
             "name": "Languages",
-            "skills": ["C/C++", "Python", "JavaScript/TypeScript", "Sass", "Liquid", "SQL", "Java", "C#", "PHP", "CUDA C++", "Bash"]
+            "skills": ["C/C++", "Python", "JavaScript", "TypeScript", "Sass", "Liquid", "SQL", "Java", "C#", "PHP", "CUDA C++", "Bash"]
         },
         {
             "name": "Libraries and Technologies",
