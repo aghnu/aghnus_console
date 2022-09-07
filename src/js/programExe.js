@@ -51,9 +51,9 @@ const PROGRAM_HIDDEN = [
     {name: 'project',   func: projectsExe}
 ]
 
-const PROGRAM_ASYNC = [
-    'keyboard', 'unlock'
-];
+// const PROGRAM_ASYNC = [
+//     'keyboard', 'unlock'
+// ];
 
 function addClearningFunc(func) {
     program_state.cleaningFuncs.push(func);
@@ -623,13 +623,13 @@ export class ProgramCore {
         const cmd = (cmdList.length === 0) ? '' : cmdList[0];
         param.outStream = this.outStream;
 
-        this.outStream.newOutSection();
 
-        if (PROGRAM_ASYNC.includes(cmd) || !program_lock.locked) {
+
+        if (!program_lock.locked) {
             if (cmd === "") {
                 param.outStream.print(new Job('line', {'height': 1}));
             } else {
-                
+                this.outStream.newOutSection();
                 if (this.path[cmd] === undefined) {
                     param.outStream.print(new Job('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
                 } else {
