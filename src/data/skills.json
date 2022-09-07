@@ -1,19 +1,12 @@
 {
     "recent": ["JavaScript", "ReactJS", "Webpack", "Sass", "Python", "Django", "Liquid", "Azure"],
-    "index": {
-        "lang":         0,
-        "tech":         1,
-        "cloud":        2,
-        "dev":          3,
-        "domain":       4
-    },
     "skills": [
         {
             "name": "Languages",
             "skills": ["C/C++", "Python", "JavaScript", "TypeScript", "Sass", "Liquid", "SQL", "Java", "C#", "PHP", "CUDA C++", "Bash"]
         },
         {
-            "name": "Libraries and Technologies",
+            "name": "Technologies",
             "skills": ["Webpack", "ReactJS", "Django", "Flask", "Node.js", "Express.js", "PixiJS", "OpenCV", "scikit-image", "Jekyll", "Apache", "RESTful"]
         },
         {

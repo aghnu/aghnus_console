@@ -302,7 +302,7 @@ function homeExe(param, callback=null) {
 
             new Job("skills", {name: "Recently Worked With", skills: skillsData.recent}),
             new Job("line", {height: 1}),
-            new Job("skills", {name: "Languages", skills: skillsData.skills[skillsData.index.lang].skills}),
+            new Job("skills", {name: skillsData.skills[1].name, skills: skillsData.skills[1].skills}),
             new Job("line", {height: 1}),
             new Job("custom", {element: (()=>{
                 const el = createHTMLElement('button', '> <span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
