@@ -102,7 +102,15 @@ export class OutputStreamScreen {
         this.root.append(el);
         this.focusSection(el);
         
+
+
         el.onmouseover = () => {
+            if (el.sectionFocus !== true) {
+                this.focusSection(el);     
+            }
+        }
+
+        el.ontouchstart = () => {
             if (el.sectionFocus !== true) {
                 this.focusSection(el);     
             }
