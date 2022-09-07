@@ -67,7 +67,7 @@ export class OutputStreamScreen {
         // subscript section focus
         this.subscribe(()=>{
             if (this.out.sectionFocus !== true) {
-                this.focusSection(el);
+                this.focusSection(this.out);
             }
         });
     }
