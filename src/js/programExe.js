@@ -32,6 +32,7 @@ const PROGRAM_META = [
     {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
     {name: 'about',     func: aboutExe,         desc: 'list info about this website/project'},
     {name: 'resume',    func: resumeExe,        desc: 'print the link to my current resume'},
+    {name: 'where',    func: whereExe,          desc: 'print the place where I live and my current time'},
 
 ]
 
@@ -114,6 +115,32 @@ function unlockExe(callback=null) {
     if (callback !== null) {
         callback();
     }
+}
+
+function createDateStringElement(elClass, timeZone='default') {
+    // init element
+    const dateString = createHTMLElement('p', '', {class: 'terminal-date' + ' ' + elClass});
+
+    // update functions
+    const updateTimeString = (el) => {
+        const date = new Date();
+        const setting = (timeZone === 'default') ? {} : {timeZone: timeZone};
+        el.innerHTML = date.toLocaleDateString('en-CA', setting) + "&nbsp" + date.toLocaleTimeString('en-CA', setting);                    
+    }
+
+    // set up time update
+    updateTimeString(dateString);
+    const interval = setInterval(() => {
+        updateTimeString(dateString);
+    }, 1000);
+
+    // clear function
+    addClearningFunc(()=>{
+        clearInterval(interval);
+    });
+
+    // return element
+    return dateString;
 }
 
 function semanticExe(param, callback=null) {
@@ -218,17 +245,8 @@ function systemExe(param, callback=null) {
     param.outStream.print(new Job('list', {
         callback: callback,
         list: [
-            new Job("custom", {element: (()=>{
-                const container = createHTMLElement('div', '');
-                const logo = createHTMLElement('p', "<span class='focus double-line'>Aghnu's Console<span>");
-                const text = createHTMLElement('p', "<span class='highlight'>Gengyuan Huang's Homepage</span>")
-
-                container.appendChild(logo);
-                container.appendChild(text);                
-
-                return container;
-
-            })()}),
+            new Job("title", {text: "Aghnu's Console"}),
+            new Job("text", {text: "Gengyuan Huang's Homepage", class: 'highlight'}),
             new Job("line", {height: 1}),
         ], min_interval: 0, max_interval: 0,
     }));
@@ -375,6 +393,12 @@ function aboutExe(param, callback=null) {
         list: [
             new Job("lambda", {func: ()=>{
                 printPause = true;
+                systemExe(param, () => printPause = false);         
+            }}),
+            new Job("separator", {height: 1}),
+
+            new Job("lambda", {func: ()=>{
+                printPause = true;
                 mapExe(param, () => {printPause = false});
             }}),
 
@@ -384,8 +408,6 @@ function aboutExe(param, callback=null) {
             new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
             new Job("line", {height: 1}),
             new Job("text", {text: "Designed & Built by Gengyuan Huang"}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "© 2022 Gengyuan Huang"}),
             new Job("line", {height: 1}),
             new Job("separator", {height: 1}),
             new Job("text", {text: '<span class="highlight">Website last updated on ' + SYSTEM_VERSION}),
@@ -438,16 +460,50 @@ function clearExe(param, callback=null) {
     }
 }
 
-function contactExe(param, callback=null) {
+function whereExe(param, callback=null) {
+    let printPause = false;
     param.outStream.print(new Job("list", {
+        checkpause: () => printPause,
+        list: [
+            new Job("pair", {pair: [
+                createHTMLElement('p', "Location: ", {class: "highlight"}),
+                createHTMLElement('p', sysConfig.location, {class: "focus"}),
+            ]}),
+            new Job("pair", {pair: [
+                createHTMLElement('p', "Time", {class: "highlight"}),
+                createDateStringElement('focus', sysConfig.timezone),
+            ]}),
+            new Job("line", {height: 1}),
+        ],
+        callback: () => {
+            if (callback !== null) {
+                callback();
+            }
+        },
+        min_interval: 0, max_interval: 0,
+    }));
+}
+
+function contactExe(param, callback=null) {
+
+    let printPause = false;
+    param.outStream.print(new Job("list", {
+        checkpause: () => printPause,
         list: [
             new Job("text", {text: "To contact me:"}),
+
             new Job("line", {height: 1}),
+            new Job("lambda", {func: ()=>{
+                printPause = true;
+                whereExe(param, () => {printPause = false});
+            }}),
+
             new Job("link", {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}),
             new Job("link", {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}),
             new Job("link", {link: "https://www.linkedin.com/in/gengyuanh", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),
             new Job("link", {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}),
             new Job("line", {height: 1}),
+
         ],
         callback: () => {
             if (callback !== null) {

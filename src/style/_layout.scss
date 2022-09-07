@@ -1,10 +1,10 @@
-$footer-height:                         2.85rem;
+$footer-height:                         1.42rem;
 $function-keys-height:                  2.85rem;
 $virtual-keyboard-height:               11.5rem;
 $sidebar-size:                          1.77rem;
 
 $terminal-layer-padding-x:              50%;
-$terminal-layer-padding-y:              0.75rem; 
+$terminal-layer-padding-y:              0.5rem; 
 
 $terminal-layer-content-width:          600px;
 $terminal-layer-mobile-content-width:   min(600px, 90%);
@@ -80,7 +80,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     transform: translate(-50%, 0%);
 
     width: $terminal-layer-content-width;
-    height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$terminal-layer-padding-y * 4});
+    height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$terminal-layer-padding-y * 5});
 
 
     overflow-x: hidden;
@@ -95,7 +95,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     @include mobile() {
         width: $terminal-layer-mobile-content-width;
         top: calc(#{$terminal-layer-padding-y} * 2 + #{$sidebar-size});
-        height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$terminal-layer-padding-y * 5});
+        height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$terminal-layer-padding-y * 6});
     }
 }
 
@@ -106,7 +106,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
 
-    bottom: calc(#{$footer-height} + #{$function-keys-height} + #{$terminal-layer-padding-y * 3});
+    bottom: calc(#{$footer-height} + #{$function-keys-height} + #{$terminal-layer-padding-y * 4});
     height: $virtual-keyboard-height;
     
     &.on {
@@ -114,7 +114,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     }
 
     &.on ~ #terminal-container {
-        height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 5});
+        height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 6});
     }
 
     .keyboard-container {
@@ -127,14 +127,14 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
         width: $terminal-layer-mobile-content-width;
 
         &.on ~ #terminal-container {
-            height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 6});
+            height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 7});
         }
     }
 }
 
 #function-key-container {
     position: fixed;
-    bottom: calc(#{$footer-height} + #{$terminal-layer-padding-y * 2});
+    bottom: calc(#{$footer-height} + #{$terminal-layer-padding-y * 3});
     height: $function-keys-height;
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
@@ -151,7 +151,7 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     display: flex;
     justify-content: center;
     position: fixed;
-    bottom: $terminal-layer-padding-y;
+    bottom: calc(#{$terminal-layer-padding-y} * 2);
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
 

@@ -249,6 +249,20 @@ body {
             }
     
         }
+
+        .terminal-pair {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .left {
+                width: 30%;
+            }
+
+            .right {
+                width: 55%;
+            }
+        }
     
     
         .terminal-project {
@@ -273,7 +287,8 @@ body {
 
         .terminal-title {
             color: $terminal-text-color-secondary;
-            font-size: 1.65rem;
+            font-size: 1.8rem;
+            line-height: calc(#{$terminal-line-height} * 1.8);
         }
 
         .terminal-skills {
@@ -351,19 +366,28 @@ body {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            // height: $function-key-line-height;
-    
-            #footer-date-str,
-            #footer-loca-str,
-            #footer-copy-str {
-                font-size: $function-key-font-size;
-                font-family: "Classic Console Neue";
+            .info {
                 color: $terminal-text-color-focus;
-                margin: auto;
-                text-align: center;
-                white-space: nowrap;
             }
         }
+
+        // .text-container {
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: center;
+        //     // height: $function-key-line-height;
+    
+        //     #footer-date-str,
+        //     #footer-loca-str,
+        //     #footer-copy-str {
+        //         font-size: $function-key-font-size;
+        //         font-family: "Classic Console Neue";
+        //         color: $terminal-text-color-focus;
+        //         margin: auto;
+        //         text-align: center;
+        //         white-space: nowrap;
+        //     }
+        // }
     }
     
     #function-key-container {

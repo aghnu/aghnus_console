@@ -144,28 +144,31 @@ export class DisplayController {
 
     #createFooter() {
         const footer = document.querySelector('#footer');
-        const footerDateEl = createHTMLElement('p', '', {'id': 'footer-date-str'});
-        const footerCopyEl = createHTMLElement('p', '', {'id': 'footer-copy-str'});
-        const footerLocaEl = createHTMLElement('p', '', {'id': 'footer-loca-str'});
-
         const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
-
-
-
-
-        const date = new Date();
-        footerCopyEl.innerHTML = '© 2022 Gengyuan Huang';
-        footerLocaEl.innerHTML = sysConfig.location;
-        footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
-        setInterval(() => {
-            const date = new Date();
-            footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
-        }, 1000);
-
-        footerTextContainer.appendChild(footerDateEl);
-        footerTextContainer.appendChild(footerLocaEl);
-        // footerTextContainer.appendChild(footerCopyEl);
+        const footerInfoText = createHTMLElement('p', "© 2022 Gengyuan Huang", {class: "info"});
+        
+        footerTextContainer.appendChild(footerInfoText);
         footer.appendChild(footerTextContainer);
+
+        // const footerDateEl = createHTMLElement('p', '', {'id': 'footer-date-str'});
+        // const footerCopyEl = createHTMLElement('p', '', {'id': 'footer-copy-str'});
+        // const footerLocaEl = createHTMLElement('p', '', {'id': 'footer-loca-str'});
+
+        // const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
+
+        // const date = new Date();
+        // footerCopyEl.innerHTML = '© 2022 Gengyuan Huang';
+        // footerLocaEl.innerHTML = sysConfig.location;
+        // footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
+        // setInterval(() => {
+        //     const date = new Date();
+        //     footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
+        // }, 1000);
+
+        // footerTextContainer.appendChild(footerDateEl);
+        // footerTextContainer.appendChild(footerLocaEl);
+        // // footerTextContainer.appendChild(footerCopyEl);
+        // footer.appendChild(footerTextContainer);
     }
 
     #createInputPrompt() {

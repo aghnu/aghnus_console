@@ -180,7 +180,7 @@ export class OutputStreamScreen {
     }
 
     printText(param) {
-        const el = createHTMLElement('p', param.text);
+        const el = createHTMLElement('p', param.text, {class: (param.class) ? param.class : ""});
         this.append(el);
     }
 
@@ -291,6 +291,22 @@ export class OutputStreamScreen {
         }, min_interval, max_interval);
     }
 
+    printPair(param) {
+        const el = createHTMLElement('div', '', {class: 'terminal-pair'});
+
+        const left = createHTMLElement('div', '', {class: 'left'});
+        const right = createHTMLElement('div', '', {class: 'right'});
+        const sep = createHTMLElement('p', '-', {'class': 'sep'});
+        
+        left.appendChild(param.pair[0]);
+        right.appendChild(param.pair[1]);
+
+        el.appendChild(left);
+        el.appendChild(sep);
+        el.appendChild(right);
+        this.append(el);
+    }
+
     printCustom(param) {
         const el = param.element;
         this.append(el);
@@ -310,6 +326,9 @@ export class OutputStreamScreen {
                 break;
             case "title":
                 this.printTitle(printJob.parameters);
+                break;
+            case "pair":
+                this.printPair(printJob.parameters);
                 break;
             case "line":
                 this.printLine(printJob.parameters);
