@@ -422,21 +422,22 @@ function aboutExe(param, callback=null) {
 }
 
 function helpExe(param,callback=null) {
+
+    const cmdPJList = [];
+
+    PROGRAM_META.forEach(p => {
+        cmdPJList.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+            ProgramCore.getInstance().execute(p.name);
+        }}));
+        cmdPJList.push(new Job("line", {height: 1}));
+    });    
+
     param.outStream.print(new Job("list", {
-        list: (()=>{
-            const list = [];
-            list.push(new Job("text", {text: "Commands:"}));
-
-            PROGRAM_META.forEach(p => {
-                list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-                    ProgramCore.getInstance().execute(p.name);
-                }}));
-                list.push(new Job("line", {height: 1}));
-            });
-
-            
-            return list;
-        })(),
+        list: [
+            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
+            new Job("line", {height: 1}),
+            ...cmdPJList
+        ],
         min_interval: 0, max_interval: 0,
     }));
     if (callback !== null) {
