@@ -22,7 +22,7 @@
         {
             "title": "Yonder",
             "tags": " #fullstack #ReactJS #Redux #Axio #Django #RESTful #ui/ux-design #python #javascript",
-            "desc": "Yonder is a distributed social network using RESTful API. (UAlberta CMPUT404 class project)",
+            "desc": "A school project utilizing RESTful API that allows users to share content from different online platforms with a responsive and accessible UI/UX interface design.",
             "links": [
                 {"title": "Source Code", "link": "https://github.com/aghnu/yonder"}
             ]
