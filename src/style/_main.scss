@@ -203,6 +203,16 @@ body {
     #terminal-container {
         scroll-behavior: smooth;
 
+        .terminal-exe-section {
+            transition: opacity 0.5s;
+            opacity: 0.6;
+
+            &.focus {
+                opacity: 1;
+            }
+        }
+
+
         .terminal-link {
             display: flex;
             justify-content: space-between;

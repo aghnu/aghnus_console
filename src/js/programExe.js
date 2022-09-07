@@ -623,6 +623,8 @@ export class ProgramCore {
         const cmd = (cmdList.length === 0) ? '' : cmdList[0];
         param.outStream = this.outStream;
 
+        this.outStream.newOutSection();
+
         if (PROGRAM_ASYNC.includes(cmd) || !program_lock.locked) {
             if (cmd === "") {
                 param.outStream.print(new Job('line', {'height': 1}));

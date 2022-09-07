@@ -59,9 +59,17 @@ export class OutputStreamScreen {
         }
         OutputStreamScreen._instance = this;
 
-
-        this.out = document.querySelector("#terminal-container #terminal-output");
+        this.root = document.querySelector("#terminal-container #terminal-output");
+        this.out = this.createOutSection();
         this.listeners = [];
+
+        // init
+        // subscript section focus
+        this.subscribe(()=>{
+            if (this.out.sectionFocus !== true) {
+                this.focusSection(el);
+            }
+        });
     }
 
     static getInstance() {
@@ -70,6 +78,41 @@ export class OutputStreamScreen {
         }
 
         return new OutputStreamScreen();
+    }
+
+    focusSection(el) {
+        // remove all other focus non blocking
+        
+        el.classList.add('focus');
+        el.sectionFocus = true;
+        new Promise(()=>{
+            for (const child of this.root.children) {
+                if (child !== el) {
+                    child.classList.remove('focus');
+                    child.sectionFocus = false;
+                }
+            }
+        });
+
+    }
+
+    createOutSection() {
+        const el = createHTMLElement('div', '', {class: 'terminal-exe-section'});
+        
+        this.root.append(el);
+        this.focusSection(el);
+        
+        el.onmouseover = () => {
+            if (el.sectionFocus !== true) {
+                this.focusSection(el);     
+            }
+        }
+
+        return el;
+    }
+
+    newOutSection() {
+        this.out = this.createOutSection();
     }
 
     hasElement(el) {
@@ -101,7 +144,8 @@ export class OutputStreamScreen {
     }
 
     clear() {
-        this.out.innerHTML = "";
+        this.root.innerHTML = "";
+        this.newOutSection();
         this.broadCast();
     }
 
