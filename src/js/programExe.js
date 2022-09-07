@@ -630,6 +630,9 @@ export class ProgramCore {
                 param.outStream.print(new Job('line', {'height': 1}));
             } else {
                 this.outStream.newOutSection();
+                if (inputCMD !== "") {
+                    this.outStream.print(new Job('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
+                }
                 if (this.path[cmd] === undefined) {
                     param.outStream.print(new Job('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
                 } else {

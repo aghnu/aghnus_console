@@ -167,10 +167,6 @@ export class KeyboardController {
             const inputCMD = this.inputStream.getInput();
             this.inputStream.updateInput("");
 
-            if (inputCMD !== "") {
-                this.outputStream.print(new OutputStreamJob('text', {'text': "<span class='focus'>>&nbsp</span>" + "<span class='focus'>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
-            }
-
             programCore.execute(inputCMD);
         });
     }
