@@ -83,12 +83,12 @@ export class OutputStreamScreen {
     focusSection(el) {
         // remove all other focus non blocking
         
-        el.classList.add('focus');
+        el.classList.add('section-focus');
         el.sectionFocus = true;
         new Promise(()=>{
             for (const child of this.root.children) {
                 if (child !== el) {
-                    child.classList.remove('focus');
+                    child.classList.remove('section-focus');
                     child.sectionFocus = false;
                 }
             }
@@ -232,7 +232,7 @@ export class OutputStreamScreen {
     }
 
     printText(param) {
-        const el = createHTMLElement('p', param.text, {class: (param.class) ? param.class : ""});
+        const el = createHTMLElement('p', param.text, (param.class) ? {class: param.class} : {});
         this.append(el);
     }
 

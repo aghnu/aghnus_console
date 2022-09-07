@@ -116,7 +116,7 @@ export class DisplayController {
         ];
 
         keys.forEach((key) => {
-            const el = createHTMLElement('button', '', {'class': 'key'});
+            const el = createHTMLElement('div', '', {'class': 'key'});
             const elIcon = createHTMLElement('div', icon[key.type]('#984511', '1.44em'), {'class': 'icon'});
             const elText = createHTMLElement('text', key.text, {'class': 'text'});
             const elTextContainer = createHTMLElement('div', '', {'class': 'text-container'});

@@ -9,6 +9,18 @@ $terminal-line-height:              1.1rem;
 $function-key-font-size:            1rem;
 $function-key-line-height:          1.45rem;
 
+@mixin override_select_color($color, $background) {
+    &::-moz-selection {
+        color: $color;
+        background: $background;            
+    }
+
+    ::selection {
+        color: $color;
+        background: $background;   
+    }
+}
+
 @mixin mobile() {
     @media only screen and (max-width: 750px) {
         @content;

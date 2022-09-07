@@ -16,7 +16,7 @@ function createHTMLStructure() {
     // third layer
     const terminal_layer_virtual_keyboard = createHTMLElement('div','',{'id': 'virtual-keyboard'});
     const terminal_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
-    const terminal_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container', 'class': 'noselect'});
+    const terminal_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container'});
     const terminal_layer_footer = createHTMLElement('div','',{'id': 'footer'});
 
     const terminal_container_output = createHTMLElement('div', '', {'id': 'terminal-output'});

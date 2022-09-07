@@ -13,8 +13,52 @@ html {
 body {
     padding: 0;
     margin: 0;
-}
 
-a {
-    word-break: break-all;
+    p {
+        line-height: $terminal-line-height;
+        margin: 0;
+    }
+
+    a {
+        text-decoration: none;
+        line-height: $terminal-line-height;
+        word-break: break-all;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .regular {
+        color: $terminal-text-color-primary;
+        // @include override_select_color($terminal-background-color, $terminal-text-color-primary);
+    }
+
+    .highlight {
+        color: $terminal-text-color-focus;
+        // @include override_select_color($terminal-background-color, $terminal-text-color-focus);
+    }
+
+    .focus {
+        color: $terminal-text-color-secondary;
+        // @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+    }
+
+    .double-line {
+        line-height: calc(#{$terminal-line-height} * 2);
+        font-size: 2em;
+    }
+
+    .clickable {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .text-label {
+        word-wrap: normal;
+        word-break: normal;
+    }
+
+    .separator {
+        width: 100%;
+        text-align: left;
+    }
 }
