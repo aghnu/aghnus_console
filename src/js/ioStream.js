@@ -102,19 +102,23 @@ export class OutputStreamScreen {
         this.root.append(el);
         this.focusSection(el);
         
-
-
-        el.onmouseover = () => {
+        const updateFocus = () => {
             if (el.sectionFocus !== true) {
                 this.focusSection(el);     
             }
         }
 
-        el.ontouchstart = () => {
-            if (el.sectionFocus !== true) {
-                this.focusSection(el);     
-            }
-        }
+        el.addEventListener('mouseover', () => {
+            updateFocus();
+        }, {passive: true});
+
+        el.addEventListener('touchstart', () => {
+            updateFocus();
+        }, {passive: true});
+
+        el.addEventListener('touchend', () => {
+            updateFocus();
+        }, {passive: true});
 
         return el;
     }
