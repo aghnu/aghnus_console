@@ -276,12 +276,20 @@
             padding: inherit;
             margin: inherit;
             line-height: $terminal-line-height;
-
+            &::before {
+                content: "> ";
+                color: $terminal-text-color-focus;
+            }
         }
 
         .terminal-portfolio {
             display: flex;
             justify-content: space-between;
+
+            &::before {
+                content: "○ ";
+                color: $terminal-text-color-secondary;
+            }
 
             .title-container,
             .content-container {
@@ -297,12 +305,29 @@
             .content-container {
                 width: 55%;
             }
+
+            .sum {
+                &::before {
+                    content: "[";
+                    color: $terminal-text-color-focus;
+                }
+                &::after {
+                    content: "]";
+                    color: $terminal-text-color-focus;
+                }   
+            }
             
             .link-container {
                 display: flex;
+                flex-direction: column;
                 gap: $terminal-line-height;
+
                 a {
                     word-break: normal;
+                    &::before {
+                        content: "> ";
+                        color: $terminal-text-color-focus;
+                    }
                 }
             }
         }

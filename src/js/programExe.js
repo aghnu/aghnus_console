@@ -323,7 +323,7 @@ function homeExe(param, callback=null) {
             new Job("skills", {name: skillsData.skills[1].name, skills: skillsData.skills[1].skills}),
             new Job("line", {height: 1}),
             new Job("custom", {element: (()=>{
-                const el = createHTMLElement('div', '> <span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
+                const el = createHTMLElement('div', '<span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
                 el.onclick = () => {
                     ProgramCore.getInstance().execute('skills')
                 };
@@ -339,7 +339,7 @@ function homeExe(param, callback=null) {
                 portfolioExe(param, () => printPause = false);         
             }}),
             new Job("custom", {element: (()=>{
-                const el = createHTMLElement('div', '> <span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
+                const el = createHTMLElement('div', '<span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
                 el.onclick = () => {
                     ProgramCore.getInstance().execute('projects')
                 };

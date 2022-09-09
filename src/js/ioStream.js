@@ -271,19 +271,20 @@ export class OutputStreamScreen {
         const containerLink = createHTMLElement('div', '', {class: 'link-container'});
 
         const title = createHTMLElement('p', param.title, {class: 'focus title'});
-        const tags = createHTMLElement('p', param.tags, {class: 'highlight tags'});
+        const sum = createHTMLElement('p', param.sum, {class: 'highlight sum'});
         const description = createHTMLElement('p', param.desc, {class: "desc"});
 
         param.links.forEach((l)=>{
-            const link = createHTMLElement('a', l.title, {class: 'focus clickable', target: '_blank', href: l.link})
+            const link = createHTMLElement('a', '<span class="clickable">' + l.title + '</span>', {class: 'highlight', target: '_blank', href: l.link});
             containerLink.appendChild(link);
         })
 
         containerTitle.appendChild(title);
-        containerTitle.appendChild(tags);
+        containerTitle.appendChild(containerLink);
 
-        containerContent.appendChild(containerLink);
+        containerContent.appendChild(sum);
         containerContent.appendChild(description);
+        
         
 
         container.appendChild(containerTitle);
