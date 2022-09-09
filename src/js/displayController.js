@@ -43,13 +43,13 @@ export class DisplayController {
     #createSidebar() {
         const side_bar_left = document.querySelector('#sidebar-left');
         const items = [
-            {'type': 'github', 'link': 'https://github.com/aghnu'},
-            {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh'},
-            {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca'},
+            {'type': 'github', 'link': 'https://github.com/aghnu', 'title': 'GitHub'},
+            {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh', 'title': 'LinkedIn'},
+            {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca', 'title': 'Email'},
         ]
 
         items.forEach((i) => {
-            const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'target': '_blank', rel: 'noopener noreferrer'});
+            const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'title': i.title, 'target': '_blank', rel: 'noopener noreferrer'});
             const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77em'), {'class': 'icon'}); 
 
             el.appendChild(elIcon);
