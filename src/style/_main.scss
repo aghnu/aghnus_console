@@ -340,6 +340,7 @@
             justify-content: center;
             .info {
                 color: $terminal-text-color-focus;
+                white-space: nowrap;
             }
         }
 
