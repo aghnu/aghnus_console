@@ -377,7 +377,10 @@ function homeExe(param, callback=null) {
         ],
         callback: () => {
             setTimeout(() => {
-                anchor_start.scrollIntoView(true);
+                // hot fix
+                const terminalContainer = document.querySelector('#terminal-container');
+                terminalContainer.scrollTop = anchor_start.offsetTop;
+                // anchor_start.scrollIntoView(true);
                 unlockSystem(pid);                           
             }, 1000);
         },

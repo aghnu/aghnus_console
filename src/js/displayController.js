@@ -26,7 +26,10 @@ export class DisplayController {
     }
 
     refresh() {
-        this.#inputPromptEl.scrollIntoView(true);
+        // hot fix
+        const terminalContainer = document.querySelector('#terminal-container');
+        terminalContainer.scrollTop = this.#inputPromptEl.offsetTop;
+        // this.#inputPromptEl.scrollIntoView(true);
     }
 
     #connectOutputInputStream() {
