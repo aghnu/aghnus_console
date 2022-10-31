@@ -425,14 +425,14 @@
                 border-width: 0.11rem;
                 
                 background: $terminal-background-color;
-                border-color: $terminal-text-color-secondary;
+                border-color: $terminal-text-color-primary;
                 cursor: pointer;
                 font-size: $function-key-font-size;
-                box-shadow: 0rem 0.11rem 0rem $terminal-text-color-focus;
+                box-shadow: 0rem 0.11rem 0rem $terminal-text-color-primary;
                 font-family: inherit;
     
                 .label {
-                    color: $terminal-text-color-secondary;
+                    color: $terminal-text-color-primary;
                     margin: 0.2rem 0.4rem 0.2rem 0.4rem;
 
                 }
