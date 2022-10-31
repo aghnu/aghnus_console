@@ -519,7 +519,7 @@ function whereExe(param, callback=null) {
         checkpause: () => printPause,
         list: [
             new Job("pair", {pair: [
-                createHTMLElement('p', "Location: ", {class: "highlight"}),
+                createHTMLElement('p', "Location", {class: "highlight"}),
                 createHTMLElement('p', sysConfig.location, {class: "focus"}),
             ]}),
             new Job("pair", {pair: [
