@@ -2,12 +2,13 @@ html {
     // overflow: hidden;
     background-color: $terminal-background-color;
     color: $terminal-text-color-primary;
-    font-family: "Classic Console Neue";
+    font-family: 'Roboto Mono';
     font-size: $font-size;
+    font-weight: 400;
 
-    @include mobile() {
-        font-size: $font-size-mobile;
-    }
+    // @include mobile() {
+    //     font-size: $font-size-mobile;
+    // }
 }
 
 body {
@@ -61,4 +62,8 @@ body {
         width: 100%;
         text-align: left;
     }
+}
+
+* {
+    box-sizing: border-box;
 }

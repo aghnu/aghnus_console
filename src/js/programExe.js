@@ -19,17 +19,20 @@ const program_state = {
 }
 
 const PROGRAM_META = [
-    {name: 'map',       func: mapExe,           desc: 'display site map',                                           star: true},
+    
     {name: 'help',      func: helpExe,          desc: 'list all the commands that aghnu.me currently supports',     star: true},
-
-    {name: 'skills',    func: skillsExe,        desc: 'list my technical skills'},
-    {name: 'portfolio', func: portfolioExe,     desc: 'print the portfolios'},
-    {name: 'contact',   func: contactExe,       desc: 'list my contact information'},
+    {name: 'skills',    func: skillsExe,        desc: 'list my technical skills',                                   star: true},
+    {name: 'portfolio', func: portfolioExe,     desc: 'print the portfolios',                                       star: true},
+    {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on',                     star: true},
+    {name: 'contact',   func: contactExe,       desc: 'list my contact information',                                star: true},
+    
+    {name: 'map',       func: mapExe,           desc: 'display site map'},
+    
     {name: 'semantic',  func: semanticExe,      desc: 'display the semantic/no-script version of aghnu.me'},
     {name: 'home',      func: homeExe,          desc: 'display home page'},
     {name: 'clear',     func: clearExe,         desc: 'clear the terminal screen'},
     {name: 'keyboard',  func: keyboardExe,      desc: 'open/close the virtual keyboard'},
-    {name: 'projects',  func: projectsExe,      desc: 'list all the projects that I worked on'},
+ 
     {name: 'about',     func: aboutExe,         desc: 'list info about this website/project'},
     {name: 'resume',    func: resumeExe,        desc: 'print the link to my current resume'},
     {name: 'where',    func: whereExe,          desc: 'print the place where I live and my current time'},
@@ -294,6 +297,52 @@ function resumeExe(param, callback=null) {
 }
 
 function homeExe(param, callback=null) {
+    // print to out
+    const pid = genProcessID();
+    lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
+
+    let printPause = false;
+
+    param.outStream.print(new Job("list", {
+        checkpause: () => printPause,
+        list: [
+            new Job("line", {height: 1}),
+            new Job("separator", {height: 1}),
+            
+            new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
+            new Job("line", {height: 1}),
+            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
+            new Job("line", {height: 1}),
+
+            new Job("separator", {height: 1}),
+            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
+            ...(()=>{
+                const list = [];
+                PROGRAM_META.forEach(p => {
+                    if (p.star) {
+                        list.push(new Job("line", {height: 1}));
+                        list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+                            ProgramCore.getInstance().execute(p.name);
+                        }}));
+                        
+                    }
+                })
+                return list;              
+            })(),
+            new Job("line", {height: 1}),
+            new Job("separator", {height: 1}),
+            
+        ],
+        callback: () => {
+            setTimeout(() => {
+                unlockSystem(pid);                           
+            }, 1000);
+        },
+        min_interval: 0, max_interval: 0,
+    }));
+}
+
+function homeExeOld(param, callback=null) {
     // print to out
     const pid = genProcessID();
     const anchor_start = createHTMLElement('div', '', {'class': 'anchor-start'});

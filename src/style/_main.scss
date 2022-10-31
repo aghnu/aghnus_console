@@ -1,7 +1,7 @@
 #site-texture {
-    opacity: 0.25;
-    background-image: url("../img/noise_screen.png");
-    background-size: min(2.5vh, 2.5vw);
+    // opacity: 0.25;
+    // background-image: url("../img/noise_screen.png");
+    // background-size: min(2.5vh, 2.5vw);
 }
 
 // #sidebar-left {
@@ -20,7 +20,7 @@
 #site-semantic {
     display: none;
     width: 90%;
-    max-width: 550px;
+    max-width: 1000px;
     margin: auto;
     margin-top: 2em;
     margin-bottom: 2em;
@@ -161,7 +161,7 @@
 
                 .icon {
                     height: $terminal-line-height;
-                    margin-top: -0.11rem;
+                    margin-top: 0.05em;
                 }
             }
     
@@ -366,6 +366,7 @@
     #function-key-container {
         display: flex;
         justify-content: space-between;
+        gap: 1.5rem;
     
         .container {
             display: flex;
@@ -378,7 +379,7 @@
                 cursor: pointer;
                 .icon {
                     height: $terminal-line-height;
-                    margin-top: -0.11rem;
+                    margin-top: 0.1em;
                 }
                 .text-container {
                     display: flex;
@@ -388,8 +389,8 @@
     
                     .text {
                         font-size: $function-key-font-size;
-                        font-family: "Classic Console Neue";
-                        color: $terminal-text-color-secondary;
+                        font-family: inherit;
+                        color: $terminal-text-color-primary;
                     }
                 }
             }
@@ -428,7 +429,7 @@
                 cursor: pointer;
                 font-size: $function-key-font-size;
                 box-shadow: 0rem 0.11rem 0rem $terminal-text-color-focus;
-                font-family: "Classic Console Neue";
+                font-family: inherit;
     
                 .label {
                     color: $terminal-text-color-secondary;
