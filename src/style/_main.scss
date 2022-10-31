@@ -1,7 +1,7 @@
 #site-texture {
-    // opacity: 0.25;
-    // background-image: url("../img/noise_screen.png");
-    // background-size: min(2.5vh, 2.5vw);
+    opacity: 0.25;
+    background-image: url("../img/noise_screen.png");
+    background-size: min(2.5vh, 2.5vw);
 }
 
 // #sidebar-left {
@@ -25,7 +25,7 @@
     margin-top: 2em;
     margin-bottom: 2em;
     color: $terminal-text-color-primary;
-    @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+    @include override_select_color($terminal-background-color, $terminal-text-color-primary);
 
     h1, h2, h3, p {
         margin: 0;
@@ -136,7 +136,7 @@
 }
 
 #site-app {
-    @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+    @include override_select_color($terminal-background-color, $terminal-text-color-primary);
     #terminal-container {
         scroll-behavior: smooth;
 
