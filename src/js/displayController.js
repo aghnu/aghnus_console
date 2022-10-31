@@ -1,6 +1,7 @@
 import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
 import { ProgramCore } from "./programExe";
+
 import sysConfig from "../data/config.json";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 
@@ -191,33 +192,36 @@ export class DisplayController {
             }, 500);
         }
 
-
-        // open keyboard when touchend
-        let touchDown = false;
-
-        this.#inputPromptEl.addEventListener('touchstart', (e) => {
-            touchDown = true;
-        });
-
-
         this.#inputPromptEl.addEventListener('touchend', (e) => {
-            if (touchDown) {
-                touchDown = false;
-                ProgramCore.getInstance().execute('keyboard');
-            }
+            ProgramCore.getInstance().execute('keyboard');
         });
 
-        this.#inputPromptEl.addEventListener('touchcancel', (e) => {
-            if (touchDown) {
-                touchDown = false;
-            }
-        });
+        // // open keyboard when touchend
+        // let touchDown = false;
 
-        document.addEventListener('touchend', (e) => {
-            if (touchDown) {
-                touchDown = false;
-            }
-        });
+        // this.#inputPromptEl.addEventListener('touchstart', (e) => {
+        //     touchDown = true;
+        // });
+
+
+        // this.#inputPromptEl.addEventListener('touchend', (e) => {
+        //     if (touchDown) {
+        //         touchDown = false;
+        //         ProgramCore.getInstance().execute('keyboard');
+        //     }
+        // });
+
+        // this.#inputPromptEl.addEventListener('touchcancel', (e) => {
+        //     if (touchDown) {
+        //         touchDown = false;
+        //     }
+        // });
+
+        // document.addEventListener('touchend', (e) => {
+        //     if (touchDown) {
+        //         touchDown = false;
+        //     }
+        // });
 
         // subscribe to input update
         updatePrompt();

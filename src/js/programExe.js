@@ -6,6 +6,7 @@ import sitemapData from "../data/sitemap.json";
 import sysConfig from "../data/config.json";
 import portfolioData from "../data/portfolio.json";
 import skillsData from "../data/skills.json";
+import { KeyboardController } from "./keyboardController";
 
 const SYSTEM_VERSION = sysConfig.updated;
 
@@ -17,6 +18,8 @@ const program_lock = {
 const program_state = {
     cleaningFuncs: [],
 }
+
+let actionTimeout = null;
 
 const PROGRAM_META = [
     
@@ -569,7 +572,14 @@ function contactExe(param, callback=null) {
 
 function keyboardExe(param,callback=null) {
     const keyboard = document.querySelector('#virtual-keyboard');
+
     if (keyboard) {
+        clearTimeout(actionTimeout);
+        KeyboardController.getInstance().lockKeyEvent();
+        actionTimeout = setTimeout(() => {
+            KeyboardController.getInstance().unlockKeyEvent();            
+        }, 250);
+
         keyboard.classList.toggle('on');
     }
 

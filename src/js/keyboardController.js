@@ -4,7 +4,13 @@ import { OutputStreamJob } from "./ioStream";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 
 export class KeyboardController {
-    constructor(inputStream, outputStream) {
+    constructor() {
+        if (KeyboardController._instance) {
+            return KeyboardController._instance;
+        }
+        KeyboardController._instance = this;
+
+
         this.keyAllowedShowSet = new Set([
             "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
             "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", 
@@ -27,6 +33,17 @@ export class KeyboardController {
         this.#setUpSpecialKey();
         this.#setupKeyListeners();
         this.#createVirtualKeyboard();
+
+        // state
+        this.externalKeyEvent = false;
+    }
+
+    static getInstance() {
+        if (KeyboardController._instance) {
+            return KeyboardController._instance;
+        }
+
+        return new KeyboardController();
     }
 
     #setupKeyListeners() {
@@ -120,50 +137,55 @@ export class KeyboardController {
                 keyboard_key.addEventListener('touchstart', (e) => {
                     // e.preventDefault();
                     touchEvent = true;
-                    keyDownFunc();
+                    if ((this.externalKeyEvent === false)) {
+                        keyDownFunc();
+                    }
+                    
                 });
 
                 keyboard_key.addEventListener('touchend', (e) => {
                     // e.preventDefault();
                     touchEvent = true;
-                    keyUpFunc();
+
+                    if ((this.externalKeyEvent === false)) {
+                        keyUpFunc();
+                    }
+                    
                 });
 
                 keyboard_key.addEventListener('touchcancel', (e) => {
                     // e.preventDefault();
                     touchEvent = true;
-                    keyUpFunc();
+                    if ((this.externalKeyEvent === false)) {
+                        keyUpFunc();
+                    }
+                    
                 });
 
                 // click events
                 keyboard_key.addEventListener('mousedown', (e) => {
-                    if (touchEvent === false) {
+                    if ((touchEvent === false) && (this.externalKeyEvent === false)) {
                         e.preventDefault();
                         keyDownFunc();                        
                     }
                 });
 
                 keyboard_key.addEventListener('mouseup', (e) => {
-                    if (touchEvent === false) {
+                    if ((touchEvent === false) && (this.externalKeyEvent === false)) {
                         e.preventDefault();
                         keyUpFunc();                        
-                    } else {
-                        touchEvent = false;
                     }
 
                 });
 
                 //global up
                 document.addEventListener('mouseup', (e) => {
-                    if (touchEvent === false) {
+                    if ((touchEvent === false) && (this.externalKeyEvent === false)) {
                         keyUpFunc();
                     } else {
                         touchEvent = false;
                     }
-                    
                 });
-
-
 
                 keyboard_key_row.appendChild(keyboard_key);
             }
@@ -185,6 +207,14 @@ export class KeyboardController {
 
             programCore.execute(inputCMD);
         });
+    }
+
+    lockKeyEvent() {
+        this.externalKeyEvent = true;
+    }
+
+    unlockKeyEvent() {
+        this.externalKeyEvent = false;
     }
 
     keyIsAllowedShow(key) {
