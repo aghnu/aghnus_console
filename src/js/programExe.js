@@ -694,7 +694,7 @@ export class ProgramCore {
             } else {
                 this.outStream.newOutSection();
                 if (inputCMD !== "") {
-                    this.outStream.print(new Job('text', {'text': "<span class=''>>&nbsp</span>" + "<span class=''>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
+                    this.outStream.print(new Job('text', {'text': "<span class='wrap'>>&nbsp</span>" + "<span class='wrap'>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
                 }
                 if (this.path[cmd] === undefined) {
                     param.outStream.print(new Job('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
