@@ -313,13 +313,14 @@ export class OutputStreamScreen {
         const printJobList = param.list;
         const callback = param.callback;
         const checkpause = param.checkpause;
-        const min_interval = param.min_interval;
-        const max_interval = param.max_interval;
-        const default_interval = 500;
+        let min_interval = param.min_interval;
+        let max_interval = param.max_interval;
+        const default_interval_min = 10;
+        const default_interval_max = 25;
 
         if (min_interval === undefined) {
-            min_interval = default_interval;
-            max_interval = default_interval;
+            min_interval = default_interval_min;
+            max_interval = default_interval_max;
         }
 
         if (max_interval === undefined) {

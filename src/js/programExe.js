@@ -184,8 +184,7 @@ function semanticExe(param, callback=null) {
             new Job("line", {height: 1}),
             new Job("text", {text: "Do you wish to continue? Type (y/N)"}),
             new Job("custom", {element: custom_el_clickSelect()}),
-        ],
-        min_interval: 0, max_interval: 0,
+        ]
     }));
 
     updateLock(pid, 'System is Currently Occupied', (cmd, param) => {
@@ -226,7 +225,7 @@ function skillsExe(param, callback=null) {
     param.outStream.print(new Job('list', {
         list: [
             ...skillsPrintJobs
-        ], min_interval: 0, max_interval: 0,
+        ],
         callback: callback
     }));
 }
@@ -242,7 +241,7 @@ function portfolioExe(param, callback=null) {
     param.outStream.print(new Job('list', {
         list: [
             ...portfolioProjectsPrintJobs
-        ], min_interval: 0, max_interval: 0,
+        ],
         callback: callback
     }));
 }
@@ -254,7 +253,7 @@ function systemExe(param, callback=null) {
             new Job("title", {text: "Aghnu's Console"}),
             new Job("text", {text: "Gengyuan Huang's Homepage", class: 'highlight'}),
             new Job("line", {height: 1}),
-        ], min_interval: 0, max_interval: 0,
+        ],
     }));
 }
 
@@ -283,7 +282,7 @@ function mapExe(param, callback=null) {
             new Job("line", {height: 1}),
 
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
 }
 
@@ -295,7 +294,7 @@ function resumeExe(param, callback=null) {
             new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
             new Job("line", {height: 1}),
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
 }
 
@@ -339,106 +338,106 @@ function homeExe(param, callback=null) {
         callback: () => {
             setTimeout(() => {
                 unlockSystem(pid);                           
-            }, 1000);
+            }, 100);
         },
-        min_interval: 0, max_interval: 0,
+        
     }));
 }
 
-function homeExeOld(param, callback=null) {
-    // print to out
-    const pid = genProcessID();
-    const anchor_start = createHTMLElement('div', '', {'class': 'anchor-start'});
-    lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
+// function homeExeOld(param, callback=null) {
+//     // print to out
+//     const pid = genProcessID();
+//     const anchor_start = createHTMLElement('div', '', {'class': 'anchor-start'});
+//     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
 
-    let printPause = false;
+//     let printPause = false;
 
-    param.outStream.print(new Job("list", {
-        checkpause: () => printPause,
-        list: [
-            new Job("custom", {element: anchor_start}),
+//     param.outStream.print(new Job("list", {
+//         checkpause: () => printPause,
+//         list: [
+//             new Job("custom", {element: anchor_start}),
 
-            new Job("line", {height: 1}),
-            new Job("title", {text: "About Me"}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
-            new Job("line", {height: 1}),
-            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
-            new Job("line", {height: 1}),
+//             new Job("line", {height: 1}),
+//             new Job("title", {text: "About Me"}),
+//             new Job("line", {height: 1}),
+//             new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
+//             new Job("line", {height: 1}),
+//             new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
+//             new Job("line", {height: 1}),
 
-            new Job("separator", {height: 1}),
-            new Job("title", {text: "My Skills"}),
-            new Job("line", {height: 1}),
+//             new Job("separator", {height: 1}),
+//             new Job("title", {text: "My Skills"}),
+//             new Job("line", {height: 1}),
 
-            new Job("skills", {name: "Recently Worked With", skills: skillsData.recent}),
-            new Job("line", {height: 1}),
-            new Job("skills", {name: skillsData.skills[1].name, skills: skillsData.skills[1].skills}),
-            new Job("line", {height: 1}),
-            new Job("custom", {element: (()=>{
-                const el = createHTMLElement('div', '<span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
-                el.onclick = () => {
-                    ProgramCore.getInstance().execute('skills')
-                };
-                return el;
-            })()}),
-            new Job("line", {height: 1}),
+//             new Job("skills", {name: "Recently Worked With", skills: skillsData.recent}),
+//             new Job("line", {height: 1}),
+//             new Job("skills", {name: skillsData.skills[1].name, skills: skillsData.skills[1].skills}),
+//             new Job("line", {height: 1}),
+//             new Job("custom", {element: (()=>{
+//                 const el = createHTMLElement('div', '<span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
+//                 el.onclick = () => {
+//                     ProgramCore.getInstance().execute('skills')
+//                 };
+//                 return el;
+//             })()}),
+//             new Job("line", {height: 1}),
 
-            new Job("separator", {height: 1}),
-            new Job("title", {text: "Some Cool Projects"}),
-            new Job("line", {height: 1}),
-            new Job("lambda", {func: ()=>{
-                printPause = true;
-                portfolioExe(param, () => printPause = false);         
-            }}),
-            new Job("custom", {element: (()=>{
-                const el = createHTMLElement('div', '<span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
-                el.onclick = () => {
-                    ProgramCore.getInstance().execute('projects')
-                };
-                return el;
-            })()}),
-            new Job("line", {height: 1}),
+//             new Job("separator", {height: 1}),
+//             new Job("title", {text: "Some Cool Projects"}),
+//             new Job("line", {height: 1}),
+//             new Job("lambda", {func: ()=>{
+//                 printPause = true;
+//                 portfolioExe(param, () => printPause = false);         
+//             }}),
+//             new Job("custom", {element: (()=>{
+//                 const el = createHTMLElement('div', '<span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
+//                 el.onclick = () => {
+//                     ProgramCore.getInstance().execute('projects')
+//                 };
+//                 return el;
+//             })()}),
+//             new Job("line", {height: 1}),
             
-            new Job("separator", {height: 1}),
-            new Job("title", {text: "Get In Touch"}),
-            new Job("line", {height: 1}),
-            new Job("lambda", {func: ()=>{
-                printPause = true;
-                contactExe(param, () => printPause = false);         
-            }}),
+//             new Job("separator", {height: 1}),
+//             new Job("title", {text: "Get In Touch"}),
+//             new Job("line", {height: 1}),
+//             new Job("lambda", {func: ()=>{
+//                 printPause = true;
+//                 contactExe(param, () => printPause = false);         
+//             }}),
 
-            new Job("separator", {height: 1}),
-            new Job("title", {text: "Navigation"}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
-            ...(()=>{
-                const list = [];
-                PROGRAM_META.forEach(p => {
-                    if (p.star) {
-                        list.push(new Job("line", {height: 1}));
-                        list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-                            ProgramCore.getInstance().execute(p.name);
-                        }}));
+//             new Job("separator", {height: 1}),
+//             new Job("title", {text: "Navigation"}),
+//             new Job("line", {height: 1}),
+//             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
+//             ...(()=>{
+//                 const list = [];
+//                 PROGRAM_META.forEach(p => {
+//                     if (p.star) {
+//                         list.push(new Job("line", {height: 1}));
+//                         list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+//                             ProgramCore.getInstance().execute(p.name);
+//                         }}));
                         
-                    }
-                })
-                return list;              
-            })(),
-            new Job("line", {height: 1}),
-            new Job("separator", {height: 1}),
-        ],
-        callback: () => {
-            setTimeout(() => {
-                // hot fix
-                const terminalContainer = document.querySelector('#terminal-container');
-                terminalContainer.scrollTop = anchor_start.offsetTop;
-                // anchor_start.scrollIntoView(true);
-                unlockSystem(pid);                           
-            }, 1000);
-        },
-        min_interval: 0, max_interval: 0,
-    }));
-}
+//                     }
+//                 })
+//                 return list;              
+//             })(),
+//             new Job("line", {height: 1}),
+//             new Job("separator", {height: 1}),
+//         ],
+//         callback: () => {
+//             setTimeout(() => {
+//                 // hot fix
+//                 const terminalContainer = document.querySelector('#terminal-container');
+//                 terminalContainer.scrollTop = anchor_start.offsetTop;
+//                 // anchor_start.scrollIntoView(true);
+//                 unlockSystem(pid);                           
+//             }, 1000);
+//         },
+        
+//     }));
+// }
 
 function aboutExe(param, callback=null) {
 
@@ -469,7 +468,7 @@ function aboutExe(param, callback=null) {
             new Job("line", {height: 1}),
 
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
     if (callback !== null) {
         callback();
@@ -493,7 +492,7 @@ function helpExe(param,callback=null) {
             new Job("line", {height: 1}),
             ...cmdPJList
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
     if (callback !== null) {
         callback();
@@ -508,7 +507,7 @@ function clearExe(param, callback=null) {
             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
             new Job("line", {height: 1}),
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
 
     if (callback !== null) {
@@ -536,7 +535,7 @@ function whereExe(param, callback=null) {
                 callback();
             }
         },
-        min_interval: 0, max_interval: 0,
+        
     }));
 }
 
@@ -566,7 +565,7 @@ function contactExe(param, callback=null) {
                 callback();
             }
         },
-        min_interval: 0, max_interval: 0,
+        
     }));
 }
 
@@ -640,7 +639,7 @@ function projectsExe(param, callback=null) {
 
             new Job("line", {height: 1})
         ],
-        min_interval: 0, max_interval: 0,
+        
     }));
 
     if (callback !== null) {

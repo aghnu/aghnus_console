@@ -138,7 +138,7 @@
 #site-app {
     @include override_select_color($terminal-background-color, $terminal-text-color-primary);
     #terminal-container {
-        scroll-behavior: smooth;
+        // scroll-behavior: smooth;
 
         .terminal-exe-section {
             transition: opacity 0.5s;
