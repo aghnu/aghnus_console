@@ -116,35 +116,51 @@ export class KeyboardController {
                 }
 
                 // touch events
+                let touchEvent = false;
                 keyboard_key.addEventListener('touchstart', (e) => {
-                    e.preventDefault();
+                    // e.preventDefault();
+                    touchEvent = true;
                     keyDownFunc();
                 });
 
                 keyboard_key.addEventListener('touchend', (e) => {
-                    e.preventDefault();
+                    // e.preventDefault();
+                    touchEvent = true;
                     keyUpFunc();
                 });
 
                 keyboard_key.addEventListener('touchcancel', (e) => {
-                    e.preventDefault();
+                    // e.preventDefault();
+                    touchEvent = true;
                     keyUpFunc();
                 });
 
                 // click events
                 keyboard_key.addEventListener('mousedown', (e) => {
-                    e.preventDefault();
-                    keyDownFunc();
+                    if (touchEvent === false) {
+                        e.preventDefault();
+                        keyDownFunc();                        
+                    }
                 });
 
                 keyboard_key.addEventListener('mouseup', (e) => {
-                    e.preventDefault();
-                    keyUpFunc();
+                    if (touchEvent === false) {
+                        e.preventDefault();
+                        keyUpFunc();                        
+                    } else {
+                        touchEvent = false;
+                    }
+
                 });
 
                 //global up
                 document.addEventListener('mouseup', (e) => {
-                    keyUpFunc();
+                    if (touchEvent === false) {
+                        keyUpFunc();
+                    } else {
+                        touchEvent = false;
+                    }
+                    
                 });
 
 
