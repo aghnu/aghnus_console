@@ -5,7 +5,7 @@ import sysConfig from "../data/config.json";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 
 export class DisplayController {
-    #promptStr = "guest@aghnu.me:/$:&nbsp";
+    #promptStr = "<span class='focus'>guest@aghnu.me</span>:<span class='highlight'>~/</span>$:&nbsp";
     #cursorStr = '_';
     #inputPromptEl;
 
