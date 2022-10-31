@@ -22,7 +22,7 @@ export class DisplayController {
         this.#createFooter();
         this.#createFunctionKeys();
         this.#connectOutputInputStream();
-        this.#createSidebar();
+        // this.#createSidebar();
     }
 
     refresh() {
@@ -43,24 +43,24 @@ export class DisplayController {
         })
     }
 
-    #createSidebar() {
-        const side_bar_left = document.querySelector('#sidebar-left');
-        const items = [
-            {'type': 'github', 'link': 'https://github.com/aghnu', 'title': 'GitHub'},
-            {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh', 'title': 'LinkedIn'},
-            {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca', 'title': 'Email'},
-        ]
+    // #createSidebar() {
+    //     const side_bar_left = document.querySelector('#sidebar-left');
+    //     const items = [
+    //         {'type': 'github', 'link': 'https://github.com/aghnu', 'title': 'GitHub'},
+    //         {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh', 'title': 'LinkedIn'},
+    //         {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca', 'title': 'Email'},
+    //     ]
 
-        items.forEach((i) => {
-            const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'title': i.title, 'target': '_blank', rel: 'noopener noreferrer'});
-            const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77em'), {'class': 'icon'}); 
+    //     items.forEach((i) => {
+    //         const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'title': i.title, 'target': '_blank', rel: 'noopener noreferrer'});
+    //         const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77em'), {'class': 'icon'}); 
 
-            el.appendChild(elIcon);
-            side_bar_left.appendChild(el);           
-        });
+    //         el.appendChild(elIcon);
+    //         side_bar_left.appendChild(el);           
+    //     });
 
 
-    }
+    // }
 
     #createFunctionKeys() {
         const col_l = document.querySelector("#function-key-container .left");

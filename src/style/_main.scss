@@ -4,18 +4,18 @@
     background-size: min(2.5vh, 2.5vw);
 }
 
-#sidebar-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2.75rem;
+// #sidebar-left {
+//     display: flex;
+//     flex-direction: column;
+//     justify-content: center;
+//     gap: 2.75rem;
 
-    @include mobile() {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 0;
-    }
-}
+//     @include mobile() {
+//         flex-direction: row;
+//         justify-content: space-between;
+//         gap: 0;
+//     }
+// }
 
 #site-semantic {
     display: none;

@@ -1,13 +1,12 @@
 $footer-height:                         1.42rem;
 $function-keys-height:                  2.85rem;
 $virtual-keyboard-height:               11rem;
-$sidebar-size:                          1.77rem;
+$virtual-keyboard-width-max:            600px;
 
 $terminal-layer-padding-x:              50%;
 $terminal-layer-padding-y:              0.5rem; 
 
-$terminal-layer-content-width:          600px;
-$terminal-layer-mobile-content-width:   min(600px, 90%);
+$terminal-layer-content-width-max:          1000px;
 
 .layer {
     position: fixed;
@@ -46,32 +45,6 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     user-select: none;  
 }
 
-#sidebar-left {
-    position: absolute;
-    left: $terminal-layer-padding-x;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    width: $terminal-layer-content-width;
-    min-width: fit-content;
-
-    .item {
-        pointer-events: all;
-        width: $sidebar-size;
-        height: $sidebar-size;
-        transform: translate(calc(-100% - 32px), 0);
-    }
-
-    @include mobile() {
-        top: $terminal-layer-padding-y;
-        transform: translate(-50%, 0%);
-        width: $terminal-layer-mobile-content-width;
-
-        .item {
-            transform: unset;
-        }
-    }
-}
-
 
 #terminal-container {
     position: fixed;
@@ -79,7 +52,8 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
 
-    width: $terminal-layer-content-width;
+    width: 95%;
+    max-width: $terminal-layer-content-width-max;
     height: calc(100% - #{$footer-height} - #{$function-keys-height} - #{$terminal-layer-padding-y * 5});
 
 
@@ -91,23 +65,19 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     &::-webkit-scrollbar {
         display: none;
     }
-
-    @include mobile() {
-        width: $terminal-layer-mobile-content-width;
-        top: calc(#{$terminal-layer-padding-y} * 2 + #{$sidebar-size});
-        height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$terminal-layer-padding-y * 6});
-    }
 }
 
 #virtual-keyboard {
     display: none;
     position: fixed;
-    width: $terminal-layer-content-width;
+    width: 95%;
+    max-width: $terminal-layer-content-width-max;
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
 
     bottom: calc(#{$footer-height} + #{$function-keys-height} + #{$terminal-layer-padding-y * 4});
     height: $virtual-keyboard-height;
+    max-width: $virtual-keyboard-width-max;
     
     &.on {
         display: block;
@@ -122,14 +92,6 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
         width: 100%;
 
     }
-
-    @include mobile() {
-        width: $terminal-layer-mobile-content-width;
-
-        &.on ~ #terminal-container {
-            height: calc(100% - #{$footer-height} - #{$sidebar-size} - #{$function-keys-height} - #{$virtual-keyboard-height} - #{$terminal-layer-padding-y * 7});
-        }
-    }
 }
 
 #function-key-container {
@@ -139,12 +101,11 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
     left: $terminal-layer-padding-x;
     transform: translate(-50%, 0%);
 
-    width: $terminal-layer-content-width;
+    width: 95%;
+    max-width: $terminal-layer-content-width-max;
     min-width: fit-content;
 
-    @include mobile() {
-        width: $terminal-layer-mobile-content-width;
-    }
+
 }
 
 #footer {
@@ -157,11 +118,10 @@ $terminal-layer-mobile-content-width:   min(600px, 90%);
 
     height: $footer-height;
 
-    width: $terminal-layer-content-width;
+    width: 95%;
+    max-width: $terminal-layer-content-width-max;
 
-    @include mobile() {
-        width: $terminal-layer-mobile-content-width;
-    }
+
 }
 
 

@@ -10,7 +10,7 @@ import { ProgramCore } from "./programExe";
 function createHTMLStructure() {
     const site_app = createHTMLElement('div', '', {id: 'site-app'});
 
-    const overlay_layer = createHTMLElement('div','',{'id': 'overlay-layer', 'class':'layer'});
+    // const overlay_layer = createHTMLElement('div','',{'id': 'overlay-layer', 'class':'layer'});
     const terminal_layer = createHTMLElement('div','',{'id': 'terminal-layer', 'class':'layer'});
 
     // third layer
@@ -37,12 +37,12 @@ function createHTMLStructure() {
     terminal_layer.appendChild(terminal_layer_footer);
 
     // second layer
-    const side_bar_left = createHTMLElement('div', '', {'id': 'sidebar-left'});
+    // const side_bar_left = createHTMLElement('div', '', {'id': 'sidebar-left'});
 
-    overlay_layer.appendChild(side_bar_left);
+    // overlay_layer.appendChild(side_bar_left);
 
 
-    site_app.appendChild(overlay_layer);
+    // site_app.appendChild(overlay_layer);
     site_app.appendChild(terminal_layer);
 
     document.body.appendChild(site_app);
