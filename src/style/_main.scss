@@ -4,19 +4,6 @@
     background-size: min(2.5vh, 2.5vw);
 }
 
-// #sidebar-left {
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     gap: 2.75rem;
-
-//     @include mobile() {
-//         flex-direction: row;
-//         justify-content: space-between;
-//         gap: 0;
-//     }
-// }
-
 #site-semantic {
     display: none;
     width: 90%;
@@ -137,7 +124,7 @@
 
 #site-app {
     @include override_select_color($terminal-background-color, $terminal-text-color-primary);
-    #terminal-container {
+    .terminal-container {
         // scroll-behavior: smooth;
 
         .terminal-exe-section {
@@ -177,7 +164,7 @@
     
         }
     
-        #terminal-input {
+        .terminal-input {
             color: $terminal-text-color-primary;
             word-wrap: break-word;
         }
@@ -333,7 +320,7 @@
         }
     }
     
-    #footer {
+    .footer {
         .text-container {
             display: flex;
             flex-direction: column;
@@ -343,27 +330,9 @@
                 white-space: nowrap;
             }
         }
-
-        // .text-container {
-        //     display: flex;
-        //     flex-direction: column;
-        //     justify-content: center;
-        //     // height: $function-key-line-height;
-    
-        //     #footer-date-str,
-        //     #footer-loca-str,
-        //     #footer-copy-str {
-        //         font-size: $function-key-font-size;
-        //         font-family: "Classic Console Neue";
-        //         color: $terminal-text-color-focus;
-        //         margin: auto;
-        //         text-align: center;
-        //         white-space: nowrap;
-        //     }
-        // }
     }
     
-    #function-key-container {
+    .function-key-container {
         display: flex;
         justify-content: space-between;
         gap: 1.5rem;
@@ -398,7 +367,7 @@
         }
     }
     
-    #virtual-keyboard {
+    .virtual-keyboard {
 
         .keyboard-container {
             display: flex;
@@ -442,7 +411,7 @@
                     bottom: 95%;
                 }
     
-                &#virtual-key-Space {
+                &.virtual-key-Space {
                     min-width: fit-content;
                     width: calc((100% - 1.5% * 3) / 10 * 6);
                     height: 100%;
@@ -451,7 +420,7 @@
                         bottom: 75%;
                     }
                 }
-                &#virtual-key-Enter {
+                &.virtual-key-Enter {
                     min-width: fit-content;
                     width: calc((100% - 1.5% * 3) / 10 * 2);
                     height: 100%;
@@ -460,7 +429,7 @@
                         bottom: 75%;
                     }
                 }
-                &#virtual-key-Back {
+                &.virtual-key-Back {
                     min-width: fit-content;
                     width: calc((100% - 1.5% * 3) / 10 * 2);
                     height: 100%;

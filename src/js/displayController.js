@@ -4,31 +4,85 @@ import { ProgramCore } from "./programExe";
 
 import sysConfig from "../data/config.json";
 import { InputStream, OutputStreamScreen } from "./ioStream";
+import { KeyboardController } from "./keyboardController";
 
 export class DisplayController {
     #promptStr = "<span class='focus'>guest@aghnu.me</span>:<span class='highlight'>~/</span>$:&nbsp";
     #cursorStr = '_';
     #inputPromptEl;
 
-    constructor(inputStream, outputStream) {
+    constructor() {
+        if (DisplayController._instance) {
+            return DisplayController._instance;
+        }
+        DisplayController._instance = this;
+
+
         // public fields
         this.out = OutputStreamScreen.getInstance();
         this.in = InputStream.getInstance();
+
+        // keyboard control
+        this.keyboardController = KeyboardController.getInstance();
        
         // when window resize
         window.addEventListener('resize', () => this.refresh);
+
+        // elements
+        this.functionKeyContainer = createHTMLElement('div','',{'class': 'function-key-container'});
+        this.footer = createHTMLElement('div','',{'class': 'footer'});
+        this.app = document.querySelector('#site-app');
 
         // init setup
         this.#createInputPrompt();
         this.#createFooter();
         this.#createFunctionKeys();
         this.#connectOutputInputStream();
-        // this.#createSidebar();
+
+        // construct
+
+        this.app.insertBefore(this.footer, this.app.querySelector('.terminal-container').nextSibling);
+        this.app.insertBefore(this.functionKeyContainer, this.app.querySelector('.terminal-container').nextSibling);
+
+        // state
+        this.keyboardIsOpen = false;
+
+        // timeinterval
+        this.displayDelayTimeout = null;
+        this.currentKeyboardElement = null;
+        
+    }
+
+    static getInstance() {
+        if (DisplayController._instance) {
+            return DisplayController._instance;
+        }
+
+        return new DisplayController();
+    }
+
+    toggleKeyboard() {
+        if (this.keyboardIsOpen) {
+            this.app.removeChild(this.currentKeyboardElement);
+            this.keyboardIsOpen = false;
+        } else {
+            clearTimeout(this.displayDelayTimeout);
+            this.keyboardController.lockKeyEvent();
+
+            const keyboardElement = this.keyboardController.getKeyboardElement()
+            this.app.insertBefore(keyboardElement, this.app.querySelector('.terminal-container').nextSibling);
+            this.currentKeyboardElement = keyboardElement;
+            this.keyboardIsOpen = true;
+            
+            this.displayDelayTimeout = setTimeout(() => {
+                this.keyboardController.unlockKeyEvent();            
+            }, 250);
+        }
     }
 
     refresh() {
         // hot fix
-        const terminalContainer = document.querySelector('#terminal-container');
+        const terminalContainer = document.querySelector('#site-app .terminal-container');
         terminalContainer.scrollTop = this.#inputPromptEl.offsetTop;
         // this.#inputPromptEl.scrollIntoView(true);
     }
@@ -44,29 +98,11 @@ export class DisplayController {
         })
     }
 
-    // #createSidebar() {
-    //     const side_bar_left = document.querySelector('#sidebar-left');
-    //     const items = [
-    //         {'type': 'github', 'link': 'https://github.com/aghnu', 'title': 'GitHub'},
-    //         {'type': 'linkedin', 'link': 'https://www.linkedin.com/in/gengyuanh', 'title': 'LinkedIn'},
-    //         {'type': 'email', 'link': 'mailto:gengyuan@ualberta.ca', 'title': 'Email'},
-    //     ]
-
-    //     items.forEach((i) => {
-    //         const el = createHTMLElement('a', '', {'class': 'item', 'href': i.link, 'title': i.title, 'target': '_blank', rel: 'noopener noreferrer'});
-    //         const elIcon = createHTMLElement('div', icon[i.type]('#de9835', '1.77em'), {'class': 'icon'}); 
-
-    //         el.appendChild(elIcon);
-    //         side_bar_left.appendChild(el);           
-    //     });
-
-
-    // }
-
     #createFunctionKeys() {
-        const col_l = document.querySelector("#function-key-container .left");
-        const col_m = document.querySelector("#function-key-container .middle");
-        const col_r = document.querySelector("#function-key-container .right");
+        
+        const col_l = createHTMLElement('div', '', {'class': 'container left'});
+        const col_m = createHTMLElement('div', '', {'class': 'container middle'});
+        const col_r = createHTMLElement('div', '', {'class': 'container right'});
 
         const keys = [
             {
@@ -144,41 +180,24 @@ export class DisplayController {
             }
 
         });
+
+        this.functionKeyContainer.appendChild(col_l);
+        this.functionKeyContainer.appendChild(col_m);
+        this.functionKeyContainer.appendChild(col_r);
     }
 
     #createFooter() {
-        const footer = document.querySelector('#footer');
         const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
         const footerInfoText = createHTMLElement('p', "© 2022 Gengyuan Huang", {class: "info"});
         
         footerTextContainer.appendChild(footerInfoText);
-        footer.appendChild(footerTextContainer);
-
-        // const footerDateEl = createHTMLElement('p', '', {'id': 'footer-date-str'});
-        // const footerCopyEl = createHTMLElement('p', '', {'id': 'footer-copy-str'});
-        // const footerLocaEl = createHTMLElement('p', '', {'id': 'footer-loca-str'});
-
-        // const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
-
-        // const date = new Date();
-        // footerCopyEl.innerHTML = '© 2022 Gengyuan Huang';
-        // footerLocaEl.innerHTML = sysConfig.location;
-        // footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
-        // setInterval(() => {
-        //     const date = new Date();
-        //     footerDateEl.innerHTML = date.toLocaleDateString('en-CA', {timeZone: sysConfig.timezone}) + "&nbsp" + date.toLocaleTimeString('en-CA', {timeZone: sysConfig.timezone});
-        // }, 1000);
-
-        // footerTextContainer.appendChild(footerDateEl);
-        // footerTextContainer.appendChild(footerLocaEl);
-        // // footerTextContainer.appendChild(footerCopyEl);
-        // footer.appendChild(footerTextContainer);
+        this.footer.appendChild(footerTextContainer);
     }
 
     #createInputPrompt() {
         let userInputStr = "";
-        const terminal_container = document.querySelector("#terminal-container");
-        this.#inputPromptEl = createHTMLElement('p', '', {'id': 'terminal-input'});
+        const terminal_container = document.querySelector("#site-app .terminal-container");
+        this.#inputPromptEl = createHTMLElement('p', '', {'class': 'terminal-input'});
         let pointerFlashingInterval;
         
         const updatePrompt = () => {
@@ -195,33 +214,6 @@ export class DisplayController {
         this.#inputPromptEl.addEventListener('touchend', (e) => {
             ProgramCore.getInstance().execute('keyboard');
         });
-
-        // // open keyboard when touchend
-        // let touchDown = false;
-
-        // this.#inputPromptEl.addEventListener('touchstart', (e) => {
-        //     touchDown = true;
-        // });
-
-
-        // this.#inputPromptEl.addEventListener('touchend', (e) => {
-        //     if (touchDown) {
-        //         touchDown = false;
-        //         ProgramCore.getInstance().execute('keyboard');
-        //     }
-        // });
-
-        // this.#inputPromptEl.addEventListener('touchcancel', (e) => {
-        //     if (touchDown) {
-        //         touchDown = false;
-        //     }
-        // });
-
-        // document.addEventListener('touchend', (e) => {
-        //     if (touchDown) {
-        //         touchDown = false;
-        //     }
-        // });
 
         // subscribe to input update
         updatePrompt();

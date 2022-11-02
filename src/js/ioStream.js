@@ -59,7 +59,7 @@ export class OutputStreamScreen {
         }
         OutputStreamScreen._instance = this;
 
-        this.root = document.querySelector("#terminal-container #terminal-output");
+        this.root = document.querySelector("#site-app .terminal-container .terminal-output");
         this.out = this.createOutSection();
         this.listeners = [];
 

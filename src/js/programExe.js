@@ -7,6 +7,7 @@ import sysConfig from "../data/config.json";
 import portfolioData from "../data/portfolio.json";
 import skillsData from "../data/skills.json";
 import { KeyboardController } from "./keyboardController";
+import { DisplayController } from "./displayController";
 
 const SYSTEM_VERSION = sysConfig.updated;
 
@@ -18,8 +19,6 @@ const program_lock = {
 const program_state = {
     cleaningFuncs: [],
 }
-
-let actionTimeout = null;
 
 const PROGRAM_META = [
     
@@ -344,101 +343,6 @@ function homeExe(param, callback=null) {
     }));
 }
 
-// function homeExeOld(param, callback=null) {
-//     // print to out
-//     const pid = genProcessID();
-//     const anchor_start = createHTMLElement('div', '', {'class': 'anchor-start'});
-//     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
-
-//     let printPause = false;
-
-//     param.outStream.print(new Job("list", {
-//         checkpause: () => printPause,
-//         list: [
-//             new Job("custom", {element: anchor_start}),
-
-//             new Job("line", {height: 1}),
-//             new Job("title", {text: "About Me"}),
-//             new Job("line", {height: 1}),
-//             new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
-//             new Job("line", {height: 1}),
-//             new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
-//             new Job("line", {height: 1}),
-
-//             new Job("separator", {height: 1}),
-//             new Job("title", {text: "My Skills"}),
-//             new Job("line", {height: 1}),
-
-//             new Job("skills", {name: "Recently Worked With", skills: skillsData.recent}),
-//             new Job("line", {height: 1}),
-//             new Job("skills", {name: skillsData.skills[1].name, skills: skillsData.skills[1].skills}),
-//             new Job("line", {height: 1}),
-//             new Job("custom", {element: (()=>{
-//                 const el = createHTMLElement('div', '<span class="clickable">show more skills</span>', {class: 'terminal-button highlight'});
-//                 el.onclick = () => {
-//                     ProgramCore.getInstance().execute('skills')
-//                 };
-//                 return el;
-//             })()}),
-//             new Job("line", {height: 1}),
-
-//             new Job("separator", {height: 1}),
-//             new Job("title", {text: "Some Cool Projects"}),
-//             new Job("line", {height: 1}),
-//             new Job("lambda", {func: ()=>{
-//                 printPause = true;
-//                 portfolioExe(param, () => printPause = false);         
-//             }}),
-//             new Job("custom", {element: (()=>{
-//                 const el = createHTMLElement('div', '<span class="clickable">show more projects</span>', {class: 'terminal-button highlight'});
-//                 el.onclick = () => {
-//                     ProgramCore.getInstance().execute('projects')
-//                 };
-//                 return el;
-//             })()}),
-//             new Job("line", {height: 1}),
-            
-//             new Job("separator", {height: 1}),
-//             new Job("title", {text: "Get In Touch"}),
-//             new Job("line", {height: 1}),
-//             new Job("lambda", {func: ()=>{
-//                 printPause = true;
-//                 contactExe(param, () => printPause = false);         
-//             }}),
-
-//             new Job("separator", {height: 1}),
-//             new Job("title", {text: "Navigation"}),
-//             new Job("line", {height: 1}),
-//             new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
-//             ...(()=>{
-//                 const list = [];
-//                 PROGRAM_META.forEach(p => {
-//                     if (p.star) {
-//                         list.push(new Job("line", {height: 1}));
-//                         list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
-//                             ProgramCore.getInstance().execute(p.name);
-//                         }}));
-                        
-//                     }
-//                 })
-//                 return list;              
-//             })(),
-//             new Job("line", {height: 1}),
-//             new Job("separator", {height: 1}),
-//         ],
-//         callback: () => {
-//             setTimeout(() => {
-//                 // hot fix
-//                 const terminalContainer = document.querySelector('#terminal-container');
-//                 terminalContainer.scrollTop = anchor_start.offsetTop;
-//                 // anchor_start.scrollIntoView(true);
-//                 unlockSystem(pid);                           
-//             }, 1000);
-//         },
-        
-//     }));
-// }
-
 function aboutExe(param, callback=null) {
 
     let printPause = false;
@@ -570,17 +474,8 @@ function contactExe(param, callback=null) {
 }
 
 function keyboardExe(param,callback=null) {
-    const keyboard = document.querySelector('#virtual-keyboard');
 
-    if (keyboard) {
-        clearTimeout(actionTimeout);
-        KeyboardController.getInstance().lockKeyEvent();
-        actionTimeout = setTimeout(() => {
-            KeyboardController.getInstance().unlockKeyEvent();            
-        }, 250);
-
-        keyboard.classList.toggle('on');
-    }
+    DisplayController.getInstance().toggleKeyboard();
 
     param.outStream.broadCast();
     if (callback !== null) {

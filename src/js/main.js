@@ -6,44 +6,23 @@ import "../style/style.scss";
 import { KeyboardController } from "./keyboardController";
 import { ProgramCore } from "./programExe";
 
+export var GLOBAL_CONFIG = {
+    desktop_mode: false,
+    simple_mode: false
+};
 
 function createHTMLStructure() {
     const site_app = createHTMLElement('div', '', {id: 'site-app'});
 
-    // const overlay_layer = createHTMLElement('div','',{'id': 'overlay-layer', 'class':'layer'});
-    const terminal_layer = createHTMLElement('div','',{'id': 'terminal-layer', 'class':'layer'});
-
     // third layer
-    const terminal_layer_virtual_keyboard = createHTMLElement('div','',{'id': 'virtual-keyboard'});
-    const terminal_layer_terminal_container = createHTMLElement('div','',{'id': 'terminal-container'});
-    const terminal_layer_function_key_container = createHTMLElement('div','',{'id': 'function-key-container'});
-    const terminal_layer_footer = createHTMLElement('div','',{'id': 'footer'});
-
-    const terminal_container_output = createHTMLElement('div', '', {'id': 'terminal-output'});
+    // const site_app_virtual_keyboard = createHTMLElement('div','',{'class': 'virtual-keyboard'});
+    const site_app_terminal_container = createHTMLElement('div','',{'class': 'terminal-container'});
+    const terminal_container_output = createHTMLElement('div', '', {'class': 'terminal-output'});
     
-    const function_key_container_left = createHTMLElement('div', '', {'class': 'container left'});
-    const function_key_container_middle = createHTMLElement('div', '', {'class': 'container middle'});
-    const function_key_container_right = createHTMLElement('div', '', {'class': 'container right'});
+    site_app_terminal_container.appendChild(terminal_container_output);
 
-    terminal_layer_terminal_container.appendChild(terminal_container_output);
-
-    terminal_layer_function_key_container.appendChild(function_key_container_left);
-    terminal_layer_function_key_container.appendChild(function_key_container_middle);
-    terminal_layer_function_key_container.appendChild(function_key_container_right);
-
-    terminal_layer.appendChild(terminal_layer_virtual_keyboard);
-    terminal_layer.appendChild(terminal_layer_terminal_container);
-    terminal_layer.appendChild(terminal_layer_function_key_container);
-    terminal_layer.appendChild(terminal_layer_footer);
-
-    // second layer
-    // const side_bar_left = createHTMLElement('div', '', {'id': 'sidebar-left'});
-
-    // overlay_layer.appendChild(side_bar_left);
-
-
-    // site_app.appendChild(overlay_layer);
-    site_app.appendChild(terminal_layer);
+    // site_app.appendChild(site_app_virtual_keyboard);
+    site_app.appendChild(site_app_terminal_container);
 
     document.body.appendChild(site_app);
 
@@ -56,7 +35,6 @@ function main() {
     new InputStream();
     new OutputStreamScreen();
     new DisplayController();
-    new KeyboardController();
 
     // default
     ProgramCore.getInstance().execute('home');
@@ -67,10 +45,18 @@ window.addEventListener('load', () => {
     const site_app = createHTMLStructure();
     const site_semantic = document.querySelector('#site-semantic');
 
-    // switch between semantic and app by users choice
+    // process url
     const url = new URL(window.location);
-    const isSimple = (url.searchParams.get('simple')) ? (url.searchParams.get('simple')) : 'false';    
-    if (isSimple === 'true') {
+    
+    GLOBAL_CONFIG.desktop_mode = (url.searchParams.get('desktop')) ? true : false;  
+    GLOBAL_CONFIG.simple_mode = (url.searchParams.get('simple')) ? true : false;   
+    
+    if (GLOBAL_CONFIG.desktop_mode) {
+        site_app.classList.add('desktop');
+    }
+
+
+    if (GLOBAL_CONFIG.simple_mode) {
         site_app.parentNode.removeChild(site_app);
         site_semantic.style.display = 'block';
     } else {

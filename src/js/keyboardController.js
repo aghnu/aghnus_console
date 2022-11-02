@@ -29,6 +29,9 @@ export class KeyboardController {
         this.inputStream = InputStream.getInstance();
         this.outputStream = OutputStreamScreen.getInstance();
 
+        //elements
+        this.site_app_virtual_keyboard = createHTMLElement('div','',{'class': 'virtual-keyboard'});
+
         // init
         this.#setUpSpecialKey();
         this.#setupKeyListeners();
@@ -36,6 +39,7 @@ export class KeyboardController {
 
         // state
         this.externalKeyEvent = false;
+
     }
 
     static getInstance() {
@@ -71,7 +75,6 @@ export class KeyboardController {
             ['Space', 'Back', 'Enter'],
         ]
 
-        const virtual_keyboard = document.querySelector('#virtual-keyboard');
         const keyboard_container = createHTMLElement('div', '', {class: 'keyboard-container'})
 
         for (let r = 0; r < keyboardTextMap.length; r++) {
@@ -80,7 +83,7 @@ export class KeyboardController {
                 const text = keyboardTextMap[r][i];
                 const key = keyboardKeyMap[r][i];
 
-                const keyboard_key = createHTMLElement('div', '<p class="label">' + text + '</p>', {'class': 'key noselect', 'id': "virtual-key-" + text});
+                const keyboard_key = createHTMLElement('div', '<p class="label">' + text + '</p>', {'class': `key noselect virtual-key-${text}`});
                 
                 let keyPressed = false;
                 let continueTypingCheckingTimeout = null;
@@ -192,7 +195,7 @@ export class KeyboardController {
             keyboard_container.append(keyboard_key_row);
         }     
         
-        virtual_keyboard.appendChild(keyboard_container);
+        this.site_app_virtual_keyboard.appendChild(keyboard_container);
     }
 
     #setUpSpecialKey() {
@@ -207,6 +210,10 @@ export class KeyboardController {
 
             programCore.execute(inputCMD);
         });
+    }
+
+    getKeyboardElement() {
+        return this.site_app_virtual_keyboard;
     }
 
     lockKeyEvent() {
