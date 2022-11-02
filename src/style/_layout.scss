@@ -1,6 +1,6 @@
 $footer-height:                         1.42rem;
 $function-keys-height:                  2.85rem;
-$virtual-keyboard-height:               18rem;
+$virtual-keyboard-height:               12rem;
 $virtual-keyboard-width-max:            600px;
 
 $terminal-layer-padding:              0.75em; 
@@ -60,7 +60,6 @@ $terminal-layer-content-width-max:          1000px;
 
         .function-key-container {
             width: 100%;
-            // max-width: $virtual-keyboard-width-max;
             min-width: fit-content;
         }
     }
@@ -78,7 +77,7 @@ $terminal-layer-content-width-max:          1000px;
 
     .virtual-keyboard {
         width: 100%;
-        height: $virtual-keyboard-height;
+        height: fit-content;
 
         display: flex;
         justify-content: center;
