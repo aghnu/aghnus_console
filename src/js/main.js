@@ -48,8 +48,10 @@ window.addEventListener('load', () => {
     // process url
     const url = new URL(window.location);
     
-    GLOBAL_CONFIG.desktop_mode = (url.searchParams.get('desktop')) ? true : false;  
-    GLOBAL_CONFIG.simple_mode = (url.searchParams.get('simple')) ? true : false;   
+    const params = new Set((url.searchParams.get('options')) ? url.searchParams.get('options').split(','): []);
+
+    GLOBAL_CONFIG.desktop_mode = (params.has('desktop')) ? true : false;  
+    GLOBAL_CONFIG.simple_mode = (params.has('simple')) ? true : false;   
     
     if (GLOBAL_CONFIG.desktop_mode) {
         site_app.classList.add('desktop');

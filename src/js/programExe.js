@@ -194,7 +194,7 @@ function semanticExe(param, callback=null) {
             answer_yes.onclick = null;
             answer_no.onclick = null;
 
-            window.location = '?simple=true';
+            window.location = '?options=simple';
 
         } else if (cmd === 'n' || cmd === 'N' || cmd === 'no' || cmd === ''){
             unlockSystem(pid);
