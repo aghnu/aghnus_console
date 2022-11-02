@@ -29,7 +29,7 @@ export class DisplayController {
         window.addEventListener('resize', () => this.refresh);
 
         // elements
-        this.functionKeyContainer = createHTMLElement('div','',{'class': 'function-key-container'});
+        this.functionKey = createHTMLElement('div','',{'class': 'function-key'});
         this.footer = createHTMLElement('div','',{'class': 'footer'});
         this.app = document.querySelector('#site-app');
 
@@ -42,7 +42,7 @@ export class DisplayController {
         // construct
 
         this.app.insertBefore(this.footer, this.app.querySelector('.terminal-container').nextSibling);
-        this.app.insertBefore(this.functionKeyContainer, this.app.querySelector('.terminal-container').nextSibling);
+        this.app.insertBefore(this.functionKey, this.app.querySelector('.terminal-container').nextSibling);
 
         // state
         this.keyboardIsOpen = false;
@@ -99,7 +99,9 @@ export class DisplayController {
     }
 
     #createFunctionKeys() {
-        
+        const functionKeyContainer = createHTMLElement('div','',{'class': 'function-key-container'});
+
+
         const col_l = createHTMLElement('div', '', {'class': 'container left'});
         const col_m = createHTMLElement('div', '', {'class': 'container middle'});
         const col_r = createHTMLElement('div', '', {'class': 'container right'});
@@ -181,9 +183,11 @@ export class DisplayController {
 
         });
 
-        this.functionKeyContainer.appendChild(col_l);
-        this.functionKeyContainer.appendChild(col_m);
-        this.functionKeyContainer.appendChild(col_r);
+        functionKeyContainer.appendChild(col_l);
+        functionKeyContainer.appendChild(col_m);
+        functionKeyContainer.appendChild(col_r);
+
+        this.functionKey.appendChild(functionKeyContainer);
     }
 
     #createFooter() {
