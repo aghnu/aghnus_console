@@ -249,7 +249,13 @@ export class OutputStreamScreen {
 
         for (let i = 0; i < param.skills.length; i++) {
             const skillEl = createHTMLElement('p', param.skills[i], {class: "item"});
-            skillsContainer.appendChild(skillEl);
+            const skillArrow = createHTMLElement('p', '○', {class: "arrow focus"});
+            const skillContainer = createHTMLElement('div', '', {class: "item-container"});
+
+            skillContainer.appendChild(skillArrow);
+            skillContainer.appendChild(skillEl);
+
+            skillsContainer.appendChild(skillContainer);
         }
 
         el.appendChild(skillsName);
@@ -266,8 +272,8 @@ export class OutputStreamScreen {
 
     printPortfolio(param) {
         const container = createHTMLElement('div', '', {class: 'terminal-portfolio'});
-        const containerTitle = createHTMLElement('div', '', {class: 'title-container'});
-        const containerContent = createHTMLElement('div', '', {class: 'content-container'});
+        // const containerTitle = createHTMLElement('div', '', {class: 'title-container'});
+        // const containerContent = createHTMLElement('div', '', {class: 'content-container'});
         const containerLink = createHTMLElement('div', '', {class: 'link-container'});
 
         const title = createHTMLElement('p', param.title, {class: 'focus title'});
@@ -279,16 +285,12 @@ export class OutputStreamScreen {
             containerLink.appendChild(link);
         })
 
-        containerTitle.appendChild(title);
-        containerTitle.appendChild(containerLink);
+        container.appendChild(title);
+        container.appendChild(sum);
+        container.appendChild(containerLink);
 
-        containerContent.appendChild(sum);
-        containerContent.appendChild(description);
         
-        
-
-        container.appendChild(containerTitle);
-        container.appendChild(containerContent);
+        container.appendChild(description);
 
         this.append(container);
     }

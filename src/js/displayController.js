@@ -101,16 +101,10 @@ export class DisplayController {
     #createFunctionKeys() {
         const functionKeyContainer = createHTMLElement('div','',{'class': 'function-key-container'});
 
-
-        const col_l = createHTMLElement('div', '', {'class': 'container left'});
-        const col_m = createHTMLElement('div', '', {'class': 'container middle'});
-        const col_r = createHTMLElement('div', '', {'class': 'container right'});
-
         const keys = [
             {
                 'type': 'keyboard',
                 'text': 'keyboard',
-                'col': 'left',
                 'func': () => {
                     ProgramCore.getInstance().execute('keyboard');
                 },
@@ -118,7 +112,6 @@ export class DisplayController {
             {
                 'type': 'clean',
                 'text': 'clear',
-                'col': 'middle',
                 'func': () => {
                     ProgramCore.getInstance().execute('clear');
                 },
@@ -126,7 +119,6 @@ export class DisplayController {
             {
                 'type': 'help',
                 'text': 'help',
-                'col': 'right',
                 'func': () => {
                     ProgramCore.getInstance().execute('help');
                 },
@@ -134,7 +126,6 @@ export class DisplayController {
             {
                 'type': 'home',
                 'text': 'home',
-                'col': 'left',
                 'func': () => {
                     ProgramCore.getInstance().execute('home');
                 },
@@ -142,7 +133,6 @@ export class DisplayController {
             {
                 'type': 'info',
                 'text': 'about',
-                'col': 'middle',
                 'func': () => {
                     ProgramCore.getInstance().execute('about');
                 },
@@ -150,7 +140,6 @@ export class DisplayController {
             {
                 'type': 'projects',
                 'text': 'projects',
-                'col': 'right',
                 'func': () => {
                     ProgramCore.getInstance().execute('projects');
                 },
@@ -168,24 +157,10 @@ export class DisplayController {
             elTextContainer.appendChild(elText);
             el.appendChild(elIcon);
             el.appendChild(elTextContainer);
-            
-            switch (key.col) {
-                case 'left':
-                    col_l.appendChild(el);
-                    break;
-                case 'middle':
-                    col_m.appendChild(el);
-                    break;
-                case 'right':
-                    col_r.appendChild(el);
-                    break;
-            }
+
+            functionKeyContainer.appendChild(el);
 
         });
-
-        functionKeyContainer.appendChild(col_l);
-        functionKeyContainer.appendChild(col_m);
-        functionKeyContainer.appendChild(col_r);
 
         this.functionKey.appendChild(functionKeyContainer);
     }
