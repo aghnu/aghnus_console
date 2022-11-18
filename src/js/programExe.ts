@@ -11,7 +11,7 @@ import { DisplayController } from "./displayController";
 
 interface ProgramExeParam {
     'outStream'?: OutputStreamScreen,
-    [name: string]: string | number | (() => void) | OutputStreamScreen
+    [name: string]: string | number | (() => void) | OutputStreamScreen | undefined
 }
 
 
@@ -21,7 +21,7 @@ const program_lock: {
     pid: string,
     locked: boolean,
     message: string,
-    input_func: (cmd: string, param: ProgramExeParam) => void,
+    input_func: ((cmd: string, param: ProgramExeParam) => void) | null,
 } = {
     pid: "",      
     locked: false,
@@ -88,7 +88,7 @@ function clearClearningFunc() {
     program_state.cleaningFuncs = [];
 }
 
-function lockSystem(pid: string, message: string = "", input_func: (() => void) = null) {
+function lockSystem(pid: string, message: string = "", input_func: (() => void) | null = null) {
     // just a simulation, since single thread it is safe
     if (program_lock.pid === "") {
         program_lock.pid = pid;
@@ -101,7 +101,7 @@ function lockSystem(pid: string, message: string = "", input_func: (() => void) 
     }
 }
 
-function updateLock(pid: string, message: string = "", input_func: ((cmd: string, param: ProgramExeParam) => void) = null) {
+function updateLock(pid: string, message: string = "", input_func: ((cmd: string, param: ProgramExeParam) => void) | null = null) {
     if (program_lock.pid === pid) {
         program_lock.message = message;
         program_lock.input_func = input_func;
@@ -129,7 +129,7 @@ function genProcessID(): string {
     return String(program_state.pidCounter++);
 }
 
-function unlockExe(callback: (() => void) = null) {
+function unlockExe(callback: (() => void) | null = null) {
     unlockSystem(program_lock.pid);
     if (callback !== null) {
         callback();
@@ -162,7 +162,7 @@ function createDateStringElement(elClass: string, timeZone: string = 'default') 
     return dateString;
 }
 
-function semanticExe(param: ProgramExeParam, callback: () => void = null) {
+function semanticExe(param: ProgramExeParam, callback: (() => void) | null = null) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -191,7 +191,7 @@ function semanticExe(param: ProgramExeParam, callback: () => void = null) {
         return container;
     };
 
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         list: [
             {type: "text", parameters: {text: "Go to a text-based version of aghnu.me with reduced functionility and condensed information."}},
             {type: "line", parameters: {height: 1}},
@@ -203,7 +203,7 @@ function semanticExe(param: ProgramExeParam, callback: () => void = null) {
     updateLock(pid, 'System is Currently Occupied', (cmd, param) => {
         if (cmd === 'y' || cmd === 'Y' || cmd === 'yes') {
             unlockSystem(pid);
-            param.outStream.print({type: "line", parameters: {height: 1}});
+            param.outStream!.print({type: "line", parameters: {height: 1}});
 
             answer_yes.onclick = null;
             answer_no.onclick = null;
@@ -212,11 +212,11 @@ function semanticExe(param: ProgramExeParam, callback: () => void = null) {
 
         } else if (cmd === 'n' || cmd === 'N' || cmd === 'no' || cmd === ''){
             unlockSystem(pid);
-            param.outStream.print({type: "line", parameters: {height: 1}});
+            param.outStream!.print({type: "line", parameters: {height: 1}});
             answer_yes.onclick = null;
             answer_no.onclick = null;
         } else {
-            param.outStream.print({type: "text", parameters: {text: '<span class="highlight">[Pick your options to continue]</span>'}});
+            param.outStream!.print({type: "text", parameters: {text: '<span class="highlight">[Pick your options to continue]</span>'}});
         }
     });
 
@@ -225,7 +225,7 @@ function semanticExe(param: ProgramExeParam, callback: () => void = null) {
     }
 }
 
-function skillsExe(param: ProgramExeParam, callback: (() => void) = null) {
+function skillsExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     const skillsPrintJobs: OutputStreamJob[] = [];
     for (let i= 0; i < skillsData.skills.length; i++) {
@@ -235,15 +235,15 @@ function skillsExe(param: ProgramExeParam, callback: (() => void) = null) {
     }
 
 
-    param.outStream.print({type: 'list', parameters: {
+    param.outStream!.print({type: 'list', parameters: {
         list: [
             ...skillsPrintJobs
         ],
-        callback: callback
+        callback: callback!
     }});
 }
 
-function portfolioExe(param: ProgramExeParam, callback: (() => void) = null) {
+function portfolioExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     const portfolioProjectsPrintJobs: OutputStreamJob[] = [];
     for (let i= 0; i < portfolioData.projects.length; i++) {
@@ -251,17 +251,17 @@ function portfolioExe(param: ProgramExeParam, callback: (() => void) = null) {
         portfolioProjectsPrintJobs.push({type: "line", parameters: {height: 1}});
     }
 
-    param.outStream.print({type: 'list', parameters: {
+    param.outStream!.print({type: 'list', parameters: {
         list: [
             ...portfolioProjectsPrintJobs
         ],
-        callback: callback
+        callback: callback!
     }});
 }
 
-function systemExe(param: ProgramExeParam, callback: (() => void) = null) {
-    param.outStream.print({type: 'list', parameters: {
-        callback: callback,
+function systemExe(param: ProgramExeParam, callback: (() => void) | null = null) {
+    param.outStream!.print({type: 'list', parameters: {
+        callback: callback!,
         list: [
             {type: "title", parameters: {text: "Aghnu's Console"}},
             {type: "text", parameters: {text: "Gengyuan Huang's Homepage", class: 'highlight'}},
@@ -270,7 +270,7 @@ function systemExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function mapExe(param: ProgramExeParam, callback: (() => void) = null) {
+function mapExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     const sitemapPrintJobs: OutputStreamJob[] = (():OutputStreamJob[] => {
         const list: OutputStreamJob[] = [];
@@ -284,8 +284,8 @@ function mapExe(param: ProgramExeParam, callback: (() => void) = null) {
         return list;
     })();
 
-    param.outStream.print({type: "list", parameters: {
-        callback: callback,
+    param.outStream!.print({type: "list", parameters: {
+        callback: callback!,
         list: [
             {type: "text", parameters: {text: "Sitemap of aghnu.me: "}},
             {type: "line", parameters: {height: 1}},
@@ -299,8 +299,8 @@ function mapExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function resumeExe(param: ProgramExeParam, callback: (() => void) = null) {
-    param.outStream.print({type: "list", parameters: {
+function resumeExe(param: ProgramExeParam, callback: (() => void) | null = null) {
+    param.outStream!.print({type: "list", parameters: {
         list: [
             {type: "text", parameters: {text: "Current Resume: "}},
             {type: "line", parameters: {height: 1}},
@@ -310,14 +310,14 @@ function resumeExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function homeExe(param: ProgramExeParam, callback: (() => void) = null) {
+function homeExe(param: ProgramExeParam, callback: (() => void) | null = null) {
     // print to out
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
 
     let printPause = false;
 
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
             {type: "line", parameters: {height: 1}},
@@ -356,10 +356,10 @@ function homeExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function aboutExe(param: ProgramExeParam, callback: (() => void) = null) {
+function aboutExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     let printPause = false;
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
             {type: "lambda", parameters: {func: ()=>{
@@ -392,7 +392,7 @@ function aboutExe(param: ProgramExeParam, callback: (() => void) = null) {
     }
 }
 
-function helpExe(param: ProgramExeParam, callback: (() => void) = null) {
+function helpExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     const cmdPJList: OutputStreamJob[] = [];
 
@@ -403,7 +403,7 @@ function helpExe(param: ProgramExeParam, callback: (() => void) = null) {
         cmdPJList.push({type: "line", parameters: {height: 1}});
     });    
 
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         list: [
             {type: "text", parameters: {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}},
             {type: "line", parameters: {height: 1}},
@@ -416,10 +416,10 @@ function helpExe(param: ProgramExeParam, callback: (() => void) = null) {
     }
 }
 
-function clearExe(param: ProgramExeParam, callback: (() => void) = null) {
-    param.outStream.clear();
+function clearExe(param: ProgramExeParam, callback: (() => void) | null = null) {
+    param.outStream!.clear();
     clearClearningFunc();
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         list: [
             {type: "text", parameters: {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}},
             {type: "line", parameters: {height: 1}},
@@ -432,9 +432,9 @@ function clearExe(param: ProgramExeParam, callback: (() => void) = null) {
     }
 }
 
-function whereExe(param: ProgramExeParam, callback: (() => void) = null) {
+function whereExe(param: ProgramExeParam, callback: (() => void)| null= null) {
     let printPause = false;
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
             {type: "pair", parameters: {pair: [
@@ -456,10 +456,10 @@ function whereExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function contactExe(param: ProgramExeParam, callback: (() => void) = null) {
+function contactExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     let printPause = false;
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
             {type: "text", parameters: {text: "To contact me:"}},
@@ -486,17 +486,17 @@ function contactExe(param: ProgramExeParam, callback: (() => void) = null) {
     }});
 }
 
-function keyboardExe(param: ProgramExeParam, callback: (() => void) = null) {
+function keyboardExe(param: ProgramExeParam, callback: (() => void) | null = null) {
 
     DisplayController.getInstance().toggleKeyboard();
 
-    param.outStream.broadCast();
+    param.outStream!.broadCast();
     if (callback !== null) {
         callback();
     }
 }
 
-function projectsExe(param: ProgramExeParam, callback: (() => void) = null) {
+function projectsExe(param: ProgramExeParam, callback: (() => void) | null = null) {
     // get past projects
     const pastProjects = (()=>{
         const outList = [];
@@ -537,7 +537,7 @@ function projectsExe(param: ProgramExeParam, callback: (() => void) = null) {
         return outList.reverse();
     })();
 
-    param.outStream.print({type: "list", parameters: {
+    param.outStream!.print({type: "list", parameters: {
         list: [
             {type: "text", parameters: {text: "Past Projects:"}},
             ...pastProjects,
@@ -560,9 +560,9 @@ export class ProgramCore {
 
     private path: {
         [name: string]: {'exe': Function}
-    };
+    } = {};
 
-    private outStream: OutputStreamScreen;
+    private outStream!: OutputStreamScreen;
 
 
     constructor() {
@@ -571,8 +571,6 @@ export class ProgramCore {
         }
 
         ProgramCore._instance = this;
-
-        this.path;
 
         // init
         this.updatePath();

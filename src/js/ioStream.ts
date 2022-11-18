@@ -40,20 +40,16 @@ export interface OutputStreamJob {
 
 export class InputStream {
     static _instance: InputStream;
-    oldInput: string;
-    input: string;
-    listeners: Array<(inputStream: InputStream) => void>;
+    
+    private oldInput: string = "";
+    private input: string = "";
+    private listeners: Array<(inputStream: InputStream) => void> = [];
 
     constructor() {
         if (InputStream._instance) {
             return InputStream._instance;
         }
         InputStream._instance = this;
-
-
-        this.oldInput = "";
-        this.input = "";
-        this.listeners = [];
     }
 
     static getInstance() {
@@ -86,9 +82,10 @@ export class InputStream {
 
 export class OutputStreamScreen {
     static _instance: OutputStreamScreen;
-    root: HTMLElement;
-    out: HTMLElementOutSection;
-    listeners: Array<(outputStreamScreen: OutputStreamScreen) => void>;
+    
+    private root!: HTMLElement;
+    private out!: HTMLElementOutSection;
+    private listeners: Array<(outputStreamScreen: OutputStreamScreen) => void> = [];
 
     constructor() {
         if (OutputStreamScreen._instance) {
@@ -96,9 +93,8 @@ export class OutputStreamScreen {
         }
         OutputStreamScreen._instance = this;
 
-        this.root = document.querySelector("#site-app .terminal-container .terminal-output");
+        this.root = document.querySelector("#site-app .terminal-container .terminal-output")!;
         this.out = this.createOutSection();
-        this.listeners = [];
 
         // init
         // subscript section focus
@@ -285,8 +281,8 @@ export class OutputStreamScreen {
         const skillsName = createHTMLElement('p', param.name as string, {class: 'skills-name focus'});
         const skillsContainer = createHTMLElement('div', '', {class: 'skills-container'});
 
-        for (let i = 0; i < (param.skills).length; i++) {
-            const skillEl = createHTMLElement('p', param.skills[i], {class: "item"});
+        for (let i = 0; i < (param.skills!).length; i++) {
+            const skillEl = createHTMLElement('p', param.skills![i], {class: "item"});
             const skillArrow = createHTMLElement('p', '○', {class: "arrow focus"});
             const skillContainer = createHTMLElement('div', '', {class: "item-container"});
 
@@ -369,7 +365,7 @@ export class OutputStreamScreen {
 
         let printingIndex = 0;
         const printing = setRandInterval(() => {
-            if (printingIndex >= printJobList.length) {
+            if (printingIndex >= printJobList!.length) {
                 printing.clear();
                 // callback
                 if (callback) {
@@ -379,10 +375,10 @@ export class OutputStreamScreen {
             } else {
                 if (checkpause) {
                     if (!checkpause()) {
-                        this.print(printJobList[printingIndex++]);
+                        this.print(printJobList![printingIndex++]);
                     }
                 } else {
-                    this.print(printJobList[printingIndex++]);
+                    this.print(printJobList![printingIndex++]);
                 }
                 return true;
             }
@@ -396,8 +392,8 @@ export class OutputStreamScreen {
         const right = createHTMLElement('div', '', {class: 'right'});
         const sep = createHTMLElement('p', '-', {'class': 'sep'});
         
-        left.appendChild(param.pair[0]);
-        right.appendChild(param.pair[1]);
+        left.appendChild(param.pair![0]);
+        right.appendChild(param.pair![1]);
 
         el.appendChild(left);
         el.appendChild(sep);
@@ -406,7 +402,7 @@ export class OutputStreamScreen {
     }
 
     printCustom(param: OutputStreamJobParameters) {
-        const el = param.element;
+        const el = param.element!;
         this.append(el);
     }
 
@@ -456,7 +452,7 @@ export class OutputStreamScreen {
                 this.printCustom(printJob.parameters);
                 break;
             case "lambda":
-                printJob.parameters.func();
+                printJob.parameters.func!();
                 break;
         }
 

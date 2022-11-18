@@ -1,21 +1,19 @@
 import { ProgramCore } from "./programExe";
 import { createHTMLElement } from "./utilities";
-import { OutputStreamJob } from "./ioStream";
-import { InputStream, OutputStreamScreen } from "./ioStream";
+import { InputStream } from "./ioStream";
 
 export class KeyboardController {
     static _instance: KeyboardController;
 
-    private keyAllowedShowSet: Set<string>;
-    private specialKeyHandlers: {[keyName: string]: () => void};
-    private inputStream: InputStream;
-    private outputStream: OutputStreamScreen;
+    private keyAllowedShowSet!: Set<string>;
+    private specialKeyHandlers: {[keyName: string]: () => void} = {};
+    private inputStream!: InputStream;
 
     // HTMLElements
-    private site_app_virtual_keyboard: HTMLElement;
+    private site_app_virtual_keyboard!: HTMLElement;
 
     // state
-    private externalKeyEvent: boolean;
+    private externalKeyEvent: boolean = false;
 
 
     constructor() {
@@ -40,9 +38,7 @@ export class KeyboardController {
             "/", ' ',
         ]);
 
-        this.specialKeyHandlers = {};
         this.inputStream = InputStream.getInstance();
-        this.outputStream = OutputStreamScreen.getInstance();
 
         //elements
         this.site_app_virtual_keyboard = createHTMLElement('div','',{'class': 'virtual-keyboard'});
@@ -51,9 +47,6 @@ export class KeyboardController {
         this.setUpSpecialKey();
         this.setupKeyListeners();
         this.createVirtualKeyboard();
-
-        // state
-        this.externalKeyEvent = false;
 
     }
 
@@ -115,21 +108,13 @@ export class KeyboardController {
                 const keyboard_key = createHTMLElement('div', '<p class="label">' + text + '</p>', {'class': `key noselect virtual-key-${text}`});
                 
                 let keyPressed = false;
-                let continueTypingCheckingTimeout: number = null;
-                let continueTypingInterval: number = null;
+                let continueTypingCheckingTimeout: number;
+                let continueTypingInterval: number;
 
 
                 const keyDownFunc = () => {
-                    if (continueTypingCheckingTimeout) {
-                        clearTimeout(continueTypingCheckingTimeout);
-                        continueTypingCheckingTimeout = null;
-                    }
-
-                    if (continueTypingInterval) {
-                        clearInterval(continueTypingInterval);
-                        continueTypingInterval = null;
-                    }
-                    
+                    clearTimeout(continueTypingCheckingTimeout);
+                    clearInterval(continueTypingInterval);
 
                     keyboard_key.classList.add('hold');
                     keyPressed = true;
@@ -144,19 +129,10 @@ export class KeyboardController {
                 }
 
                 const keyUpFunc = () => {  
-                    
-                    if (continueTypingCheckingTimeout) {
-                        clearTimeout(continueTypingCheckingTimeout);
-                        continueTypingCheckingTimeout = null;
-                    }
-
-                    if (continueTypingInterval) {
-                        clearInterval(continueTypingInterval);
-                        continueTypingInterval = null;
-                    } else {
-                        if (keyPressed) {
-                            this.pressKey(key)
-                        }
+                    clearTimeout(continueTypingCheckingTimeout);
+                    clearInterval(continueTypingInterval);
+                    if (keyPressed) {
+                        this.pressKey(key)
                     }
     
                     keyboard_key.classList.remove('hold');
@@ -256,7 +232,7 @@ export class KeyboardController {
         this.inputStream.updateInput(this.inputStream.getInput() + key);
     }
 
-    pressKey(key: string, callback: () => void = null) {
+    pressKey(key: string, callback: () => void = () => {}) {
         let isValid = false;
         if (this.keyIsAllowedShow(key)) {
             this.updateInputWithKey(key);
@@ -268,7 +244,7 @@ export class KeyboardController {
             isValid = true;
         }
 
-        if (isValid && callback !== null) {
+        if (isValid) {
             callback();
         }
     }

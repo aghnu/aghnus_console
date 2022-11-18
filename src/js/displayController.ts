@@ -2,7 +2,6 @@ import { createHTMLElement } from "./utilities";
 import { icon } from "./svgfactory";
 import { ProgramCore } from "./programExe";
 
-import sysConfig from "../data/config.json";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 import { KeyboardController } from "./keyboardController";
 
@@ -14,20 +13,20 @@ export class DisplayController {
     private cursorStr: string = '_';
     
     // Controllers
-    private out: OutputStreamScreen;
-    private in: InputStream;
-    private keyboardController: KeyboardController;
+    private out!: OutputStreamScreen;
+    private in!: InputStream;
+    private keyboardController!: KeyboardController;
 
     // HTMLElements
-    private functionKey: HTMLElement;
-    private footer: HTMLElement;
-    private app: HTMLElement;
-    private currentKeyboardElement: HTMLElement;
-    private inputPromptEl: HTMLElement;
+    private functionKey!: HTMLElement;
+    private footer!: HTMLElement;
+    private app!: HTMLElement;
+    private currentKeyboardElement!: HTMLElement | null;
+    private inputPromptEl!: HTMLElement;
 
     // state
-    private keyboardIsOpen: boolean;
-    private displayDelayTimeout: number;
+    private keyboardIsOpen: boolean = false;
+    private displayDelayTimeout: number | null = null;
     
     
     constructor() {
@@ -50,7 +49,8 @@ export class DisplayController {
         // elements
         this.functionKey = createHTMLElement('div','',{'class': 'function-key'});
         this.footer = createHTMLElement('div','',{'class': 'footer'});
-        this.app = document.querySelector('#site-app');
+        this.app = document.querySelector('#site-app')!;
+        this.currentKeyboardElement = null;
 
         // init setup
         this.createInputPrompt();
@@ -60,15 +60,12 @@ export class DisplayController {
 
         // construct
 
-        this.app.insertBefore(this.footer, this.app.querySelector('.terminal-container').nextSibling);
-        this.app.insertBefore(this.functionKey, this.app.querySelector('.terminal-container').nextSibling);
+        this.app.insertBefore(this.footer, this.app.querySelector('.terminal-container')!.nextSibling);
+        this.app.insertBefore(this.functionKey, this.app.querySelector('.terminal-container')!.nextSibling);
 
-        // state
-        this.keyboardIsOpen = false;
 
         // timeinterval
         this.displayDelayTimeout = null;
-        this.currentKeyboardElement = null;
         
     }
 
@@ -82,14 +79,17 @@ export class DisplayController {
 
     toggleKeyboard() {
         if (this.keyboardIsOpen) {
-            this.app.removeChild(this.currentKeyboardElement);
+            if (this.currentKeyboardElement !== null) {
+                this.app.removeChild(this.currentKeyboardElement);
+            }
+            
             this.keyboardIsOpen = false;
         } else {
-            clearTimeout(this.displayDelayTimeout);
+            clearTimeout(this.displayDelayTimeout!);
             this.keyboardController.lockKeyEvent();
 
             const keyboardElement = this.keyboardController.getKeyboardElement()
-            this.app.insertBefore(keyboardElement, this.app.querySelector('.terminal-container').nextSibling);
+            this.app.insertBefore(keyboardElement, this.app.querySelector('.terminal-container')!.nextSibling);
             this.currentKeyboardElement = keyboardElement;
             this.keyboardIsOpen = true;
             
@@ -101,7 +101,7 @@ export class DisplayController {
 
     refresh() {
         // hot fix
-        const terminalContainer = document.querySelector('#site-app .terminal-container');
+        const terminalContainer = document.querySelector('#site-app .terminal-container')!;
         terminalContainer.scrollTop = this.inputPromptEl.offsetTop;
         // this.#inputPromptEl.scrollIntoView(true);
     }
@@ -218,6 +218,6 @@ export class DisplayController {
         this.in.subscribe(updatePrompt);
 
         // add cursor to display
-        terminal_container.append(this.inputPromptEl);
+        terminal_container!.append(this.inputPromptEl);
     }
 }

@@ -3,7 +3,6 @@ import { InputStream, OutputStreamScreen } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 
 import "../style/style.scss";
-import { KeyboardController } from "./keyboardController";
 import { ProgramCore } from "./programExe";
 
 export const GLOBAL_CONFIG: {
@@ -32,12 +31,12 @@ function createHTMLStructure(): HTMLElement {
 function main(): void {
     // setup html structure
     const site_app: HTMLElement = createHTMLStructure();
-    const site_semantic: HTMLElement = document.querySelector('#site-semantic');
+    const site_semantic: HTMLElement = document.querySelector('#site-semantic')!;
 
     // process url
     const url: URL = new URL(window.location.href);
 
-    const params = new Set((url.searchParams.get('options')) ? url.searchParams.get('options').split(','): []);
+    const params = new Set((url.searchParams.get('options')) ? url.searchParams.get('options')!.split(','): []);
 
     GLOBAL_CONFIG.desktop_mode = (params.has('desktop')) ? true : false;  
     GLOBAL_CONFIG.simple_mode = (params.has('simple')) ? true : false;   
@@ -47,10 +46,10 @@ function main(): void {
     }
 
     if (GLOBAL_CONFIG.simple_mode) {
-        site_app.parentNode.removeChild(site_app);
+        site_app.parentNode!.removeChild(site_app);
         site_semantic.style.display = 'block';
     } else {
-        site_semantic.parentNode.removeChild(site_semantic);
+        site_semantic.parentNode!.removeChild(site_semantic);
         // singletons
         new ProgramCore();
         new InputStream();
