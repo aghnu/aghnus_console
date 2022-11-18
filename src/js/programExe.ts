@@ -590,10 +590,10 @@ export class ProgramCore {
     updatePath() {
         this.path = {};
         PROGRAM_META.forEach(exe => {
-            this.path[exe.name].exe = exe.func;
+            this.path[exe.name] = {'exe': exe.func};
         });
         PROGRAM_HIDDEN.forEach(exe => {
-            this.path[exe.name].exe = exe.func;
+            this.path[exe.name] = {'exe': exe.func};
         })
     }
 

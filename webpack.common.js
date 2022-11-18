@@ -24,10 +24,10 @@ module.exports = {
         exclude: /node_modules/,
       },
 
-      {
-        test: /\.json$/,
-        use: 'json-loader'
-      },
+      // {
+      //   test: /\.json$/,
+      //   use: 'json-loader'
+      // },
 
       {
         test: /\.s[ac]ss$/i,
