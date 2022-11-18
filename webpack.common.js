@@ -25,6 +25,11 @@ module.exports = {
       },
 
       {
+        test: /\.json$/,
+        use: 'json-loader'
+      },
+
+      {
         test: /\.s[ac]ss$/i,
         use: [
           MiniCssExtractPlugin.loader,

@@ -42,7 +42,7 @@ export class InputStream {
     static _instance: InputStream;
     oldInput: string;
     input: string;
-    listeners: Array<(inputStream: typeof this) => void>;
+    listeners: Array<(inputStream: InputStream) => void>;
 
     constructor() {
         if (InputStream._instance) {
@@ -88,7 +88,7 @@ export class OutputStreamScreen {
     static _instance: OutputStreamScreen;
     root: HTMLElement;
     out: HTMLElementOutSection;
-    listeners: Array<(outputStreamScreen: typeof this) => void>;
+    listeners: Array<(outputStreamScreen: OutputStreamScreen) => void>;
 
     constructor() {
         if (OutputStreamScreen._instance) {
@@ -199,7 +199,7 @@ export class OutputStreamScreen {
         this.broadCast();
     }
 
-    subscribe(func: (outputStreamScreen: typeof this) => void) {
+    subscribe(func: (outputStreamScreen: OutputStreamScreen) => void) {
         this.listeners.push(func);
     }
 

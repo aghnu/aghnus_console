@@ -7,10 +7,29 @@ import { InputStream, OutputStreamScreen } from "./ioStream";
 import { KeyboardController } from "./keyboardController";
 
 export class DisplayController {
-    #promptStr = "<span class='focus'>guest@aghnu.me</span>:<span class='highlight'>~/</span>$:&nbsp";
-    #cursorStr = '_';
-    #inputPromptEl;
+    static _instance: DisplayController;
+    
+    // display strings
+    private promptStr: string = "<span class='focus'>guest@aghnu.me</span>:<span class='highlight'>~/</span>$:&nbsp";
+    private cursorStr: string = '_';
+    
+    // Controllers
+    private out: OutputStreamScreen;
+    private in: InputStream;
+    private keyboardController: KeyboardController;
 
+    // HTMLElements
+    private functionKey: HTMLElement;
+    private footer: HTMLElement;
+    private app: HTMLElement;
+    private currentKeyboardElement: HTMLElement;
+    private inputPromptEl: HTMLElement;
+
+    // state
+    private keyboardIsOpen: boolean;
+    private displayDelayTimeout: number;
+    
+    
     constructor() {
         if (DisplayController._instance) {
             return DisplayController._instance;
@@ -34,10 +53,10 @@ export class DisplayController {
         this.app = document.querySelector('#site-app');
 
         // init setup
-        this.#createInputPrompt();
-        this.#createFooter();
-        this.#createFunctionKeys();
-        this.#connectOutputInputStream();
+        this.createInputPrompt();
+        this.createFooter();
+        this.createFunctionKeys();
+        this.connectOutputInputStream();
 
         // construct
 
@@ -74,7 +93,7 @@ export class DisplayController {
             this.currentKeyboardElement = keyboardElement;
             this.keyboardIsOpen = true;
             
-            this.displayDelayTimeout = setTimeout(() => {
+            this.displayDelayTimeout = window.setTimeout(() => {
                 this.keyboardController.unlockKeyEvent();            
             }, 250);
         }
@@ -83,11 +102,11 @@ export class DisplayController {
     refresh() {
         // hot fix
         const terminalContainer = document.querySelector('#site-app .terminal-container');
-        terminalContainer.scrollTop = this.#inputPromptEl.offsetTop;
+        terminalContainer.scrollTop = this.inputPromptEl.offsetTop;
         // this.#inputPromptEl.scrollIntoView(true);
     }
 
-    #connectOutputInputStream() {
+    private connectOutputInputStream() {
         
         this.out.subscribe(() => {
             this.refresh();
@@ -98,7 +117,7 @@ export class DisplayController {
         })
     }
 
-    #createFunctionKeys() {
+    private createFunctionKeys() {
         const functionKeyContainer = createHTMLElement('div','',{'class': 'function-key-container'});
 
         const keys = [
@@ -165,7 +184,7 @@ export class DisplayController {
         this.functionKey.appendChild(functionKeyContainer);
     }
 
-    #createFooter() {
+    private createFooter() {
         const footerTextContainer = createHTMLElement('div', '', {'class': 'text-container'});
         const footerInfoText = createHTMLElement('p', "© 2022 Gengyuan Huang", {class: "info"});
         
@@ -173,24 +192,24 @@ export class DisplayController {
         this.footer.appendChild(footerTextContainer);
     }
 
-    #createInputPrompt() {
+    private createInputPrompt() {
         let userInputStr = "";
         const terminal_container = document.querySelector("#site-app .terminal-container");
-        this.#inputPromptEl = createHTMLElement('p', '', {'class': 'terminal-input'});
-        let pointerFlashingInterval;
+        this.inputPromptEl = createHTMLElement('p', '', {'class': 'terminal-input'});
+        let pointerFlashingInterval: number;
         
         const updatePrompt = () => {
             clearInterval(pointerFlashingInterval);
-            userInputStr = this.in.getInput().replaceAll(' ', '&nbsp');
-            this.#inputPromptEl.innerHTML = this.#promptStr + userInputStr + this.#cursorStr;
+            userInputStr = this.in.getInput().split(' ').join('&nbsp');
+            this.inputPromptEl.innerHTML = this.promptStr + userInputStr + this.cursorStr;
             let flash = false;
-            pointerFlashingInterval = setInterval(() => {
-                this.#inputPromptEl.innerHTML = (flash) ? this.#promptStr + userInputStr + this.#cursorStr : this.#promptStr + userInputStr + "&nbsp";
+            pointerFlashingInterval = window.setInterval(() => {
+                this.inputPromptEl.innerHTML = (flash) ? this.promptStr + userInputStr + this.cursorStr : this.promptStr + userInputStr + "&nbsp";
                 flash = !flash;
             }, 500);
         }
 
-        this.#inputPromptEl.addEventListener('touchend', (e) => {
+        this.inputPromptEl.addEventListener('touchend', (e) => {
             ProgramCore.getInstance().execute('keyboard');
         });
 
@@ -199,6 +218,6 @@ export class DisplayController {
         this.in.subscribe(updatePrompt);
 
         // add cursor to display
-        terminal_container.append(this.#inputPromptEl);
+        terminal_container.append(this.inputPromptEl);
     }
 }

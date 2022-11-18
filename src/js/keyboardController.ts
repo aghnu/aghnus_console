@@ -4,7 +4,22 @@ import { OutputStreamJob } from "./ioStream";
 import { InputStream, OutputStreamScreen } from "./ioStream";
 
 export class KeyboardController {
+    static _instance: KeyboardController;
+
+    private keyAllowedShowSet: Set<string>;
+    private specialKeyHandlers: {[keyName: string]: () => void};
+    private inputStream: InputStream;
+    private outputStream: OutputStreamScreen;
+
+    // HTMLElements
+    private site_app_virtual_keyboard: HTMLElement;
+
+    // state
+    private externalKeyEvent: boolean;
+
+
     constructor() {
+
         if (KeyboardController._instance) {
             return KeyboardController._instance;
         }
@@ -33,9 +48,9 @@ export class KeyboardController {
         this.site_app_virtual_keyboard = createHTMLElement('div','',{'class': 'virtual-keyboard'});
 
         // init
-        this.#setUpSpecialKey();
-        this.#setupKeyListeners();
-        this.#createVirtualKeyboard();
+        this.setUpSpecialKey();
+        this.setupKeyListeners();
+        this.createVirtualKeyboard();
 
         // state
         this.externalKeyEvent = false;
@@ -50,14 +65,28 @@ export class KeyboardController {
         return new KeyboardController();
     }
 
-    #setupKeyListeners() {
+    private setupKeyListeners() {
         document.addEventListener('keydown', (e) => {
             const key = e.key;
             this.pressKey(key, () => {e.preventDefault()});
         });
     }
 
-    #createVirtualKeyboard() {
+    private setUpSpecialKey() {
+        this.addSpecialKey('Backspace', () => {
+            this.inputStream.updateInput(this.inputStream.getInput().slice(0, -1));
+        });
+
+        this.addSpecialKey('Enter', () => {
+            const programCore = ProgramCore.getInstance();
+            const inputCMD = this.inputStream.getInput();
+            this.inputStream.updateInput("");
+
+            programCore.execute(inputCMD);
+        });
+    }
+
+    private createVirtualKeyboard() {
 
         const keyboardKeyMap = [
             ['1','2','3','4','5','6','7','8','9','0',],
@@ -86,8 +115,8 @@ export class KeyboardController {
                 const keyboard_key = createHTMLElement('div', '<p class="label">' + text + '</p>', {'class': `key noselect virtual-key-${text}`});
                 
                 let keyPressed = false;
-                let continueTypingCheckingTimeout = null;
-                let continueTypingInterval = null;
+                let continueTypingCheckingTimeout: number = null;
+                let continueTypingInterval: number = null;
 
 
                 const keyDownFunc = () => {
@@ -105,9 +134,9 @@ export class KeyboardController {
                     keyboard_key.classList.add('hold');
                     keyPressed = true;
 
-                    continueTypingCheckingTimeout = setTimeout(() => {
+                    continueTypingCheckingTimeout = window.setTimeout(() => {
                         if (keyPressed === true) {
-                            continueTypingInterval = setInterval(() => {
+                            continueTypingInterval = window.setInterval(() => {
                                 this.pressKey(key);
                             }, 30);
                         }
@@ -198,19 +227,6 @@ export class KeyboardController {
         this.site_app_virtual_keyboard.appendChild(keyboard_container);
     }
 
-    #setUpSpecialKey() {
-        this.addSpecialKey('Backspace', () => {
-            this.inputStream.updateInput(this.inputStream.getInput().slice(0, -1));
-        });
-
-        this.addSpecialKey('Enter', () => {
-            const programCore = ProgramCore.getInstance();
-            const inputCMD = this.inputStream.getInput();
-            this.inputStream.updateInput("");
-
-            programCore.execute(inputCMD);
-        });
-    }
 
     getKeyboardElement() {
         return this.site_app_virtual_keyboard;
@@ -224,23 +240,23 @@ export class KeyboardController {
         this.externalKeyEvent = false;
     }
 
-    keyIsAllowedShow(key) {
+    keyIsAllowedShow(key: string) {
         return this.keyAllowedShowSet.has(key);
     }
 
-    keyIsSpecial(key) {
+    keyIsSpecial(key: string) {
         return this.specialKeyHandlers[key] !== undefined;
     }
 
-    addSpecialKey(key, func) {
+    addSpecialKey(key: string, func: () => void) {
         this.specialKeyHandlers[key] = func;
     }
 
-    updateInputWithKey(key) {
+    updateInputWithKey(key: string) {
         this.inputStream.updateInput(this.inputStream.getInput() + key);
     }
 
-    pressKey(key, callback=null) {
+    pressKey(key: string, callback: () => void = null) {
         let isValid = false;
         if (this.keyIsAllowedShow(key)) {
             this.updateInputWithKey(key);

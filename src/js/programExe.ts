@@ -9,14 +9,31 @@ import skillsData from "../data/skills.json";
 import { KeyboardController } from "./keyboardController";
 import { DisplayController } from "./displayController";
 
+interface ProgramExeParam {
+    'outStream'?: OutputStreamScreen,
+    [name: string]: string | number | (() => void) | OutputStreamScreen
+}
+
+
 const SYSTEM_VERSION = sysConfig.updated;
 
-const program_lock = {
-    'pid': "",      'locked': false,
-    'message': "",  'input_func': null
+const program_lock: {
+    pid: string,
+    locked: boolean,
+    message: string,
+    input_func: (cmd: string, param: ProgramExeParam) => void,
+} = {
+    pid: "",      
+    locked: false,
+    message: "",  
+    input_func: null
 };
 
-const program_state = {
+const program_state: {
+    pidCounter: number,
+    cleaningFuncs: (()=>void)[]
+} = {
+    pidCounter: 0,
     cleaningFuncs: [],
 }
 
@@ -60,7 +77,7 @@ const PROGRAM_HIDDEN = [
 //     'keyboard', 'unlock'
 // ];
 
-function addClearningFunc(func) {
+function addClearningFunc(func: () => void) {
     program_state.cleaningFuncs.push(func);
 }
 
@@ -71,7 +88,7 @@ function clearClearningFunc() {
     program_state.cleaningFuncs = [];
 }
 
-function lockSystem(pid, message="", input_func=null) {
+function lockSystem(pid: string, message: string = "", input_func: (() => void) = null) {
     // just a simulation, since single thread it is safe
     if (program_lock.pid === "") {
         program_lock.pid = pid;
@@ -84,7 +101,7 @@ function lockSystem(pid, message="", input_func=null) {
     }
 }
 
-function updateLock(pid, message="", input_func=null) {
+function updateLock(pid: string, message: string = "", input_func: ((cmd: string, param: ProgramExeParam) => void) = null) {
     if (program_lock.pid === pid) {
         program_lock.message = message;
         program_lock.input_func = input_func;
@@ -94,7 +111,7 @@ function updateLock(pid, message="", input_func=null) {
     }
 }
 
-function unlockSystem(pid) {
+function unlockSystem(pid: string) {
     // start
     if (pid === pid) {
         program_lock.pid = "";
@@ -108,26 +125,23 @@ function unlockSystem(pid) {
     }
 }
 
-let pidCounter = 0;
-
-
-function genProcessID() {
-    return pidCounter++;
+function genProcessID(): string {
+    return String(program_state.pidCounter++);
 }
 
-function unlockExe(callback=null) {
+function unlockExe(callback: (() => void) = null) {
     unlockSystem(program_lock.pid);
     if (callback !== null) {
         callback();
     }
 }
 
-function createDateStringElement(elClass, timeZone='default') {
+function createDateStringElement(elClass: string, timeZone: string = 'default') {
     // init element
-    const dateString = createHTMLElement('p', '', {class: 'terminal-date' + ' ' + elClass});
+    const dateString: HTMLParagraphElement = createHTMLElement('p', '', {class: 'terminal-date' + ' ' + elClass}) as HTMLParagraphElement;
 
     // update functions
-    const updateTimeString = (el) => {
+    const updateTimeString = (el: HTMLParagraphElement) => {
         const date = new Date();
         const setting = (timeZone === 'default') ? {} : {timeZone: timeZone};
         el.innerHTML = date.toLocaleDateString('en-CA', setting) + "&nbsp" + date.toLocaleTimeString('en-CA', setting);                    
@@ -148,7 +162,7 @@ function createDateStringElement(elClass, timeZone='default') {
     return dateString;
 }
 
-function semanticExe(param, callback=null) {
+function semanticExe(param: ProgramExeParam, callback: () => void = null) {
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
     
@@ -177,32 +191,32 @@ function semanticExe(param, callback=null) {
         return container;
     };
 
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         list: [
-            new Job("text", {text: "Go to a text-based version of aghnu.me with reduced functionility and condensed information."}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "Do you wish to continue? Type (y/N)"}),
-            new Job("custom", {element: custom_el_clickSelect()}),
+            {type: "text", parameters: {text: "Go to a text-based version of aghnu.me with reduced functionility and condensed information."}},
+            {type: "line", parameters: {height: 1}},
+            {type: "text", parameters: {text: "Do you wish to continue? Type (y/N)"}},
+            {type: "custom", parameters: {element: custom_el_clickSelect()}},
         ]
-    }));
+    }});
 
     updateLock(pid, 'System is Currently Occupied', (cmd, param) => {
         if (cmd === 'y' || cmd === 'Y' || cmd === 'yes') {
             unlockSystem(pid);
-            param.outStream.print(new Job("line", {height: 1}));
+            param.outStream.print({type: "line", parameters: {height: 1}});
 
             answer_yes.onclick = null;
             answer_no.onclick = null;
 
-            window.location = '?options=simple';
+            window.location.href = '?options=simple';
 
         } else if (cmd === 'n' || cmd === 'N' || cmd === 'no' || cmd === ''){
             unlockSystem(pid);
-            param.outStream.print(new Job("line", {height: 1}));
+            param.outStream.print({type: "line", parameters: {height: 1}});
             answer_yes.onclick = null;
             answer_no.onclick = null;
         } else {
-            param.outStream.print(new Job("text", {text: '<span class="highlight">[Pick your options to continue]</span>'}));
+            param.outStream.print({type: "text", parameters: {text: '<span class="highlight">[Pick your options to continue]</span>'}});
         }
     });
 
@@ -211,127 +225,126 @@ function semanticExe(param, callback=null) {
     }
 }
 
-function skillsExe(param, callback=null) {
+function skillsExe(param: ProgramExeParam, callback: (() => void) = null) {
 
-    const skillsPrintJobs = [];
+    const skillsPrintJobs: OutputStreamJob[] = [];
     for (let i= 0; i < skillsData.skills.length; i++) {
         const d = skillsData.skills[i];
-        skillsPrintJobs.push(new Job("skills", {name: d.name, skills: d.skills}));
-        skillsPrintJobs.push(new Job("line", {height: 1}));
+        skillsPrintJobs.push({type: "skills", parameters: {name: d.name, skills: d.skills}});
+        skillsPrintJobs.push({type: "line", parameters: {height: 1}});
     }
 
 
-    param.outStream.print(new Job('list', {
+    param.outStream.print({type: 'list', parameters: {
         list: [
             ...skillsPrintJobs
         ],
         callback: callback
-    }));
+    }});
 }
 
-function portfolioExe(param, callback=null) {
+function portfolioExe(param: ProgramExeParam, callback: (() => void) = null) {
 
-    const portfolioProjectsPrintJobs = [];
+    const portfolioProjectsPrintJobs: OutputStreamJob[] = [];
     for (let i= 0; i < portfolioData.projects.length; i++) {
-        portfolioProjectsPrintJobs.push(new Job("portfolio", portfolioData.projects[i]));
-        portfolioProjectsPrintJobs.push(new Job("line", {height: 1}));
+        portfolioProjectsPrintJobs.push({type: "portfolio", parameters: portfolioData.projects[i]});
+        portfolioProjectsPrintJobs.push({type: "line", parameters: {height: 1}});
     }
 
-    param.outStream.print(new Job('list', {
+    param.outStream.print({type: 'list', parameters: {
         list: [
             ...portfolioProjectsPrintJobs
         ],
         callback: callback
-    }));
+    }});
 }
 
-function systemExe(param, callback=null) {
-    param.outStream.print(new Job('list', {
+function systemExe(param: ProgramExeParam, callback: (() => void) = null) {
+    param.outStream.print({type: 'list', parameters: {
         callback: callback,
         list: [
-            new Job("title", {text: "Aghnu's Console"}),
-            new Job("text", {text: "Gengyuan Huang's Homepage", class: 'highlight'}),
-            new Job("line", {height: 1}),
+            {type: "title", parameters: {text: "Aghnu's Console"}},
+            {type: "text", parameters: {text: "Gengyuan Huang's Homepage", class: 'highlight'}},
+            {type: "line", parameters: {height: 1}},
         ],
-    }));
+    }});
 }
 
-function mapExe(param, callback=null) {
+function mapExe(param: ProgramExeParam, callback: (() => void) = null) {
 
-    const sitemapPrintJobs = (()=>{
-        const list = [];
+    const sitemapPrintJobs: OutputStreamJob[] = (():OutputStreamJob[] => {
+        const list: OutputStreamJob[] = [];
         for (let i = 0; i < sitemapData.paths.length; i++) {
             const path = sitemapData.paths[i];
-            list.push(new Job("text", {
+            list.push({type: "text", parameters: {
                 text: `- <a target='_blank' class='clickable focus' href='${path.path}' >${sitemapData.origin + path.path}</a>`
-            }),);
+            }});
         }
 
         return list;
     })();
 
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         callback: callback,
         list: [
-            new Job("text", {text: "Sitemap of aghnu.me: "}),
-            new Job("line", {height: 1}),
+            {type: "text", parameters: {text: "Sitemap of aghnu.me: "}},
+            {type: "line", parameters: {height: 1}},
 
             ...sitemapPrintJobs,
 
-            new Job("line", {height: 1}),
+            {type: "line", parameters: {height: 1}},
 
         ],
         
-    }));
+    }});
 }
 
-function resumeExe(param, callback=null) {
-    param.outStream.print(new Job("list", {
+function resumeExe(param: ProgramExeParam, callback: (() => void) = null) {
+    param.outStream.print({type: "list", parameters: {
         list: [
-            new Job("text", {text: "Current Resume: "}),
-            new Job("line", {height: 1}),
-            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
-            new Job("line", {height: 1}),
-        ],
-        
-    }));
+            {type: "text", parameters: {text: "Current Resume: "}},
+            {type: "line", parameters: {height: 1}},
+            {type: "link", parameters: {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}},
+            {type: "line", parameters: {height: 1}},
+        ],  
+    }});
 }
 
-function homeExe(param, callback=null) {
+function homeExe(param: ProgramExeParam, callback: (() => void) = null) {
     // print to out
     const pid = genProcessID();
     lockSystem(pid, '<span class="highlight">[System is Currently Occupied]</span>');
 
     let printPause = false;
 
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
-            new Job("line", {height: 1}),
-            new Job("separator", {height: 1}),
+            {type: "line", parameters: {height: 1}},
+            {type: "separator", parameters: {height: 1}},
             
-            new Job("text", {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}),
-            new Job("line", {height: 1}),
-            new Job("link", {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}),
-            new Job("line", {height: 1}),
+            {type: "text", parameters: {text: `Hello stranger! Welcome to my homepage. My name is <span class='highlight'>Gengyuan Huang</span>, a software developer...`}},
+            {type: "line", parameters: {height: 1}},
+            {type: "link", parameters: {link: "/static/doc/resume.pdf", name: "Resume", text: "resume_gengyuan.pdf", type: "link"}},
+            {type: "line", parameters: {height: 1}},
 
-            new Job("separator", {height: 1}),
-            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}),
+            {type: "separator", parameters: {height: 1}},
+            {type: "text", parameters: {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements. Here are some useful commands:"}},
             ...(()=>{
-                const list = [];
+                const list: OutputStreamJob[] = [];
                 PROGRAM_META.forEach(p => {
                     if (p.star) {
-                        list.push(new Job("line", {height: 1}));
-                        list.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+                        list.push({type: "line", parameters: {height: 1}});
+                        list.push({type: "CMDDesc", parameters: {name: p.name, desc: p.desc, func: () => {
                             ProgramCore.getInstance().execute(p.name);
-                        }}));
+                        }}});
                         
                     }
                 })
                 return list;              
             })(),
-            new Job("line", {height: 1}),
-            new Job("separator", {height: 1}),
+            {type: "line", parameters: {height: 1}},
+            {type: "separator", parameters: {height: 1}},
             
         ],
         callback: () => {
@@ -340,99 +353,99 @@ function homeExe(param, callback=null) {
             }, 100);
         },
         
-    }));
+    }});
 }
 
-function aboutExe(param, callback=null) {
+function aboutExe(param: ProgramExeParam, callback: (() => void) = null) {
 
     let printPause = false;
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
-            new Job("lambda", {func: ()=>{
+            {type: "lambda", parameters: {func: ()=>{
                 printPause = true;
                 systemExe(param, () => printPause = false);         
-            }}),
-            new Job("separator", {height: 1}),
+            }}},
+            {type: "separator", parameters: {height: 1}},
 
-            new Job("lambda", {func: ()=>{
+            {type: "lambda", parameters: {func: ()=>{
                 printPause = true;
                 mapExe(param, () => {printPause = false});
-            }}),
+            }}},
 
-            new Job("text", {text: "To know more about this website: "}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.me' >https://github.com/aghnu/aghnu.me</a>"}),
-            new Job("text", {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}),
-            new Job("line", {height: 1}),
-            new Job("text", {text: "Designed & Built by Gengyuan Huang"}),
-            new Job("line", {height: 1}),
-            new Job("separator", {height: 1}),
-            new Job("text", {text: '<span class="highlight">Website last updated on ' + SYSTEM_VERSION}),
-            new Job("line", {height: 1}),
+            {type: "text", parameters: {text: "To know more about this website: "}},
+            {type: "line", parameters: {height: 1}},
+            {type: "text", parameters: {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnu.me' >https://github.com/aghnu/aghnu.me</a>"}},
+            {type: "text", parameters: {text: "- <a target='_blank' class='clickable focus' href='https://github.com/aghnu/aghnus_console' >https://github.com/aghnu/aghnus_console</a>"}},
+            {type: "line", parameters: {height: 1}},
+            {type: "text", parameters: {text: "Designed & Built by Gengyuan Huang"}},
+            {type: "line", parameters: {height: 1}},
+            {type: "separator", parameters: {height: 1}},
+            {type: "text", parameters: {text: '<span class="highlight">Website last updated on ' + SYSTEM_VERSION}},
+            {type: "line", parameters: {height: 1}},
 
         ],
         
-    }));
+    }});
     if (callback !== null) {
         callback();
     }
 }
 
-function helpExe(param,callback=null) {
+function helpExe(param: ProgramExeParam, callback: (() => void) = null) {
 
-    const cmdPJList = [];
+    const cmdPJList: OutputStreamJob[] = [];
 
     PROGRAM_META.forEach(p => {
-        cmdPJList.push(new Job("CMDDesc", {name: p.name, desc: p.desc, func: () => {
+        cmdPJList.push({type: "CMDDesc", parameters: {name: p.name, desc: p.desc, func: () => {
             ProgramCore.getInstance().execute(p.name);
-        }}));
-        cmdPJList.push(new Job("line", {height: 1}));
+        }}});
+        cmdPJList.push({type: "line", parameters: {height: 1}});
     });    
 
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         list: [
-            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
-            new Job("line", {height: 1}),
+            {type: "text", parameters: {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}},
+            {type: "line", parameters: {height: 1}},
             ...cmdPJList
         ],
         
-    }));
+    }});
     if (callback !== null) {
         callback();
     }
 }
 
-function clearExe(param, callback=null) {
+function clearExe(param: ProgramExeParam, callback: (() => void) = null) {
     param.outStream.clear();
     clearClearningFunc();
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         list: [
-            new Job("text", {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}),
-            new Job("line", {height: 1}),
+            {type: "text", parameters: {text: "To navigate the site, you can either type commands into the console or click on the highlighted elements."}},
+            {type: "line", parameters: {height: 1}},
         ],
         
-    }));
+    }});
 
     if (callback !== null) {
         callback();
     }
 }
 
-function whereExe(param, callback=null) {
+function whereExe(param: ProgramExeParam, callback: (() => void) = null) {
     let printPause = false;
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
-            new Job("pair", {pair: [
+            {type: "pair", parameters: {pair: [
                 createHTMLElement('p', "Location", {class: "highlight"}),
                 createHTMLElement('p', sysConfig.location, {class: "focus"}),
-            ]}),
-            new Job("pair", {pair: [
+            ]}},
+            {type: "pair", parameters: {pair: [
                 createHTMLElement('p', "Time", {class: "highlight"}),
                 createDateStringElement('focus', sysConfig.timezone),
-            ]}),
-            new Job("line", {height: 1}),
+            ]}},
+            {type: "line", parameters: {height: 1}},
         ],
         callback: () => {
             if (callback !== null) {
@@ -440,28 +453,28 @@ function whereExe(param, callback=null) {
             }
         },
         
-    }));
+    }});
 }
 
-function contactExe(param, callback=null) {
+function contactExe(param: ProgramExeParam, callback: (() => void) = null) {
 
     let printPause = false;
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         checkpause: () => printPause,
         list: [
-            new Job("text", {text: "To contact me:"}),
+            {type: "text", parameters: {text: "To contact me:"}},
 
-            new Job("line", {height: 1}),
-            new Job("lambda", {func: ()=>{
+            {type: "line", parameters: {height: 1}},
+            {type: "lambda", parameters: {func: ()=>{
                 printPause = true;
                 whereExe(param, () => {printPause = false});
-            }}),
+            }}},
 
-            new Job("link", {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}),
-            new Job("link", {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}),
-            new Job("link", {link: "https://www.linkedin.com/in/gengyuanh", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}),
-            new Job("link", {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}),
-            new Job("line", {height: 1}),
+            {type: "link", parameters: {link: "mailto:gengyuan@ualberta.ca", name: "Email", text: "gengyuan@ualberta.ca", type: "email"}},
+            {type: "link", parameters: {link: "https://github.com/aghnu", name: "Github", text: "aghnu", type: "github"}},
+            {type: "link", parameters: {link: "https://www.linkedin.com/in/gengyuanh", name: "LinkedIn", text: "Gengyuan Huang", type: "linkedin"}},
+            {type: "link", parameters: {link: "https://www.aghnu.me", name: "Website", text: "aghnu.me", type: "link"}},
+            {type: "line", parameters: {height: 1}},
 
         ],
         callback: () => {
@@ -470,10 +483,10 @@ function contactExe(param, callback=null) {
             }
         },
         
-    }));
+    }});
 }
 
-function keyboardExe(param,callback=null) {
+function keyboardExe(param: ProgramExeParam, callback: (() => void) = null) {
 
     DisplayController.getInstance().toggleKeyboard();
 
@@ -483,7 +496,7 @@ function keyboardExe(param,callback=null) {
     }
 }
 
-function projectsExe(param, callback=null) {
+function projectsExe(param: ProgramExeParam, callback: (() => void) = null) {
     // get past projects
     const pastProjects = (()=>{
         const outList = [];
@@ -491,13 +504,13 @@ function projectsExe(param, callback=null) {
         for (let i = 0; i < projectsData.past.length; i++) {
             const project = projectsData.past[i];
             
-            outList.push(new Job("project", {
+            outList.push({type: "project", parameters: {
                 name: project.title,
                 tags: project.tags,
                 desc: project.desc,
                 links: project.links,
-            }));
-            outList.push(new Job("line", {height: 1}));
+            }});
+            outList.push({type: "line", parameters: {height: 1}});
 
         }
 
@@ -511,31 +524,31 @@ function projectsExe(param, callback=null) {
         for (let i = 0; i < projectsData.recent.length; i++) {
             const project = projectsData.recent[i];
             
-            outList.push(new Job("project", {
+            outList.push({type: "project", parameters: {
                 name: project.title,
                 tags: project.tags,
                 desc: project.desc,
                 links: project.links,
-            }));
-            outList.push(new Job("line", {height: 1}));
+            }});
+            outList.push({type: "line", parameters: {height: 1}});
 
         }
 
         return outList.reverse();
     })();
 
-    param.outStream.print(new Job("list", {
+    param.outStream.print({type: "list", parameters: {
         list: [
-            new Job("text", {text: "Past Projects:"}),
+            {type: "text", parameters: {text: "Past Projects:"}},
             ...pastProjects,
 
-            new Job("text", {text: "Recent Projects:"}),
+            {type: "text", parameters: {text: "Recent Projects:"}},
             ...recentProjects,
 
-            new Job("line", {height: 1})
+            {type: "line", parameters: {height: 1}}
         ],
         
-    }));
+    }});
 
     if (callback !== null) {
         callback();
@@ -543,6 +556,15 @@ function projectsExe(param, callback=null) {
 }
 
 export class ProgramCore {
+    static _instance: ProgramCore;
+
+    private path: {
+        [name: string]: {'exe': Function}
+    };
+
+    private outStream: OutputStreamScreen;
+
+
     constructor() {
         if (ProgramCore._instance) {
             return ProgramCore._instance;
@@ -568,14 +590,14 @@ export class ProgramCore {
     updatePath() {
         this.path = {};
         PROGRAM_META.forEach(exe => {
-            this.path[exe.name] = {'exe': exe.func};
+            this.path[exe.name].exe = exe.func;
         });
         PROGRAM_HIDDEN.forEach(exe => {
-            this.path[exe.name] = {'exe': exe.func};
+            this.path[exe.name].exe = exe.func;
         })
     }
 
-    execute(inputCMD, param={}) {
+    execute(inputCMD: string, param: ProgramExeParam = {}) {
         const cmdList = inputCMD.split(' ').filter((c) => c !== '');
         const cmd = (cmdList.length === 0) ? '' : cmdList[0];
         param.outStream = this.outStream;
@@ -584,23 +606,23 @@ export class ProgramCore {
 
         if (!program_lock.locked) {
             if (cmd === "") {
-                param.outStream.print(new Job('line', {'height': 1}));
+                param.outStream.print({type: 'line', parameters: {'height': 1}});
             } else {
                 this.outStream.newOutSection();
                 if (inputCMD !== "") {
-                    this.outStream.print(new Job('text', {'text': "<span class='wrap'>>&nbsp</span>" + "<span class='wrap'>" + inputCMD.replaceAll(' ', '&nbsp') + "</span>"})); 
+                    this.outStream.print({type: 'text', parameters: {'text': "<span class='wrap'>>&nbsp</span>" + "<span class='wrap'>" + inputCMD.split(' ').join('&nbsp') + "</span>"}}); 
                 }
                 if (this.path[cmd] === undefined) {
-                    param.outStream.print(new Job('text', {'text': "<span class='highlight'>[Command Not Found]</span>"}));
+                    param.outStream.print({type: 'text', parameters: {'text': "<span class='highlight'>[Command Not Found]</span>"}});
                 } else {
-                    param.outStream.print(new Job('text', {'text': `<span class='highlight'>[${cmd}]</span>`}));
+                    param.outStream.print({type: 'text', parameters: {'text': `<span class='highlight'>[${cmd}]</span>`}});
                     this.path[cmd].exe(param);
                 }                       
             }
      
         } else {
             if (program_lock.input_func === null) {
-                param.outStream.print(new Job('text', {'text': program_lock.message}));
+                param.outStream.print({type: 'text', parameters: {'text': program_lock.message}});
             } else {
                 program_lock.input_func(cmd, param);
             }
