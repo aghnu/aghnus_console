@@ -1,5 +1,5 @@
 
-import { OutputStreamJob as Job, InputStream, OutputStreamScreen } from "./ioStream";
+import { OutputStreamJob, InputStream, OutputStreamScreen } from "./ioStream";
 import { createHTMLElement } from "./utilities";
 import projectsData from "../data/projects.json";
 import sitemapData from "../data/sitemap.json";

@@ -1,17 +1,49 @@
 import { createHTMLElement,setRandInterval } from "./utilities";
 import { icon } from "./svgfactory";
 
+type HTMLElementOutSection = {sectionFocus?: boolean} & HTMLElement;
+type OutputStreamJobParameters = {
+    type?: string
+    title?: string
+    name?: string
+    link?: string
+    text?: string
+    desc?: string
+    tags?: string
+    class?: string
+    sum?: string
+    
+    height?: number
 
+    checkpause?: () => boolean
+    min_interval?: number
+    max_interval?: number
 
-export class OutputStreamJob {
-    constructor(type, parameters={}) {
-        this.type = type;
-        this.parameters = parameters;
-    }
+    pair?: [HTMLElement, HTMLElement]
+    element?: HTMLElement
+
+    func?: () => void
+    callback?: () => void
+
+    links?: {title: string, link: string}[]
+    skills?: string[]
+    list?: OutputStreamJob[]
+};
+type AnchorLink = {
+    title: string;
+    link: string;
+}
+export interface OutputStreamJob {
+    type: string;
+    parameters: OutputStreamJobParameters;
 }
 
-
 export class InputStream {
+    static _instance: InputStream;
+    oldInput: string;
+    input: string;
+    listeners: Array<(inputStream: typeof this) => void>;
+
     constructor() {
         if (InputStream._instance) {
             return InputStream._instance;
@@ -40,19 +72,24 @@ export class InputStream {
         return this.oldInput;
     }
 
-    updateInput(input) {
+    updateInput(input: string) {
         this.oldInput = this.input;
         this.input = input;
 
         this.listeners.forEach(func => func(this));
     }
 
-    subscribe(func) {
+    subscribe(func: (inputStream: InputStream) => void) {
         this.listeners.push(func);
     }
 }
 
 export class OutputStreamScreen {
+    static _instance: OutputStreamScreen;
+    root: HTMLElement;
+    out: HTMLElementOutSection;
+    listeners: Array<(outputStreamScreen: typeof this) => void>;
+
     constructor() {
         if (OutputStreamScreen._instance) {
             return OutputStreamScreen._instance;
@@ -80,24 +117,25 @@ export class OutputStreamScreen {
         return new OutputStreamScreen();
     }
 
-    focusSection(el) {
+    focusSection(el: HTMLElementOutSection) {
         // remove all other focus non blocking
         
         el.classList.add('section-focus');
         el.sectionFocus = true;
         new Promise(()=>{
-            for (const child of this.root.children) {
+            for (let i = 0; i < this.root.children.length; i++) {
+                const child = this.root.children[i] as HTMLElementOutSection;
                 if (child !== el) {
                     child.classList.remove('section-focus');
                     child.sectionFocus = false;
-                }
+                }                
             }
         });
 
     }
 
-    createOutSection() {
-        const el = createHTMLElement('div', '', {class: 'terminal-exe-section'});
+    createOutSection(): HTMLElementOutSection {
+        const el = createHTMLElement('div', '', {class: 'terminal-exe-section'}) as HTMLElementOutSection;
         
         this.root.append(el);
         this.focusSection(el);
@@ -127,10 +165,10 @@ export class OutputStreamScreen {
         this.out = this.createOutSection();
     }
 
-    hasElement(el) {
+    hasElement(el: HTMLElement) {
         const children = this.out.children;
         for (let i = 0; i < children.length; i++) {
-            if (children[i] === el) {
+            if (children[i] as HTMLElement === el) {
                 return true;
             }             
         }
@@ -142,12 +180,12 @@ export class OutputStreamScreen {
         this.listeners.forEach(func => func(this));
     }
 
-    append(el) {
+    append(el: HTMLElement) {
         this.out.appendChild(el);
         this.broadCast();
     }
 
-    insert(el, index) {
+    insert(el: HTMLElement, index: number) {
         const children = this.out.children;
         const i = (index < 0) ? children.length + index : index;
         
@@ -161,22 +199,22 @@ export class OutputStreamScreen {
         this.broadCast();
     }
 
-    subscribe(func) {
+    subscribe(func: (outputStreamScreen: typeof this) => void) {
         this.listeners.push(func);
     }
 
-    printLink(param) {
+    printLink(param: OutputStreamJobParameters) {
         const el = createHTMLElement('div', '', {'class': 'terminal-link'});
 
         const link_name_container = createHTMLElement('div', '', {'class': 'name'})
-        const link_icon = createHTMLElement('div', icon[param.type]('#3465a4', '20px'), {'class': 'icon'});
-        const link_name = createHTMLElement('p', param.name, {'class': 'name-text highlight text-label'});
+        const link_icon = createHTMLElement('div', icon[param.type as string]('#3465a4', '20px'), {'class': 'icon'});
+        const link_name = createHTMLElement('p', param.name as string, {'class': 'name-text highlight text-label'});
         
         const link_sep = createHTMLElement('p', ':', {'class': 'sep'});
 
         const link_container = createHTMLElement('div', '', {'class': 'container'})
-        const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const link_text = createHTMLElement('p', param.text, {'class': 'text clickable focus'});
+        const link_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link as string, 'target': '_blank', rel: 'noopener noreferrer'});
+        const link_text = createHTMLElement('p', param.text as string, {'class': 'text clickable focus'});
         
         link_name_container.appendChild(link_icon);
         link_name_container.appendChild(link_name);
@@ -191,13 +229,13 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printCMDDesc(param) {
+    printCMDDesc(param: OutputStreamJobParameters) {
         const el = createHTMLElement('div', '', {'class': 'terminal-cmddesc'});
-        const cmd_name = createHTMLElement('p', param.name, {'class': 'name focus clickable text-label'});
+        const cmd_name = createHTMLElement('p', param.name as string, {'class': 'name focus clickable text-label'});
         const cmd_sep = createHTMLElement('p', ':', {'class': 'sep'});
-        const cmd_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
+        const cmd_desc = createHTMLElement('p', param.desc as string, {'class': 'desc'});
 
-        cmd_name.onclick = param.func;
+        cmd_name.onclick = param.func as (() => void);
 
         el.appendChild(cmd_name);
         el.appendChild(cmd_sep);
@@ -206,15 +244,15 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printProject(param) {
+    printProject(param: OutputStreamJobParameters) {
         const el = createHTMLElement('div', '', {'class': 'terminal-project'});
         
         
         // const pro_link = createHTMLElement('a', '', {'class': 'link', 'href': param.link, 'target': '_blank', rel: 'noopener noreferrer'});
-        const pro_name = createHTMLElement('p', param.name, {'class': 'name focus text-label'});
+        const pro_name = createHTMLElement('p', param.name as string, {'class': 'name focus text-label'});
         const pro_sep = createHTMLElement('p', ':', {'class': 'sep'});
-        const pro_desc = createHTMLElement('p', param.desc, {'class': 'desc'});
-        const pro_tags = createHTMLElement('p', param.tags, {'class': 'tags highlight'});
+        const pro_desc = createHTMLElement('p', param.desc as string, {'class': 'desc'});
+        const pro_tags = createHTMLElement('p', param.tags as string, {'class': 'tags highlight'});
         const pro_container = createHTMLElement('div', '', {'class': 'container'})
 
         // pro_link.appendChild(pro_name);
@@ -222,9 +260,9 @@ export class OutputStreamScreen {
         pro_container.appendChild(pro_desc);
 
         // append links
-        for (let i = 0; i < param.links.length; i++) {
-            const link = param.links[i];
-            pro_container.appendChild(createHTMLElement('a', link.title, {'class': 'link focus clickable', 'target': '_blank','href': link.link}));
+        for (let i = 0; i < (param.links as AnchorLink[]).length; i++) {
+            const link = (param.links as AnchorLink[])[i];
+            pro_container.appendChild(createHTMLElement('a', link.title as string, {'class': 'link focus clickable', 'target': '_blank','href': link.link}));
         }
 
         el.appendChild(pro_name);
@@ -235,19 +273,19 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printText(param) {
-        const el = createHTMLElement('p', param.text, (param.class) ? {class: param.class} : {});
+    printText(param: OutputStreamJobParameters) {
+        const el = createHTMLElement('p', param.text as string, (param.class as string !== undefined) ? {class: param.class as string} : {});
         this.append(el);
     }
 
-    printSkills(param) {
+    printSkills(param: OutputStreamJobParameters) {
 
         const el = createHTMLElement('div', '', {class: 'terminal-skills'});
 
-        const skillsName = createHTMLElement('p', param.name, {class: 'skills-name focus'});
+        const skillsName = createHTMLElement('p', param.name as string, {class: 'skills-name focus'});
         const skillsContainer = createHTMLElement('div', '', {class: 'skills-container'});
 
-        for (let i = 0; i < param.skills.length; i++) {
+        for (let i = 0; i < (param.skills).length; i++) {
             const skillEl = createHTMLElement('p', param.skills[i], {class: "item"});
             const skillArrow = createHTMLElement('p', '○', {class: "arrow focus"});
             const skillContainer = createHTMLElement('div', '', {class: "item-container"});
@@ -265,22 +303,22 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printTitle(param) {
-        const el = createHTMLElement('p', param.text, {class: 'terminal-title'});
+    printTitle(param: OutputStreamJobParameters) {
+        const el = createHTMLElement('p', param.text as string, {class: 'terminal-title'});
         this.append(el);
     }
 
-    printPortfolio(param) {
+    printPortfolio(param: OutputStreamJobParameters) {
         const container = createHTMLElement('div', '', {class: 'terminal-portfolio'});
         // const containerTitle = createHTMLElement('div', '', {class: 'title-container'});
         // const containerContent = createHTMLElement('div', '', {class: 'content-container'});
         const containerLink = createHTMLElement('div', '', {class: 'link-container'});
 
-        const title = createHTMLElement('p', param.title, {class: 'focus title'});
-        const sum = createHTMLElement('p', param.sum, {class: 'highlight sum'});
-        const description = createHTMLElement('p', param.desc, {class: "desc"});
+        const title = createHTMLElement('p', param.title as string, {class: 'focus title'});
+        const sum = createHTMLElement('p', param.sum as string, {class: 'highlight sum'});
+        const description = createHTMLElement('p', param.desc as string, {class: "desc"});
 
-        param.links.forEach((l)=>{
+        (param.links as AnchorLink[]).forEach((l)=>{
             const link = createHTMLElement('a', '<span class="clickable">' + l.title + '</span>', {class: 'highlight', target: '_blank', href: l.link});
             containerLink.appendChild(link);
         })
@@ -295,12 +333,12 @@ export class OutputStreamScreen {
         this.append(container);
     }
 
-    printLine(param) {
+    printLine(param: OutputStreamJobParameters) {
         const el = createHTMLElement('p');
 
         if (param.height) {
             let innerHTML = "";
-            for (let i = 0; i < param.height; i++) {
+            for (let i = 0; i < (param.height as number); i++) {
                 innerHTML += "<br>";
             }
             el.innerHTML = innerHTML;
@@ -311,7 +349,7 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printList(param) {
+    printList(param: OutputStreamJobParameters) {
         const printJobList = param.list;
         const callback = param.callback;
         const checkpause = param.checkpause;
@@ -351,7 +389,7 @@ export class OutputStreamScreen {
         }, min_interval, max_interval);
     }
 
-    printPair(param) {
+    printPair(param: OutputStreamJobParameters) {
         const el = createHTMLElement('div', '', {class: 'terminal-pair'});
 
         const left = createHTMLElement('div', '', {class: 'left'});
@@ -367,19 +405,19 @@ export class OutputStreamScreen {
         this.append(el);
     }
 
-    printCustom(param) {
+    printCustom(param: OutputStreamJobParameters) {
         const el = param.element;
         this.append(el);
     }
 
-    printSep(param) {
+    printSep(param: OutputStreamJobParameters) {
         // this.printLine(param);
         const el = createHTMLElement('p', "* * *", {class: 'separator'});
         this.append(el);
         this.printLine(param);
     }
 
-    print(printJob) {
+    print(printJob: OutputStreamJob) {
         switch (printJob.type) {
             case "text":
                 this.printText(printJob.parameters);

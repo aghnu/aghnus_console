@@ -13,11 +13,16 @@ const getTemplateData = (resourcePath) => {
 
 
 module.exports = {
-  entry: './src/js/main.js',
+  entry: './src/js/main.ts',
 
   module: {
     rules: [
 
+      {
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
 
       {
         test: /\.s[ac]ss$/i,
@@ -46,6 +51,10 @@ module.exports = {
 
 
     ],
+  },
+
+  resolve: {
+    extensions: ['.ts', '.js']
   },
 
   plugins: [
