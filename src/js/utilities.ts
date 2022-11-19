@@ -17,7 +17,7 @@ export function createHTMLElement(
 }
 
 export function setRandInterval (
-    func: () => void,
+    func: () => boolean,
     min: number, 
     max: number
 ): {
@@ -27,8 +27,9 @@ export function setRandInterval (
 
     const runTimeout = () => {
         currentTimeout = window.setTimeout(() => {
-            func()
-            runTimeout();
+            if (func()) {
+                runTimeout();
+            }
         }, Math.floor(Math.random() * (max - min + 1)) + min);
     }
 
