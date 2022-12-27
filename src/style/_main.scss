@@ -297,7 +297,7 @@
                     display: grid;
                     grid-template-columns: 1rem auto;
                     .item {
-                        word-wrap: break-word;
+                        overflow-wrap: break-all;
                     }                    
                 }
 
