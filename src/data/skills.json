@@ -3,11 +3,11 @@
     "skills": [
         {
             "name": "Languages",
-            "skills": ["C/C++", "Python", "JavaScript", "TypeScript", "Sass", "Liquid", "SQL", "Java", "C#", "PHP", "CUDA C++", "Bash"]
+            "skills": ["TypeScript", "JavaScript", "C/C++", "Python", "Sass", "Liquid", "SQL", "Java", "C#", "PHP", "CUDA C++", "Bash"]
         },
         {
             "name": "Technologies",
-            "skills": ["Webpack", "ReactJS", "Django", "Flask", "Node.js", "Express.js", "PixiJS", "OpenCV", "scikit-image", "Jekyll", "Apache", "RESTful"]
+            "skills": ["VueJS", "ChartJS", "Webpack", "ReactJS", "Django", "Flask", "Node.js", "Express.js", "PixiJS", "OpenCV", "scikit-image", "Jekyll", "Apache", "RESTful"]
         },
         {
             "name": "Cloud Computing",
@@ -19,7 +19,7 @@
         },
         {
             "name": "Domain Knowledges",
-            "skills": ["Web Development", "UI/UX Design", "Product Management", "Software Engineering", "Operating System Concepts", "Computer Vision"]
+            "skills": ["Web Development", "Product Management", "Software Engineering", "Operating System Concepts", "Computer Vision", "UI/UX Design"]
         }
     ]
 }
