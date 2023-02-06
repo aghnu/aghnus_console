@@ -221,7 +221,7 @@ export class OutputStreamScreen {
     const link_name_container = createHTMLElement("div", "", { class: "name" });
     const link_icon = createHTMLElement(
       "div",
-      icon[param.type as string]("#3465a4", "20px"),
+      icon[param.type as string]("var(--terminal-text-color-focus)", "20px"),
       { class: "icon" }
     );
     const link_name = createHTMLElement("p", param.name as string, {

@@ -181,7 +181,7 @@ export class DisplayController {
       const el = createHTMLElement("div", "", { class: "key" });
       const elIcon = createHTMLElement(
         "div",
-        icon[key.type]("#cacfcc", "20px"),
+        icon[key.type]("var(--terminal-text-color-primary)", "20px"),
         { class: "icon" }
       );
       const elText = createHTMLElement("text", key.text, { class: "text" });
