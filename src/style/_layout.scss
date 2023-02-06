@@ -1,118 +1,103 @@
-$virtual-keyboard-height:               12rem;
-$virtual-keyboard-width-max:            600px;
-
-$terminal-layer-padding:              1.25rem; 
-
-$terminal-layer-content-width-max:          1000px;
-
-
+$virtual-keyboard-height: 12rem;
+$virtual-keyboard-width-max: 600px;
+$terminal-layer-padding: 1.25rem;
+$terminal-layer-content-width-max: 1000px;
 
 #site-texture {
-    z-index: 1000;
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
-    pointer-events: none;
+  z-index: 1000;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  pointer-events: none;
 }
 
 #site-app {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    gap: $terminal-layer-padding;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: $terminal-layer-padding;
 
-    padding: $terminal-layer-padding;
-    height: 100%;
+  padding: $terminal-layer-padding;
+  height: 100%;
+  width: 100%;
+  max-width: $terminal-layer-content-width-max;
+
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  &.desktop {
+    max-width: none;
+  }
+
+  .terminal-container {
     width: 100%;
-    max-width: $terminal-layer-content-width-max;
+    height: 100%;
 
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 
-    &.desktop {
-        max-width: none;
+    &::-webkit-scrollbar {
+      display: none;
     }
+  }
+  .function-key {
+    height: fit-content;
+    width: 100%;
 
-    .terminal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        width: 100%;
-        height: 100%;
-
-        overflow-x: hidden;
-        overflow-y: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-
-        &::-webkit-scrollbar {
-            display: none;
-        }
+    .function-key-container {
+      width: 100%;
+      min-width: fit-content;
     }
-    .function-key {
-        height: fit-content;
-        width: 100%;
+  }
 
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  .footer {
+    display: flex;
+    justify-content: center;
 
-        .function-key-container {
-            width: 100%;
-            min-width: fit-content;
-        }
+    height: fit-content;
+
+    width: 100%;
+  }
+
+  .virtual-keyboard {
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .keyboard-container {
+      height: 100%;
+      width: 100%;
+      max-width: $virtual-keyboard-width-max;
     }
-
-
-
-    .footer {
-        display: flex;
-        justify-content: center;
-
-        height: fit-content;
-
-        width: 100%;
-    }
-
-    .virtual-keyboard {
-        width: 100%;
-        height: fit-content;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-        .keyboard-container {
-            height: 100%;
-            width: 100%;
-            max-width: $virtual-keyboard-width-max;
-        }
-    }
+  }
 }
 
 .layer {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .clickthrough {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .noselect {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;  
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
-
-
-
-
-
-
-
-
