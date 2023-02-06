@@ -1,13 +1,26 @@
-$terminal-text-color-primary:       #cacfcc;
-$terminal-text-color-focus:         #3465a4;
-$terminal-background-color:         #171421;
-$terminal-text-color-secondary:     #3a8307;
+// var(--terminal-text-color-primary):       #cacfcc;
+// var(--terminal-text-color-focus):         #3465a4;
+// var(--terminal-background-color):         #171421;
+// var(--terminal-text-color-secondary):     #3a8307;
 
 
-$font-size:                         16px;
-$terminal-line-height:              1.25rem;
-$function-key-font-size:            1rem;
-$function-key-line-height:          1.45rem;
+// var(--font-size):                         16px;
+// var(--terminal-line-height):              1.25rem;
+// var(--function-key-font-size):            1rem;
+// var(--function-key-line-height):          1.45rem;
+
+:root {
+    --terminal-text-color-primary:       #cacfcc;
+    --terminal-text-color-focus:         #3465a4;
+    --terminal-background-color:         #171421;
+    --terminal-text-color-secondary:     #3a8307;
+
+
+    --font-size:                         16px;
+    --terminal-line-height:              1.25rem;
+    --function-key-font-size:            1rem;
+    --function-key-line-height:          1.45rem;
+}
 
 @mixin override_select_color($color, $background) {
     &::-moz-selection {

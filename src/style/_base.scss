@@ -1,9 +1,9 @@
 html {
     // overflow: hidden;
-    background-color: $terminal-background-color;
-    color: $terminal-text-color-primary;
+    background-color: var(--terminal-background-color);
+    color: var(--terminal-text-color-primary);
     font-family: 'Roboto Mono';
-    font-size: $font-size;
+    font-size: var(--font-size);
     font-weight: 400;
 }
 
@@ -12,35 +12,35 @@ body {
     margin: 0;
 
     p {
-        line-height: $terminal-line-height;
+        line-height: var(--terminal-line-height);
         margin: 0;
     }
 
     a {
         text-decoration: none;
-        line-height: $terminal-line-height;
+        line-height: var(--terminal-line-height);
         word-break: break-all;
         color: inherit;
         cursor: pointer;
     }
 
     .regular {
-        color: $terminal-text-color-primary;
-        // @include override_select_color($terminal-background-color, $terminal-text-color-primary);
+        color: var(--terminal-text-color-primary);
+        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-primary));
     }
 
     .highlight {
-        color: $terminal-text-color-focus;
-        // @include override_select_color($terminal-background-color, $terminal-text-color-focus);
+        color: var(--terminal-text-color-focus);
+        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-focus));
     }
 
     .focus {
-        color: $terminal-text-color-secondary;
-        // @include override_select_color($terminal-background-color, $terminal-text-color-secondary);
+        color: var(--terminal-text-color-secondary);
+        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-secondary));
     }
 
     .double-line {
-        line-height: calc(#{$terminal-line-height} * 2);
+        line-height: calc(var(--terminal-line-height) * 2);
         font-size: 2em;
     }
 
