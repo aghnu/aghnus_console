@@ -1,70 +1,70 @@
 html {
-    // overflow: hidden;
-    background-color: var(--terminal-background-color);
-    color: var(--terminal-text-color-primary);
-    font-family: 'Roboto Mono';
-    font-size: var(--font-size);
-    font-weight: 400;
+  // overflow: hidden;
+  background-color: var(--terminal-app-background-color);
+  color: var(--terminal-text-color-primary);
+  font-family: "Roboto Mono";
+  font-size: var(--font-size);
+  font-weight: 400;
 }
 
 body {
-    padding: 0;
+  padding: 0;
+  margin: 0;
+
+  p {
+    line-height: var(--terminal-line-height);
     margin: 0;
+  }
 
-    p {
-        line-height: var(--terminal-line-height);
-        margin: 0;
-    }
+  a {
+    text-decoration: none;
+    line-height: var(--terminal-line-height);
+    word-break: break-all;
+    color: inherit;
+    cursor: pointer;
+  }
 
-    a {
-        text-decoration: none;
-        line-height: var(--terminal-line-height);
-        word-break: break-all;
-        color: inherit;
-        cursor: pointer;
-    }
+  .regular {
+    color: var(--terminal-text-color-primary);
+    // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-primary));
+  }
 
-    .regular {
-        color: var(--terminal-text-color-primary);
-        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-primary));
-    }
+  .highlight {
+    color: var(--terminal-text-color-focus);
+    // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-focus));
+  }
 
-    .highlight {
-        color: var(--terminal-text-color-focus);
-        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-focus));
-    }
+  .focus {
+    color: var(--terminal-text-color-secondary);
+    // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-secondary));
+  }
 
-    .focus {
-        color: var(--terminal-text-color-secondary);
-        // @include override_select_color(var(--terminal-background-color), var(--terminal-text-color-secondary));
-    }
+  .double-line {
+    line-height: calc(var(--terminal-line-height) * 2);
+    font-size: 2em;
+  }
 
-    .double-line {
-        line-height: calc(var(--terminal-line-height) * 2);
-        font-size: 2em;
-    }
+  .clickable {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 
-    .clickable {
-        text-decoration: underline;
-        cursor: pointer;
-    }
+  .text-label {
+    word-wrap: normal;
+    word-break: normal;
+  }
 
-    .text-label {
-        word-wrap: normal;
-        word-break: normal;
-    }
+  .separator {
+    width: 100%;
+    text-align: left;
+  }
 
-    .separator {
-        width: 100%;
-        text-align: left;
-    }
-
-    .wrap {
-        white-space: normal;
-        word-wrap:break-word;
-    }
+  .wrap {
+    white-space: normal;
+    word-wrap: break-word;
+  }
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }

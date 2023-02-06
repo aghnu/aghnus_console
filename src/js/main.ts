@@ -21,6 +21,7 @@ type DataInit = {
   colorPlain: string;
   colorFocus: string;
   colorBackground: string;
+  colorAppBackground: string;
   colorDesc: string;
   fontSize: string;
 };
@@ -57,6 +58,11 @@ function initParser(data: DataInit) {
       "--terminal-background-color",
       data.colorBackground
     );
+    siteRoot.style.setProperty(
+      "--terminal-app-background-color",
+      data.colorAppBackground
+    );
+
     siteRoot.style.setProperty(
       "--terminal-text-color-secondary",
       data.colorDesc
