@@ -82,6 +82,14 @@ function initProgram() {
   ProgramCore.getInstance().execute("home");
 }
 
+function initProgramDesktop() {
+  // singletons
+  new ProgramCore();
+  new InputStream();
+  new OutputStreamScreen();
+  new DisplayController();
+}
+
 function main(): void {
   // setup html structure
   const site_app: HTMLElement = createHTMLStructure();
@@ -137,7 +145,7 @@ function main(): void {
 
       if (e.data !== undefined && e.data.type === "init") {
         initParser(e.data as DataInit);
-        initProgram();
+        initProgramDesktop();
       }
     });
   } else {
