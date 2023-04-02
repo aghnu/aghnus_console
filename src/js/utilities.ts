@@ -1,43 +1,42 @@
-
 interface CreateHTMLELementAttributes {
-    [attribute: string]: string;
+  [attribute: string]: string;
 }
 
 export function createHTMLElement(
-    tag: string, 
-    innerHTML: string = "", 
-    attributes: CreateHTMLELementAttributes = {}
+  tag: string,
+  innerHTML: string = "",
+  attributes: CreateHTMLELementAttributes = {}
 ) {
-    const el: HTMLElement = document.createElement(tag);
-    el.innerHTML = innerHTML;
-    for (let att in attributes) {
-        el.setAttribute(att, attributes[att]);
-    }
-    return el;
+  const el: HTMLElement = document.createElement(tag);
+  el.innerHTML = innerHTML;
+  for (let att in attributes) {
+    el.setAttribute(att, attributes[att]);
+  }
+  return el;
 }
 
-export function setRandInterval (
-    func: () => boolean,
-    min: number, 
-    max: number
+export function setRandInterval(
+  func: () => boolean,
+  min: number,
+  max: number
 ): {
-    clear: () => void
+  clear: () => void;
 } {
-    let currentTimeout: number;
+  let currentTimeout: number;
 
-    const runTimeout = () => {
-        currentTimeout = window.setTimeout(() => {
-            if (func()) {
-                runTimeout();
-            }
-        }, Math.floor(Math.random() * (max - min + 1)) + min);
-    }
+  const runTimeout = () => {
+    currentTimeout = window.setTimeout(() => {
+      if (func()) {
+        runTimeout();
+      }
+    }, Math.floor(Math.random() * (max - min + 1)) + min);
+  };
 
-    runTimeout();
+  runTimeout();
 
-    return {
-        clear: () => {
-            clearTimeout(currentTimeout);
-        }
-    }
+  return {
+    clear: () => {
+      clearTimeout(currentTimeout);
+    },
+  };
 }

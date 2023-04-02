@@ -88,6 +88,9 @@ function initProgramDesktop() {
   new InputStream();
   new OutputStreamScreen();
   new DisplayController();
+
+  // default
+  ProgramCore.getInstance().execute("about");
 }
 
 function main(): void {
@@ -149,6 +152,12 @@ function main(): void {
       }
     });
   } else {
+    const siteRoot: HTMLElement | null = document.querySelector(":root");
+
+    if (siteRoot !== null) {
+      siteRoot.style.setProperty("--terminal-background-color", "#171421");
+      siteRoot.style.setProperty("--terminal-app-background-color", "#171421");
+    }
     initProgram();
   }
 }
