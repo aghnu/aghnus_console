@@ -155,8 +155,8 @@ function main(): void {
     const siteRoot: HTMLElement | null = document.querySelector(":root");
 
     if (siteRoot !== null) {
-      siteRoot.style.setProperty("--terminal-background-color", "#171421");
-      siteRoot.style.setProperty("--terminal-app-background-color", "#171421");
+      siteRoot.style.setProperty("--terminal-background-color", "#282c34");
+      siteRoot.style.setProperty("--terminal-app-background-color", "#282c34");
     }
     initProgram();
   }
